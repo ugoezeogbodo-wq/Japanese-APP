@@ -1,0 +1,42 @@
+- Add hiragana data INCLUDING status and mnemonic and due_time
+
+Stage logic
+Stage 1 = Back in a minute
+Stage 2 = Back in 5 minute
+Stage 3 = Back in 15 mins
+stage 4 = Back in a day
+Stage 5 = Back in 2 days
+Stage 6 = Back in 3 days
+Stage 7 = back in 5 days
+stage 8 = back in 7 days
+stage 9 = back in 14 days
+stage 10 = pops up every 3 weeks
+
+- code the status system (.status_check )
+	-iterate though dictionary, adding character to a list if its past its due date or if due_time = None
+
+- Code the core MCQ logic ( .load_new_deck )
+	- if status list is empty
+		- print "Nothin to practice rn"
+	else:
+	- Pick the target character from list and its correct romaji
+	- Choose 3 other characters (not from status list)
+	- Assign them a number 1 -4
+	- Print onto terminal
+
+- Choose an answer by typing 1-4
+
+- Code the choice logic ( .check_answer ) 
+current_status = false
+(while current_status = false
+	- if input = target assigned #
+		- current_status = true
+		- Status of target +1
+		- add the status delay
+		- Print good job message
+	- else
+		- Status of target -1
+		- add the status delay
+		- Print oh no message + mnemonic
+		- restart using continue 
+call self.load_new_deck)
