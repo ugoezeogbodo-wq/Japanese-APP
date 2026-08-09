@@ -33,7 +33,7 @@ current_status = false
 		- current_status = true
 		- Status of target +1
 		- add the status delay
-		- Print good job message
+		- Print good job message,
 	- else
 		- Status of target -1
 		- add the status delay
