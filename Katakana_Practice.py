@@ -25,16 +25,16 @@ def status_check():
     now = dt.datetime.now()
     queue = []
     check = 0
-    for nihon in CD.hiragana_dataset:
+    for nihon in CD.katakana_dataset:
         if nihon["status"] > 5:
             check += 1
         
-    for nihon in CD.hiragana_dataset:
+    for nihon in CD.katakana_dataset:
         if nihon["due_time"] == None or nihon["due_time"] <= now :
             queue.append(nihon)
 
     if check > 40:
-        for nihon in CD.hira_2_dataset:
+        for nihon in CD.kana_2_dataset:
             if nihon["due_time"] == None or nihon["due_time"] <= now :
                         queue.append(nihon)   
     
@@ -47,7 +47,7 @@ def load_new_deck():
     else:
         target = random.choice(queue)
         disposable = []
-        for char in CD.hiragana_dataset:
+        for char in CD.katakana_dataset:
             if char != target:
                 disposable.append(char)
         others = random.sample(disposable, k= 3)
@@ -84,4 +84,3 @@ def check_answer():
             
 load_new_deck()
 check_answer()
-

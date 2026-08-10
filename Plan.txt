@@ -40,3 +40,8 @@ current_status = false
 		- Print oh no message + mnemonic
 		- restart using continue 
 call self.load_new_deck)
+
+do the same for katakana
+
+kanji
+- do the smae thing for the most part 

@@ -1,0 +1,27 @@
+Start up page
+    - hiragana
+        -opens to hiragana start page
+        - shows how many pending cards you have 
+        - hiragana is fun artwork, that tells you to go to the info page for hiragana info
+        - hiragana fun page button
+            - shows target char at top in big letters
+            - 4 small boxes with romaji
+            - back button to startup
+    - katakana  
+        -opens to katakana start page
+        - shows how many pending cards you have 
+        - katakana is fun artwork, that tells you to go to the info page for katakana info
+        - katakana fun page button
+            - shows target char at top in big letters
+            - 4 small boxes with romaji
+            - back button to startup
+    - kanji
+        - opens to kanji start page
+        -start button to go to actuall  kanji fun page
+            - shows target char at top in big letters
+            - 4 small boxes with hiragana/english 
+            - slider at the top to let user chose between kanji to hra or kanji to english meaning
+            - back button to startup
+        - edt page button 
+            - has a kanji, hira, an english meaning section where you can add cards
+    - info page
