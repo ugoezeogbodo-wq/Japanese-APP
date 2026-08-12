@@ -67,7 +67,7 @@ def check_answer():
         user_ans = input()
         if user_ans == target["romaji"]:
             print("Goodjob!")
-            if target["status"] != 10 and target != 1:
+            if target["status"] != 10 and tries != 1:
                 target["status"] += 1
             target["due_time"] = now + stages[target["status"]]
             status = True
@@ -82,5 +82,4 @@ def check_answer():
 
         
             
-load_new_deck()
-check_answer()
+

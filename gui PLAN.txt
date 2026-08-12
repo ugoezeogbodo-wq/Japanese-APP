@@ -25,3 +25,10 @@ Start up page
         - edt page button 
             - has a kanji, hira, an english meaning section where you can add cards
     - info page
+
+    color pallete
+    cream = #F6FFFA
+    linen = #E6E6DB
+    grey = #A0BBB2
+    pink = #DA7D91
+    brown = #8b4c41

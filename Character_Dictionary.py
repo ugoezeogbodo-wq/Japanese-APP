@@ -210,44 +210,59 @@ kanji_dataset = [
         "hiragana": "いち", 
         "romaji": "ichi", 
         "meaning": "one", 
-        "status": 0, 
-        "due_time": None, 
-        "mnemonic": "one single horizontal line pointing to number one. ✨"
+        "status_meaning": 0,
+        "status_reading": 0,
+        "due_time_meaning": None,
+        "due_time_reading": None,
+        "mnemonic_meaning": "a single horizontal line representing the number one. ✨",
+        "mnemonic_reading": "an itchy (ichi) finger pointing at number one."
     },
     {
         "character": "二", 
         "hiragana": "に", 
         "romaji": "ni", 
         "meaning": "two", 
-        "status": 0, 
-        "due_time": None, 
-        "mnemonic": "two parallel lines for the number two."
+        "status_meaning": 0,
+        "status_reading": 0,
+        "due_time_meaning": None,
+        "due_time_reading": None,
+        "mnemonic_meaning": "two parallel lines for the number two.",
+        "mnemonic_reading": "two knees (ni) standing together."
     },
     {
         "character": "三", 
         "hiragana": "さん", 
         "romaji": "san", 
         "meaning": "three", 
-        "status": 0, 
-        "due_time": None, 
-        "mnemonic": "three horizontal lines stacked together."
+        "status_meaning": 0,
+        "status_reading": 0,
+        "due_time_meaning": None,
+        "due_time_reading": None,
+        "mnemonic_meaning": "three horizontal lines stacked together.",
+        "mnemonic_reading": "Santa (san) delivering three presents."
     },
     {
         "character": "日", 
         "hiragana": "ひ", 
         "romaji": "hi", 
         "meaning": "sun / day", 
-        "status": 0, 
-        "due_time": None, 
-        "mnemonic": "a window frame looking out at the bright sun. ☀️"
+        "status_meaning": 0,
+        "status_reading": 0,
+        "due_time_meaning": None,
+        "due_time_reading": None,
+        "mnemonic_meaning": "a window frame looking out at the bright sun. ☀️",
+        "mnemonic_reading": "saying 'hi' to the sun every morning."
     },
     {
         "character": "月", 
         "hiragana": "つき", 
         "romaji": "tsuki", 
         "meaning": "moon / month", 
-        "status": 0, 
-        "due_time": None, 
-        "mnemonic": "a crescent moon hanging in the night sky with clouds across it."
+        "status_meaning": 0,
+        "status_reading": 0,
+        "due_time_meaning": None,
+        "due_time_reading": None,
+        "mnemonic_meaning": "a crescent moon hanging in the night sky with two clouds across it.",
+        "mnemonic_reading": "two key (tsuki) handles shape the moon."
     }
 ]
