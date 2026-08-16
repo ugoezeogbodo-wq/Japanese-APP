@@ -17,6 +17,7 @@ pink = "#DA7D91"
 brown = "#8b4c41"
 dgrey = "#507065"
 dbrown = "#69362d"
+dpink = "#D05A73"
 
 hira_l = None
 kana_l = None
@@ -99,16 +100,67 @@ def side_bar():
 
 def hira_mid():
    side_bar()
+   chest_pic = ctk.CTkLabel(main_frame, fg_color=brown)
+   chest_pic.place(relx = 0.295, rely = .5,relwidth = 0.25, relheight = 0.9, anchor= ctk.CENTER)
+   chest_text = ctk.CTkLabel(main_frame, fg_color=brown)
+   chest_text.place(relx = .7, rely = .255 , relwidth = .5, relheight = .4, anchor = ctk.CENTER)
+
+   hira_mcq = ctk.CTkButton(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=10, 
+                            text="Multiple\n Choice", text_color=cream, hover_color=dbrown, font=(coolfont, 30))
+   hira_mcq.place(relx = 0.6, rely = .6, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
+   hira_mcq_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Easier,\n reccomended \nfor begginers", text_color=dgrey, font=(coolfont,18, "italic"))
+   hira_mcq_label.place(relx = 0.765, rely = .52, relwidth = .2, relheight = .17)
+
+   hira_text = ctk.CTkButton(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=10, 
+                               text="Text\n Answers", text_color=cream, hover_color=dbrown, font=(coolfont, 30))
+   hira_text.place(relx = 0.6, rely = .84, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
+   hira_text_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Harder,\n requires \nsome \nmastery", text_color=dgrey, font=(coolfont,18, "italic"))
+   hira_text_label.place(relx = 0.76, rely = .75, relwidth = .22, relheight = .17)
 
 def kana_mid():
     side_bar()
-    test_kana = ctk.CTkLabel(main_frame, text="kana")
-    test_kana.place(relx = 0.5, rely=0.5, relwidth = 0.5)
+    ghost_pic = ctk.CTkLabel(main_frame, fg_color=cream)
+    ghost_pic.place(relx = 0.295, rely = .5,relwidth = 0.25, relheight = 0.9, anchor= ctk.CENTER)
+    ghost_text = ctk.CTkLabel(main_frame, fg_color=cream)
+    ghost_text.place(relx = .7, rely = .255 , relwidth = .5, relheight = .4, anchor = ctk.CENTER)
+
+    kana_mcq = ctk.CTkButton(main_frame, fg_color=cream, border_color=brown, border_width=5, corner_radius=10, 
+                            text="Multiple\n Choice", text_color=dgrey, hover_color=linen, font=(coolfont, 30))
+    kana_mcq.place(relx = 0.6, rely = .6, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
+    kana_mcq_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Easier. So I\nreccomend for \nbegginers", text_color=dgrey, font=(coolfont,17, "italic"))
+    kana_mcq_label.place(relx = 0.765, rely = .52, relwidth = .2, relheight = .17)
+    
+    kana_text = ctk.CTkButton(main_frame, fg_color=cream, border_color=dgrey, border_width=5, corner_radius=10, 
+                                   text="Text\n Answers", text_color=brown, hover_color=linen, font=(coolfont, 30))
+    kana_text.place(relx = 0.6, rely = .84, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
+    kana_text_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Harder.\n So requires \nsome \nmastery", text_color=dgrey, font=(coolfont,18, "italic"))
+    kana_text_label.place(relx = 0.76, rely = .75, relwidth = .22, relheight = .17)
 
 def kanji_mid():
     side_bar()
-    test_kanji = ctk.CTkLabel(main_frame, text="kanji", fg_color=grey)
-    test_kanji.place(relx = 0.5, rely=0.5, relwidth = 0.5)
+    kai_pic = ctk.CTkLabel(main_frame, fg_color=pink)
+    kai_pic.place(relx = 0.295, rely = .45,relwidth = 0.25, relheight = 0.8, anchor= ctk.CENTER)
+    kai_text = ctk.CTkLabel(main_frame, fg_color=pink)
+    kai_text.place(relx = .7, rely = .255 , relwidth = .5, relheight = .4, anchor = ctk.CENTER)
+
+    kanji_mcq = ctk.CTkButton(main_frame, fg_color=pink, border_color=cream, border_width=5, corner_radius=10, 
+                                text="Multiple\n Choice", text_color=cream, hover_color=dpink, font=(coolfont, 30))
+    kanji_mcq.place(relx = 0.6, rely = .6, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
+    kanji_mcq_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Super easy!\nreccomend for \nbegginers!", text_color=dpink, font=(coolfont,17, "italic"))
+    kanji_mcq_label.place(relx = 0.765, rely = .52, relwidth = .2, relheight = .17)
+        
+    kanji_text = ctk.CTkButton(main_frame, fg_color=pink, border_color=cream, border_width=5, corner_radius=10, 
+                                       text="Text\n Answers", text_color=cream, hover_color=dpink, font=(coolfont, 30))
+    kanji_text.place(relx = 0.6, rely = .84, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
+    kanji_text_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Little hard!\n So it requires \nsome \nmastery", text_color=dpink, font=(coolfont,18, "italic"))
+    kanji_text_label.place(relx = 0.76, rely = .75, relwidth = .22, relheight = .17)
+
+    kanji_edit = ctk.CTkButton(main_frame, fg_color=pink, border_color=cream, text="Edit data", font = (coolfont, 15), hover_color=dpink,
+                               text_color=cream, corner_radius=5, border_width=5)
+    kanji_edit.place(relx=0.29, rely=.91, relwidth = .2, relheight = .1, anchor = ctk.CENTER)
+    
+
+    
 
 start_up()
 
