@@ -2,6 +2,7 @@ import Nihongo_Charater_Practice as ncp
 import Kanji_Practice as kp
 import Katakana_Practice as kap
 import customtkinter as ctk
+import Extra as ext
 
 
 window = ctk.CTk()
@@ -100,13 +101,16 @@ def side_bar():
 
 def hira_mid():
    side_bar()
-   chest_pic = ctk.CTkLabel(main_frame, fg_color=brown)
+
+   chest_mid_image = ctk.CTkImage(size = (202.5,540), light_image=ext.chest_mid, dark_image=ext.chest_mid )
+
+   chest_pic = ctk.CTkLabel(main_frame, fg_color=linen, image=chest_mid_image, text = "")
    chest_pic.place(relx = 0.295, rely = .5,relwidth = 0.25, relheight = 0.9, anchor= ctk.CENTER)
    chest_text = ctk.CTkLabel(main_frame, fg_color=brown)
    chest_text.place(relx = .7, rely = .255 , relwidth = .5, relheight = .4, anchor = ctk.CENTER)
 
    hira_mcq = ctk.CTkButton(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=10, 
-                            text="Multiple\n Choice", text_color=cream, hover_color=dbrown, font=(coolfont, 30))
+                            text="Multiple\n Choice", text_color=cream, hover_color=dbrown, font=(coolfont, 30), command=lambda: indicator(page = hira_m))
    hira_mcq.place(relx = 0.6, rely = .6, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
    hira_mcq_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Easier,\n reccomended \nfor begginers", text_color=dgrey, font=(coolfont,18, "italic"))
    hira_mcq_label.place(relx = 0.765, rely = .52, relwidth = .2, relheight = .17)
@@ -158,7 +162,10 @@ def kanji_mid():
     kanji_edit = ctk.CTkButton(main_frame, fg_color=pink, border_color=cream, text="Edit data", font = (coolfont, 15), hover_color=dpink,
                                text_color=cream, corner_radius=5, border_width=5)
     kanji_edit.place(relx=0.29, rely=.91, relwidth = .2, relheight = .1, anchor = ctk.CENTER)
-    
+
+
+def hira_m():
+    side_bar()
 
     
 
