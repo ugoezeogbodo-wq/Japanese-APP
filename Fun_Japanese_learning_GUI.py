@@ -24,6 +24,12 @@ hira_l = None
 kana_l = None
 kanji_l = None
 start_l = None
+target_l = None
+one = None
+two = None
+three =  None
+four = None
+
 
 
 ctk.FontManager.load_font("Matcha Mint.ttf")
@@ -58,7 +64,7 @@ def start_up():
 
 def side_bar():
     global hira_l, kana_l, kanji_l, start_l
-    side  = ctk.CTkFrame(main_frame, fg_color=brown, border_width=0, corner_radius=0)
+    side  = ctk.CTkFrame(main_frame, fg_color=brown, border_width=0, corner_radius=0, bg_color="transparent")
     side.place(relx=0,rely=0.5,relwidth=.15,relheight = 1.05, anchor = "w")
 
     hira_go = ctk.CTkButton(side, fg_color=brown, text = "Hiragana", font = (coolfont, 17), hover_color=dbrown, text_color=cream, command = lambda: (indicator(page = hira_mid), side_label(page = hira_mid)) )
@@ -91,6 +97,9 @@ def side_bar():
 
     menu = ctk.CTkLabel(side, fg_color = pink, text = "Menu:", font = (coolfont,25), corner_radius=5)
     menu.place(relx = .5 , rely = 0.075 , relwidth = .88, relheight = .08, anchor = ctk.CENTER)
+
+    invert = ctk.CTkButton(side, fg_color=pink, border_color=brown,corner_radius=5, font=(coolfont,15), text="Invert", bg_color="transparent", hover_color=dpink)
+    invert.place(relx= 0.5, rely=.91, relwidth = .8, relheight= .07,anchor = ctk.CENTER )
    
 
 
@@ -99,8 +108,10 @@ def side_bar():
 
 
 
-def hira_mid():
+def hira_mid():  
+   global target_l,one,two,three,four
    side_bar()
+
 
    chest_mid_image = ctk.CTkImage(size = (202.5,540), light_image=ext.chest_mid, dark_image=ext.chest_mid )
 
@@ -110,7 +121,7 @@ def hira_mid():
    chest_text.place(relx = .7, rely = .255 , relwidth = .5, relheight = .4, anchor = ctk.CENTER)
 
    hira_mcq = ctk.CTkButton(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=10, 
-                            text="Multiple\n Choice", text_color=cream, hover_color=dbrown, font=(coolfont, 30), command=lambda: indicator(page = hira_m))
+                            text="Multiple\n Choice", text_color=cream, hover_color=dbrown, font=(coolfont, 30), command=lambda: (indicator(page = hira_m), ncp.load_new_deck(target_l,one,two,three,four)))
    hira_mcq.place(relx = 0.6, rely = .6, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
    hira_mcq_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Easier,\n reccomended \nfor begginers", text_color=dgrey, font=(coolfont,18, "italic"))
    hira_mcq_label.place(relx = 0.765, rely = .52, relwidth = .2, relheight = .17)
@@ -165,11 +176,29 @@ def kanji_mid():
 
 
 def hira_m():
+    global target_l,one,two,three,four
     side_bar()
+    ext.page = 1
+    feedback = ctk.CTkLabel(main_frame, fg_color=brown)
+    feedback.place(relx = 0.57, rely = 0.24, relwidth = 0.75, relheight = 0.4, anchor = ctk.CENTER)
+
+    target_l = ctk.CTkLabel(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=5, font=(coolfont,55, "bold"))
+    target_l.place(relx= 0.57, rely= 0.5, relwidth = 0.8, relheight = 0.2, anchor = ctk.CENTER )
+
+    one = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,30), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = one, target_l=target_l, one=one, two=two, three=three, four=four))
+    one.place(relx = 0.37, rely = .7, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
+    two = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,30), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = two, target_l=target_l, one=one, two=two, three=three, four=four))
+    two.place(relx = 0.77, rely = .7, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
+    three = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,30), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = three, target_l=target_l, one=one, two=two, three=three, four=four))
+    three.place(relx = 0.37, rely = .88, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
+    four = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,30), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = four, target_l=target_l, one=one, two=two, three=three, four=four))
+    four.place(relx = 0.77, rely = .88, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
+   
+
 
     
 
-start_up()
+hira_m()
 
 def side_label(page):
     global hira_l, kana_l, kanji_l, start_l
@@ -183,9 +212,11 @@ def side_label(page):
 
 
 def indicator(page):
+
     for child in main_frame.winfo_children():
         child.destroy()
 
     page()
+
 
 window.mainloop()
