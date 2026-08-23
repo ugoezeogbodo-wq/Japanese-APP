@@ -1,7 +1,6 @@
 import Character_Dictionary as CD
 import datetime as dt
 import random
-
 import customtkinter as ctk
 import Extra as ext
 
@@ -23,7 +22,7 @@ stages = {
 queue = []
 now = dt.datetime.now()
 target = []
-
+final = []
 
 def status_check():
     global queue, now
@@ -45,7 +44,7 @@ def status_check():
     
 
 def load_new_deck(target_l, one, two, three, four):
-    global target 
+    global target ,final
     one.configure(state="normal", fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
     two.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
     three.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
@@ -100,6 +99,24 @@ def check_answer(button, target_l, one, two, three, four):
                     target["status"] -= 1
                 tries = 1
     
+def invert_but(target_l, one, two, three, four,invert):
+    if ext.page == 1:
+          ext.page = 2
+          invert.configure(text_color= ext.pink, fg_color = ext.cream, hover_color = ext.linen)
+          target_l.configure(text=target["romaji"])
+          one.configure(text = final[0]["character"])
+          two.configure(text = final[1]["character"])
+          three.configure(text = final[2]["character"])
+          four.configure(text = final[3]["character"])
+    elif ext.page ==2:
+        ext.page = 1
+        invert.configure(text_color= ext.cream, fg_color = ext.pink, hover_color = ext.dpink)
+        target_l.configure(text=target["character"])
+        one.configure(text = final[0]["romaji"],)
+        two.configure(text = final[1]["romaji"])
+        three.configure(text = final[2]["romaji"])
+        four.configure(text = final[3]["romaji"])
+
 
         
             
