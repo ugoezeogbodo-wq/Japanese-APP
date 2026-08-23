@@ -52,21 +52,28 @@ def load_new_deck(target_l, one, two, three, four):
     status_check()
     if queue == []:
         print("You're all caught up! Good Job!")
+    target = random.choice(queue)
+    disposable = []
+    for char in CD.hiragana_dataset:
+        if char != target:
+            disposable.append(char)
+    others = random.sample(disposable, k= 3)
+    final = [target] + others
+    random.shuffle(final)
     if ext.page == 1:
-        target = random.choice(queue)
         target_l.configure(text = target["character"])
-        disposable = []
-        for char in CD.hiragana_dataset:
-            if char != target:
-                disposable.append(char)
-        others = random.sample(disposable, k= 3)
-        final = [target] + others
-        random.shuffle(final)
         print("What is the romaji equivalent of", target["character"], "?")
         one.configure(text = final[0]["romaji"])
         two.configure(text = final[1]["romaji"])
         three.configure(text = final[2]["romaji"])
         four.configure(text = final[3]["romaji"])
+    elif ext.page == 2:
+         target_l.configure(text = target["romaji"])
+         print("What is the character of", target["romaji"], "?")
+         one.configure(text = final[0]["character"])
+         two.configure(text = final[1]["character"])
+         three.configure(text = final[2]["character"])
+         four.configure(text = final[3]["character"])
             
 
 
@@ -75,7 +82,7 @@ def check_answer(button, target_l, one, two, three, four):
     now = dt.datetime.now()
     tries = 0
     user_ans = button.cget("text")
-    if user_ans == target["romaji"]:
+    if user_ans == target["romaji"] or user_ans == target["character"]:
             print("Goodjob!")
             if target["status"] != 10 and tries != 1:
                 target["status"] += 1
