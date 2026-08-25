@@ -46,12 +46,16 @@ def status_check():
 
     
 
-def load_new_deck(target_l, one, two, three, four):
+def load_new_deck(target_l, one, two, three, four, target_lt, romaji):
     global target ,final, advanced
-    one.configure(state="normal", fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
-    two.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
-    three.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
-    four.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
+    if ext.page == 1 or ext.page ==2:
+        one.configure(state="normal", fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
+        two.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
+        three.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
+        four.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
+    elif ext.page ==5:
+        romaji.configure(fg_color = ext.brown, border_color = ext.dbrown)
+        romaji.configure(state = "normal")
     status_check()
     if queue == []:
         print("You're all caught up! Good Job!")
@@ -81,31 +85,42 @@ def load_new_deck(target_l, one, two, three, four):
          two.configure(text = final[1]["character"])
          three.configure(text = final[2]["character"])
          four.configure(text = final[3]["character"])
+    elif ext.page == 5:
+        target_lt.configure(text = target["character"]) 
             
 
 
-def check_answer(button, target_l, one, two, three, four):
+def check_answer(button, target_l, one, two, three, four, target_lt,romaji, entry_key):
     global target, now
     now = dt.datetime.now()
     tries = 0
-    user_ans = button.cget("text")
+    if ext.page == 1 or ext.page == 2:
+        user_ans = button.cget("text")
+    elif ext.page == 5:
+         user_ans = romaji.get().strip()
     if user_ans == target["romaji"] or user_ans == target["character"]:
             print("Goodjob!")
             if target["status"] != 10 and tries != 1:
                 target["status"] += 1
             target["due_time"] = now + stages[target["status"]]
-            button.configure(fg_color = ext.right, border_color = ext.dright, hover_color = ext.right )
             tries = 0
-            one.configure(state="disabled"),
-            two.configure(state="disabled"),
-            three.configure(state="disabled"),
-            four.configure(state="disabled"),
-            button.after(1000, lambda: [
-            
-        load_new_deck(target_l, one, two, three, four)
-    ])
+            if ext.page == 1 or ext.page == 2:
+                button.configure(fg_color = ext.right, border_color = ext.dright, hover_color = ext.right )
+                one.configure(state="disabled"),
+                two.configure(state="disabled"),
+                three.configure(state="disabled"),
+                four.configure(state="disabled"),
+                button.after(1000, lambda: [load_new_deck(target_l, one, two, three, four, target_lt, romaji)])
+            elif ext.page == 5:
+                 romaji.configure(fg_color = ext.right, border_color = ext.dright)
+                 romaji.configure(state = "disabled")
+                 romaji.after(250, lambda: [load_new_deck(target_l, one, two, three, four, target_lt, romaji), romaji.delete(0, "end")])
     else:
-            button.configure(fg_color = ext.wrong, border_color = ext.dwrong, state ="disabled" )
+            if ext.page == 1 or ext.page ==2:
+                button.configure(fg_color = ext.wrong, border_color = ext.dwrong, state ="disabled" )
+            elif ext.page == 5:
+                 romaji.configure(fg_color = ext.wrong, border_color = ext.dwrong)
+                 romaji.delete(0, "end")
             if tries != 1:
                 print("Oh no..Remember", target["mnemonic"] )
             if tries != 1:
