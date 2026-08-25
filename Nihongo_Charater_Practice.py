@@ -23,9 +23,10 @@ queue = []
 now = dt.datetime.now()
 target = []
 final = []
+advanced = False
 
 def status_check():
-    global queue, now
+    global queue, now, advanced
     now = dt.datetime.now()
     queue = []
     check = 0
@@ -38,13 +39,15 @@ def status_check():
             queue.append(nihon)
 
     if check > 40:
+        advanced = True
         for nihon in CD.hira_2_dataset:
             if nihon["due_time"] == None or nihon["due_time"] <= now :
                         queue.append(nihon)   
+
     
 
 def load_new_deck(target_l, one, two, three, four):
-    global target ,final
+    global target ,final, advanced
     one.configure(state="normal", fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
     two.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
     three.configure(state="normal",fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
@@ -57,6 +60,10 @@ def load_new_deck(target_l, one, two, three, four):
     for char in CD.hiragana_dataset:
         if char != target:
             disposable.append(char)
+    if advanced == True:
+        for char in CD.hira_2_dataset:
+            if char != target:
+                disposable.append(char)
     others = random.sample(disposable, k= 3)
     final = [target] + others
     random.shuffle(final)
@@ -106,7 +113,7 @@ def check_answer(button, target_l, one, two, three, four):
                     target["status"] -= 1
                 tries = 1
     
-def invert_but(target_l, one, two, three, four,invert):
+def invert_hira(target_l, one, two, three, four,invert):
     if ext.page == 1:
           ext.page = 2
           invert.configure(text_color= ext.pink, fg_color = ext.cream, hover_color = ext.linen)
