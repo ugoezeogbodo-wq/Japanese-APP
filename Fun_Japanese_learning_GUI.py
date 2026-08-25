@@ -134,7 +134,7 @@ def hira_mid():
    hira_mcq_label.place(relx = 0.765, rely = .52, relwidth = .2, relheight = .17)
 
    hira_text = ctk.CTkButton(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=10, 
-                               text="Text\n Answers", text_color=cream, hover_color=dbrown, font=(coolfont, 30))
+                               text="Text\n Answers", text_color=cream, hover_color=dbrown, font=(coolfont, 30), command=lambda: indicator(page=hira_t))
    hira_text.place(relx = 0.6, rely = .84, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
    hira_text_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Harder,\n requires \nsome \nmastery", text_color=dgrey, font=(coolfont,18, "italic"))
    hira_text_label.place(relx = 0.76, rely = .75, relwidth = .22, relheight = .17)
@@ -223,7 +223,17 @@ def kana_m():
 def kanji_m():
     print("k")
 
-             
+def hira_t():
+    side_bar()
+    ext.page = 5
+    feedback_t = ctk.CTkLabel(main_frame, fg_color=brown)
+    feedback_t.place(relx = 0.57, rely = 0.24, relwidth = 0.75, relheight = 0.4, anchor = ctk.CENTER)
+    
+    target_lt = ctk.CTkLabel(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=5, font=(coolfont,55, "bold"))
+    target_lt.place(relx= 0.57, rely= 0.5, relwidth = 0.8, relheight = 0.2, anchor = ctk.CENTER) 
+
+    romaji = ctk.CTkEntry(main_frame, fg_color=brown, font=(coolfont, 40), placeholder_text="", justify = "center", border_width=5, border_color=dbrown)      
+    romaji.place(relx= 0.57, rely = .77, relwidth = .5, relheight = .2, anchor = ctk.CENTER)      
     
 
 start_up()
