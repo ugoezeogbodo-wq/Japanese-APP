@@ -90,16 +90,16 @@ def load_new_deck(target_l, one, two, three, four, target_lt, romaji):
             
 
 
-def check_answer(button, target_l, one, two, three, four, target_lt,romaji, entry_key):
+def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedback_label):
     global target, now
     now = dt.datetime.now()
     tries = 0
     if ext.page == 1 or ext.page == 2:
         user_ans = button.cget("text")
     elif ext.page == 5:
-         user_ans = romaji.get().strip()
+         user_ans = romaji.get().strip().lower()
     if user_ans == target["romaji"] or user_ans == target["character"]:
-            print("Goodjob!")
+            feedback_label.configure(text="Goodjob, keep up the good work")
             if target["status"] != 10 and tries != 1:
                 target["status"] += 1
             target["due_time"] = now + stages[target["status"]]
@@ -122,7 +122,7 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji, entr
                  romaji.configure(fg_color = ext.wrong, border_color = ext.dwrong)
                  romaji.delete(0, "end")
             if tries != 1:
-                print("Oh no..Remember", target["mnemonic"] )
+                feedback_label.configure(text="Oh no. Remember "+ target["mnemonic"] )
             if tries != 1:
                 if target["status"] != 0:
                     target["status"] -= 1

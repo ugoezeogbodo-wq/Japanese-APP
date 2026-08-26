@@ -18,3 +18,6 @@ dpink = "#D05A73"
 
 chest_mid = Image.open("chest_mid.jpe")
 chest_mid_image = ctk.CTkImage(size = (202.5,540), light_image=chest_mid, dark_image=chest_mid )
+
+chest_begin = Image.open("chest_begin.png")
+chest_begin_image = ctk.CTkImage(size=(608,240),light_image=chest_begin,dark_image=chest_begin )
