@@ -21,6 +21,8 @@ queue = []
 now = dt.datetime.now()
 target = []
 advanced = False
+streak = 0
+tries = 0
 
 def status_check():
     global queue, now, advanced
@@ -42,12 +44,16 @@ def status_check():
                         queue.append(nihon) 
     
 
-def load_new_deck(k_target_l, k_one, k_two, k_three, k_four):
+def load_new_deck(k_target_l, k_one, k_two, k_three, k_four, k_target_lt, k_romaji):
     global target ,final, advanced
-    k_one.configure(state="normal", fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
-    k_two.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
-    k_three.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
-    k_four.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
+    if ext.page == 3 or ext.page == 4:
+        k_one.configure(state="normal", fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
+        k_two.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
+        k_three.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
+        k_four.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
+    elif ext.page == 6:
+        k_romaji.configure(fg_color = ext.cream, border_color = ext.dbrown, text_color = ext.dgrey)
+        k_romaji.configure(state = "normal")
     status_check()
     if queue == []:
         print("You're all caught up! Good Job!")
@@ -77,31 +83,72 @@ def load_new_deck(k_target_l, k_one, k_two, k_three, k_four):
          k_two.configure(text = final[1]["character"])
          k_three.configure(text = final[2]["character"])
          k_four.configure(text = final[3]["character"])
+    elif ext.page == 6:
+         k_target_lt.configure(text = target['character'])
+    print(target["romaji"])
 
-def check_answer(button, k_target_l, k_one, k_two, k_three, k_four):
-    global target, now
+def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, k_romaji,k_feedback_label, k_feedback, k_feedback_t, k_feedback_label_t):
+    global target, now, streak, tries
     now = dt.datetime.now()
-    tries = 0
-    user_ans = button.cget("text")
+
+    
+
+    if ext.page == 3 or ext.page == 4:
+        user_ans = button.cget("text")
+    elif ext.page == 6:
+         user_ans = k_romaji.get().strip().lower()
     if user_ans == target["romaji"] or user_ans == target["character"]:
-            print("Goodjob!")
+            if tries == 0:
+                streak += 1
+            if ext.page == 3 or ext.page == 4:
+                if streak == 5:
+                    k_feedback.configure(image = ext.ghost_5_image)
+                    k_feedback_label.configure(text = "Wow, you actually managed to make it to a 5 streak. Maybe this could actually be a bit fun!")
+                elif streak == 10:
+                    k_feedback.configure(image = ext.ghost_10_image)
+                    k_feedback_label.configure(text = "Streak of 10! Looks like I can rest now.")
+                else:
+                     k_feedback_label.configure(text = "Suprised you were able to get one right.. Keep it up.")
+                     k_feedback.configure(image = ext.ghost_right_image)
+            if ext.page == 6:
+                if streak == 5:
+                    k_feedback_t.configure(image = ext.ghost_5_image)
+                    k_feedback_label_t.configure(text = "Wow, you actually managed to make it to a 5 streak. Maybe this could actually be a bit fun!")
+                elif streak == 10:
+                    k_feedback_t.configure(image = ext.ghost_10_image)
+                    k_feedback_label_t.configure(text = "Streak of 10! Looks like I can rest now.")
+                else:
+                    k_feedback_label_t.configure(text = "Suprised you were able to get one right.. Keep it up.")
+                    k_feedback_t.configure(image = ext.ghost_right_image)
             if target["status"] != 10 and tries != 1:
                 target["status"] += 1
             target["due_time"] = now + stages[target["status"]]
-            button.configure(fg_color = ext.right, border_color = ext.dright, hover_color = ext.right )
             tries = 0
-            k_one.configure(state="disabled"),
-            k_two.configure(state="disabled"),
-            k_three.configure(state="disabled"),
-            k_four.configure(state="disabled"),
-            button.after(1000, lambda: [
-            
-        load_new_deck(k_target_l, k_one, k_two, k_three, k_four)
-    ])
+            if ext.page == 3 or ext.page == 4:
+                button.configure(fg_color = ext.right, border_color = ext.dright, hover_color = ext.right )
+                k_one.configure(state="disabled"),
+                k_two.configure(state="disabled"),
+                k_three.configure(state="disabled"),
+                k_four.configure(state="disabled"),
+                button.after(1000, lambda: [load_new_deck(k_target_l, k_one, k_two, k_three, k_four, k_target_lt, k_romaji)])
+            elif ext.page == 6:
+                k_romaji.configure(fg_color = ext.right, border_color = ext.dright)
+                k_romaji.configure(state = "disabled")
+                k_romaji.after(250, lambda: [load_new_deck(k_target_l, k_one, k_two, k_three, k_four, k_target_lt, k_romaji), k_romaji.delete(0, "end")])
     else:
-            button.configure(fg_color = ext.wrong, border_color = ext.dwrong, state ="disabled" )
+            streak = 0
+            if ext.page == 3 or ext.page ==4:
+                button.configure(fg_color = ext.wrong, border_color = ext.dwrong, state ="disabled" )
+            elif ext.page == 6:
+                k_romaji.configure(fg_color = ext.wrong, border_color = ext.dwrong, text_color = ext.cream)
+                k_romaji.delete(0, "end")
             if tries != 1:
-                print("Oh no..Remember", target["mnemonic"] )
+                if ext.page == 3 or ext.page == 4:
+                    k_feedback_label.configure(text="Not surprising. Just remember "+ target["mnemonic"] )
+                    k_feedback.configure(image = ext.ghost_wrong_image)
+                elif ext.page ==6:
+                    k_feedback_label_t.configure(text="Not surprising. Just remember "+ target["mnemonic"] )
+                    k_feedback_t.configure(image = ext.ghost_wrong_image)
             if tries != 1:
                 if target["status"] != 0:
                     target["status"] -= 1

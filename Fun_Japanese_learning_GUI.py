@@ -3,7 +3,7 @@ import Kanji_Practice as kp
 import Katakana_Practice as kap
 import customtkinter as ctk
 import Extra as ext
-
+from PIL import Image
 
 window = ctk.CTk()
 window.title("Japanese Character Learning")
@@ -35,10 +35,20 @@ k_two = None
 k_three = None
 k_four = None
 target_lt =None
+feedback_t = None
+feedback_label_t = None
 romaji = None
 entry_key = None
 feedback_label = None
 feedback = None
+chest_pic = None
+k_target_lt = None
+k_romaji = None
+k_entry_key = None
+k_feedback_t = None
+k_feedback_label_t = None
+k_feedback_label = None
+k_feedback = None
 
 
 
@@ -47,6 +57,10 @@ coolfont = "Matcha Mint"
 
 main_frame = ctk.CTkFrame(window,fg_color=linen, border_color=brown, border_width=15)
 main_frame.place(relx = 0.5, rely =0.5, relwidth =1.005, relheight = 1.005, anchor = ctk.CENTER)
+
+cover = ctk.CTkFrame(window, fg_color=linen, border_color=brown, border_width=15)
+cover.place(relx = 0.5, rely =0.5, relwidth =1.005, relheight = 1.005, anchor = ctk.CENTER)
+cover.place_forget()
 
 
 
@@ -122,7 +136,7 @@ def side_bar():
 
 
 def hira_mid():  
-   global target_l,one,two,three,four
+   global target_l,one,two,three,four, chest_pic
    ext.page = 67
    side_bar()
 
@@ -132,6 +146,7 @@ def hira_mid():
 
    chest_pic = ctk.CTkLabel(main_frame, fg_color=linen, image=ext.chest_mid_image, text = "")
    chest_pic.place(relx = 0.295, rely = .5,relwidth = 0.25, relheight = 0.9, anchor= ctk.CENTER)
+
    chest_text = ctk.CTkLabel(main_frame, fg_color=brown)
    chest_text.place(relx = .7, rely = .255 , relwidth = .5, relheight = .4, anchor = ctk.CENTER)
 
@@ -150,19 +165,19 @@ def hira_mid():
 def kana_mid():
     ext.page =67
     side_bar()
-    ghost_pic = ctk.CTkLabel(main_frame, fg_color=cream)
+    ghost_pic = ctk.CTkLabel(main_frame, fg_color=linen, text="", image=ext.ghost_mid_image)
     ghost_pic.place(relx = 0.295, rely = .5,relwidth = 0.25, relheight = 0.9, anchor= ctk.CENTER)
     ghost_text = ctk.CTkLabel(main_frame, fg_color=cream)
     ghost_text.place(relx = .7, rely = .255 , relwidth = .5, relheight = .4, anchor = ctk.CENTER)
 
     kana_mcq = ctk.CTkButton(main_frame, fg_color=cream, border_color=brown, border_width=5, corner_radius=10, 
-                            text="Multiple\n Choice", text_color=dgrey, hover_color=linen, font=(coolfont, 30), command=lambda: (indicator(page = kana_m), kap.load_new_deck(k_target_l=k_target_l,k_one=k_one,k_two=k_two,k_three=k_three,k_four=k_four), side_label(page=kana_m)))
+                            text="Multiple\n Choice", text_color=dgrey, hover_color=linen, font=(coolfont, 30), command=lambda: (indicator(page = kana_m), kap.load_new_deck(k_target_l=k_target_l,k_one=k_one,k_two=k_two,k_three=k_three,k_four=k_four, k_target_lt=k_target_lt, k_romaji=k_romaji), side_label(page=kana_m)))
     kana_mcq.place(relx = 0.6, rely = .6, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
     kana_mcq_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Easier. So I\nreccomend for \nbegginers", text_color=dgrey, font=(coolfont,17, "italic"))
     kana_mcq_label.place(relx = 0.765, rely = .52, relwidth = .2, relheight = .17)
     
     kana_text = ctk.CTkButton(main_frame, fg_color=cream, border_color=dgrey, border_width=5, corner_radius=10, 
-                                   text="Text\n Answers", text_color=brown, hover_color=linen, font=(coolfont, 30))
+                                   text="Text\n Answers", text_color=brown, hover_color=linen, font=(coolfont, 30), command = lambda: (indicator(page = kana_t), kap.load_new_deck(k_target_l=k_target_l,k_one=k_one,k_two=k_two,k_three=k_three,k_four=k_four, k_target_lt=k_target_lt, k_romaji=k_romaji),side_label(page=kana_t)))
     kana_text.place(relx = 0.6, rely = .84, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
     kana_text_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Harder.\n So requires \nsome \nmastery", text_color=dgrey, font=(coolfont,18, "italic"))
     kana_text_label.place(relx = 0.76, rely = .75, relwidth = .22, relheight = .17)
@@ -212,46 +227,58 @@ def hira_m():
     target_l = ctk.CTkLabel(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=5, font=(coolfont,55, "bold"))
     target_l.place(relx= 0.57, rely= 0.5, relwidth = 0.8, relheight = 0.2, anchor = ctk.CENTER )
 
-    one = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,40, "bold"), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = one, target_l=target_l, one=one, two=two, three=three, four=four, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback))
+    one = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,40, "bold"), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = one, target_l=target_l, one=one, two=two, three=three, four=four, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback, feedback_t=feedback_t, feedback_label_t=feedback_label_t))
     one.place(relx = 0.37, rely = .7, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
-    two = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,40, "bold"), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = two, target_l=target_l, one=one, two=two, three=three, four=four, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback))
+    two = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,40, "bold"), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = two, target_l=target_l, one=one, two=two, three=three, four=four, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback, feedback_t=feedback_t, feedback_label_t=feedback_label_t))
     two.place(relx = 0.77, rely = .7, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
-    three = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,40, "bold"), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = three, target_l=target_l, one=one, two=two, three=three, four=four, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback))
+    three = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,40, "bold"), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = three, target_l=target_l, one=one, two=two, three=three, four=four, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback, feedback_t=feedback_t, feedback_label_t=feedback_label_t))
     three.place(relx = 0.37, rely = .88, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
-    four = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,40, "bold"), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = four, target_l=target_l, one=one, two=two, three=three, four=four, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback))
+    four = ctk.CTkButton(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown, font=(coolfont,40, "bold"), border_width=5, hover_color=dbrown, command=lambda: ncp.check_answer(button = four, target_l=target_l, one=one, two=two, three=three, four=four, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback, feedback_t=feedback_t, feedback_label_t=feedback_label_t))
     four.place(relx = 0.77, rely = .88, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
 
 def kana_m():
-    global k_target_l,k_one,k_two,k_three,k_four
+    global k_target_l,k_one,k_two,k_three,k_four, k_feedback_label,k_feedback
 
     ext.page = 3
     side_bar()
     
-    k_feedback = ctk.CTkLabel(main_frame, fg_color=cream)
+    k_feedback = ctk.CTkLabel(main_frame, fg_color=linen, image=ext.ghost_begin_image, text = "")
     k_feedback.place(relx = 0.57, rely = 0.24, relwidth = 0.75, relheight = 0.4, anchor = ctk.CENTER)
+
+    k_feedback_f = ctk.CTkFrame(main_frame, fg_color="white",corner_radius=0, bg_color="transparent" )
+    k_feedback_f.place(relx=.715, rely=.22, relwidth=.4, relheight=.17, anchor = ctk.CENTER)
+    
+    k_feedback_label = ctk.CTkLabel(k_feedback_f, fg_color="white",corner_radius=0, bg_color="transparent", justify = "center", text = "Just press something.. I don't really care.", wraplength=320,font=(coolfont,20), text_color=dgrey)
+    k_feedback_label.place(relx=.5, rely=.5, relwidth=1, relheight=1, anchor = ctk.CENTER)
 
     k_target_l = ctk.CTkLabel(main_frame, fg_color=cream, border_color=dgrey, border_width=5, corner_radius=5, font=(coolfont,55, "bold"), text_color=brown)
     k_target_l.place(relx= 0.57, rely= 0.5, relwidth = 0.8, relheight = 0.2, anchor = ctk.CENTER )
 
-    k_one = ctk.CTkButton(main_frame, fg_color=cream, corner_radius=5, border_color=brown,text_color=dgrey, font=(coolfont,40, "bold"), border_width=5, hover_color=linen, command=lambda: kap.check_answer(button = k_one, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four))
+    k_one = ctk.CTkButton(main_frame, fg_color=cream, corner_radius=5, border_color=brown,text_color=dgrey, font=(coolfont,40, "bold"), border_width=5, hover_color=linen, command=lambda: kap.check_answer(button = k_one, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four,k_target_lt=k_target_lt, k_romaji=k_romaji, k_feedback_label=k_feedback_label,k_feedback=k_feedback,k_feedback_t=k_feedback_t,k_feedback_label_t=k_feedback_label_t))
     k_one.place(relx = 0.37, rely = .7, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
-    k_two = ctk.CTkButton(main_frame, fg_color=cream, corner_radius=5, border_color=brown,text_color=dgrey, font=(coolfont,40, "bold"), border_width=5, hover_color=linen, command=lambda: kap.check_answer(button = k_two, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four))
+    k_two = ctk.CTkButton(main_frame, fg_color=cream, corner_radius=5, border_color=brown,text_color=dgrey, font=(coolfont,40, "bold"), border_width=5, hover_color=linen, command=lambda: kap.check_answer(button = k_two, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four,k_target_lt=k_target_lt, k_romaji=k_romaji, k_feedback_label=k_feedback_label,k_feedback=k_feedback,k_feedback_t=k_feedback_t,k_feedback_label_t=k_feedback_label_t))
     k_two.place(relx = 0.77, rely = .7, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
-    k_three = ctk.CTkButton(main_frame, fg_color=cream, corner_radius=5, border_color=brown,text_color=dgrey, font=(coolfont,40, "bold"), border_width=5, hover_color=linen, command=lambda: kap.check_answer(button = k_three, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four))
+    k_three = ctk.CTkButton(main_frame, fg_color=cream, corner_radius=5, border_color=brown,text_color=dgrey, font=(coolfont,40, "bold"), border_width=5, hover_color=linen, command=lambda: kap.check_answer(button = k_three, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four,k_target_lt=k_target_lt, k_romaji=k_romaji, k_feedback_label=k_feedback_label,k_feedback=k_feedback,k_feedback_t=k_feedback_t,k_feedback_label_t=k_feedback_label_t))
     k_three.place(relx = 0.37, rely = .88, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
-    k_four = ctk.CTkButton(main_frame, fg_color=cream, corner_radius=5, border_color=brown,text_color=dgrey, font=(coolfont,40, "bold"), border_width=5, hover_color=linen, command=lambda: kap.check_answer(button = k_four, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four))
+    k_four = ctk.CTkButton(main_frame, fg_color=cream, corner_radius=5, border_color=brown,text_color=dgrey, font=(coolfont,40, "bold"), border_width=5, hover_color=linen, command=lambda: kap.check_answer(button = k_four, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four,k_target_lt=k_target_lt, k_romaji=k_romaji, k_feedback_label=k_feedback_label,k_feedback=k_feedback,k_feedback_t=k_feedback_t,k_feedback_label_t=k_feedback_label_t))
     k_four.place(relx = 0.77, rely = .88, relwidth = .37, relheight = 0.17, anchor = ctk.CENTER)
 
 def kanji_m():
     print("k")
 
 def hira_t():
-    global target_lt, romaji, entry_key
+    global target_lt, romaji, entry_key, feedback_t, feedback_label_t
     ext.page = 5
     side_bar()
     
-    feedback_t = ctk.CTkLabel(main_frame, fg_color=brown)
+    feedback_t = ctk.CTkLabel(main_frame, fg_color=linen, image =ext.chest_begin_image)
     feedback_t.place(relx = 0.57, rely = 0.24, relwidth = 0.75, relheight = 0.4, anchor = ctk.CENTER)
+
+    feedback_ft = ctk.CTkFrame(main_frame, fg_color=brown,corner_radius=0, bg_color="transparent" )
+    feedback_ft.place(relx=.715, rely=.22, relwidth=.4, relheight=.17, anchor = ctk.CENTER)
+    
+    feedback_label_t = ctk.CTkLabel(feedback_ft, fg_color=brown,corner_radius=0, bg_color="transparent", justify = "center", text = "Once you've input your answer just press the enter key to submit.", wraplength=330,font=(coolfont,18) )
+    feedback_label_t.place(relx=.5, rely=.5, relwidth=1, relheight=1, anchor = ctk.CENTER)
     
     target_lt = ctk.CTkLabel(main_frame, fg_color=brown, border_color=dbrown, border_width=5, corner_radius=5, font=(coolfont,55, "bold"))
     target_lt.place(relx= 0.57, rely= 0.5, relwidth = 0.8, relheight = 0.2, anchor = ctk.CENTER) 
@@ -260,10 +287,34 @@ def hira_t():
     romaji.place(relx= 0.57, rely = .77, relwidth = .5, relheight = .2, anchor = ctk.CENTER)  
 
     entry_key = ctk.CTkButton(main_frame, fg_color="transparent", hover= None)  
-    romaji.bind("<Return>", lambda _event: ncp.check_answer(target_l=target_l,one=one,two=two,three=three,four=four,button=entry_key, target_lt=target_lt, romaji=romaji, entry_key=entry_key))
+    romaji.bind("<Return>", lambda _event: ncp.check_answer(target_l=target_l,one=one,two=two,three=three,four=four,button=entry_key, target_lt=target_lt, romaji=romaji, feedback_label=feedback_label,feedback=feedback, feedback_t=feedback_t, feedback_label_t=feedback_label_t))
     entry_key.place(relx=0, rely=0,relwidth=.001, relheight = .0001) 
 
+def kana_t():
+    global k_target_lt, k_romaji, k_entry_key, k_feedback_t, k_feedback_label_t
+    ext.page = 6
+    side_bar()
     
+    k_feedback_t = ctk.CTkLabel(main_frame, fg_color=linen, image =ext.ghost_begin_image)
+    k_feedback_t.place(relx = 0.57, rely = 0.24, relwidth = 0.75, relheight = 0.4, anchor = ctk.CENTER)
+
+    k_feedback_ft = ctk.CTkFrame(main_frame, fg_color="white",corner_radius=0, bg_color="transparent" )
+    k_feedback_ft.place(relx=.715, rely=.22, relwidth=.4, relheight=.17, anchor = ctk.CENTER)
+    
+    k_feedback_label_t = ctk.CTkLabel(k_feedback_ft, fg_color="white",corner_radius=0, bg_color="transparent", justify = "center", text = "Sigh, to submit your answer press the enter key.", wraplength=330,font=(coolfont,18), text_color=dgrey)
+    k_feedback_label_t.place(relx=.5, rely=.5, relwidth=1, relheight=1, anchor = ctk.CENTER)
+    
+    k_target_lt = ctk.CTkLabel(main_frame, fg_color=cream, border_color=dgrey, border_width=5, corner_radius=5, font=(coolfont,55, "bold"),text_color=dbrown)
+    k_target_lt.place(relx= 0.57, rely= 0.5, relwidth = 0.8, relheight = 0.2, anchor = ctk.CENTER) 
+
+    k_romaji = ctk.CTkEntry(main_frame, fg_color=cream, font=(coolfont, 40), placeholder_text="", justify = "center", border_width=5, border_color=dbrown, text_color=dgrey)      
+    k_romaji.place(relx= 0.57, rely = .77, relwidth = .5, relheight = .2, anchor = ctk.CENTER)  
+
+    k_entry_key = ctk.CTkButton(main_frame, fg_color="transparent", hover= None)  
+    k_romaji.bind("<Return>", lambda _event: kap.check_answer(button = k_four, k_target_l=k_target_l, k_one=k_one, k_two=k_two, k_three=k_three, k_four=k_four,k_target_lt=k_target_lt, k_romaji=k_romaji, k_feedback_label=k_feedback_label,k_feedback=k_feedback,k_feedback_t=k_feedback_t,k_feedback_label_t=k_feedback_label_t))
+    k_entry_key.place(relx=0, rely=0,relwidth=.001, relheight = .0001) 
+
+
 
 start_up()
 
@@ -271,7 +322,7 @@ def side_label(page):
     global hira_l, kana_l, kanji_l, start_l
     if page == hira_mid or page == hira_m or page == hira_t:
         hira_l.configure(fg_color = brown)
-    if page == kana_mid or page == kana_m:
+    if page == kana_mid or page == kana_m or page == kana_t:
         kana_l.configure(fg_color = brown)
     if page == kanji_mid:
         kanji_l.configure(fg_color = brown)
@@ -280,10 +331,15 @@ def side_label(page):
 
 def indicator(page):
 
+    cover.place(relx = 0.5, rely =0.5, relwidth =1.005, relheight = 1.005, anchor = ctk.CENTER)
+
     for child in main_frame.winfo_children():
         child.destroy()
-
+    window.update_idletasks()
     page()
-
+    window.update_idletasks()
+    cover.place_forget()
+    
+    
 
 window.mainloop()
