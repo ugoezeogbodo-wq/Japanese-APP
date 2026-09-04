@@ -92,7 +92,7 @@ def load_new_deck(target_l, one, two, three, four, target_lt, romaji):
             
 
 
-def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedback_label, feedback, feedback_t, feedback_label_t):
+def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedback_label, feedback, feedback_t, feedback_label_t,resize):
     global target, now, streak, tries
     now = dt.datetime.now()
     
@@ -107,23 +107,35 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedb
             if ext.page == 1 or ext.page ==2:
                 if streak ==5:
                     feedback.configure(image=ext.chest_5_image)
+                    feedback.active_pil_image = ext.chest_5_image._light_image
+                    resize()
                     feedback_label.configure(text="Wow, you've gotten to a streak of 5!")
                 elif streak == 10:
                     feedback.configure(image=ext.chest_10_image)
+                    feedback.active_pil_image = ext.chest_10_image._light_image
+                    resize()
                     feedback_label.configure(text="Woah...Streak of 10! Amazing..")
                 else:
                     feedback_label.configure(text="Goodjob, keep up the good work")
                     feedback.configure(image = ext.chest_right_image)
+                    feedback.active_pil_image = ext.chest_right_image._light_image
+                    resize()
             if ext.page == 5:
                 if streak ==5:
                     feedback_t.configure(image=ext.chest_5_image)
+                    feedback_t.active_pil_image = ext.chest_5_image._light_image
+                    resize()
                     feedback_label_t.configure(text="Wow, you've gotten to a streak of 5!")
                 elif streak == 10:
                     feedback_t.configure(image=ext.chest_10_image)
+                    feedback_t.active_pil_image = ext.chest_5_image._light_image
+                    resize()
                     feedback_label_t.configure(text="Woah...Streak of 10! Amazing..")
                 else:
                     feedback_label_t.configure(text="Goodjob, keep up the good work")
                     feedback_t.configure(image = ext.chest_right_image)
+                    feedback_t.active_pil_image = ext.chest_right_image._light_image
+                    resize()
             if target["status"] != 10 and tries != 1:
                 target["status"] += 1
             target["due_time"] = now + stages[target["status"]]
@@ -150,9 +162,13 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedb
                 if ext.page == 1 or ext.page == 2:
                     feedback_label.configure(text="Oh no. Remember "+ target["mnemonic"] )
                     feedback.configure(image = ext.chest_wrong_image)
+                    feedback.active_pil_image = ext.chest_wrong_image._light_image
+                    resize()
                 elif ext.page ==5:
                     feedback_label_t.configure(text="Oh no. Remember "+ target["mnemonic"] )
                     feedback_t.configure(image = ext.chest_wrong_image)
+                    feedback_t.active_pil_image = ext.chest_wrong_image._light_image
+                    resize()
             if tries != 1:
                 if target["status"] != 0:
                     target["status"] -= 1
