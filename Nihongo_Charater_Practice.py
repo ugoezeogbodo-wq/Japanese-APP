@@ -9,7 +9,7 @@ stages = {
     0: dt.timedelta(seconds=5),
     1: dt.timedelta(minutes=1),
     2: dt.timedelta(minutes=5),
-    3: dt.timedelta(minutes=5),
+    3: dt.timedelta(minutes=10),
     4: dt.timedelta(days=1),
     5: dt.timedelta(days=2),
     6: dt.timedelta(days=3),
@@ -37,7 +37,7 @@ def status_check():
             check += 1
         
     for nihon in CD.hiragana_dataset:
-        if nihon["due_time"] == None or nihon["due_time"] <= now :
+        if nihon["due_time"] == None  or nihon["due_time"] <= now :
             queue.append(nihon)
 
     if check > 40:
@@ -48,7 +48,7 @@ def status_check():
 
     
 
-def load_new_deck(target_l, one, two, three, four, target_lt, romaji):
+def load_new_deck(target_l, one, two, three, four, target_lt, romaji, indicator, finished):
     global target ,final, advanced
     if ext.page == 1 or ext.page ==2:
         one.configure(state="normal", fg_color = ext.brown, border_color = ext.dbrown, hover_color =ext.dbrown)
@@ -60,39 +60,40 @@ def load_new_deck(target_l, one, two, three, four, target_lt, romaji):
         romaji.configure(state = "normal")
     status_check()
     if queue == []:
-        print("You're all caught up! Good Job!")
-    target = random.choice(queue)
-    disposable = []
-    for char in CD.hiragana_dataset:
-        if char != target:
-            disposable.append(char)
-    if advanced == True:
-        for char in CD.hira_2_dataset:
+        indicator(finished)
+    else:
+        target = random.choice(queue)
+        disposable = []
+        for char in CD.hiragana_dataset:
             if char != target:
                 disposable.append(char)
-    others = random.sample(disposable, k= 3)
-    final = [target] + others
-    random.shuffle(final)
-    if ext.page == 1:
-        target_l.configure(text = target["character"])
-        print("What is the romaji equivalent of", target["character"], "?")
-        one.configure(text = final[0]["romaji"])
-        two.configure(text = final[1]["romaji"])
-        three.configure(text = final[2]["romaji"])
-        four.configure(text = final[3]["romaji"])
-    elif ext.page == 2:
-         target_l.configure(text = target["romaji"])
-         print("What is the character of", target["romaji"], "?")
-         one.configure(text = final[0]["character"])
-         two.configure(text = final[1]["character"])
-         three.configure(text = final[2]["character"])
-         four.configure(text = final[3]["character"])
-    elif ext.page == 5:
-        target_lt.configure(text = target["character"]) 
+        if advanced == True:
+            for char in CD.hira_2_dataset:
+                if char != target:
+                    disposable.append(char)
+        others = random.sample(disposable, k= 3)
+        final = [target] + others
+        random.shuffle(final)
+        if ext.page == 1:
+            target_l.configure(text = target["character"])
+            print("What is the romaji equivalent of", target["character"], "?")
+            one.configure(text = final[0]["romaji"])
+            two.configure(text = final[1]["romaji"])
+            three.configure(text = final[2]["romaji"])
+            four.configure(text = final[3]["romaji"])
+        elif ext.page == 2:
+            target_l.configure(text = target["romaji"])
+            print("What is the character of", target["romaji"], "?")
+            one.configure(text = final[0]["character"])
+            two.configure(text = final[1]["character"])
+            three.configure(text = final[2]["character"])
+            four.configure(text = final[3]["character"])
+        elif ext.page == 5:
+            target_lt.configure(text = target["character"]) 
             
 
 
-def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedback_label, feedback, feedback_t, feedback_label_t,resize):
+def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedback_label, feedback, feedback_t, feedback_label_t,resize,indicator, finished):
     global target, now, streak, tries
     now = dt.datetime.now()
     
@@ -109,7 +110,7 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedb
                     feedback.configure(image=ext.chest_5_image)
                     feedback.active_pil_image = ext.chest_5_image._light_image
                     resize()
-                    feedback_label.configure(text="Wow, you've gotten to a streak of 5!")
+                    feedback_label.configure(text="Wow, you've gotten to a streak of 5! Can we make it to 10 next?")
                 elif streak == 10:
                     feedback.configure(image=ext.chest_10_image)
                     feedback.active_pil_image = ext.chest_10_image._light_image
@@ -146,11 +147,11 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedb
                 two.configure(state="disabled"),
                 three.configure(state="disabled"),
                 four.configure(state="disabled"),
-                button.after(1000, lambda: [load_new_deck(target_l, one, two, three, four, target_lt, romaji)])
+                button.after(1000, lambda: [load_new_deck(target_l, one, two, three, four, target_lt, romaji, indicator, finished)])
             elif ext.page == 5:
                  romaji.configure(fg_color = ext.right, border_color = ext.dright)
                  romaji.configure(state = "disabled")
-                 romaji.after(250, lambda: [load_new_deck(target_l, one, two, three, four, target_lt, romaji), romaji.delete(0, "end")])
+                 romaji.after(250, lambda: [load_new_deck(target_l, one, two, three, four, target_lt, romaji,indicator,finished), romaji.delete(0, "end")])
     else:
             streak = 0
             if ext.page == 1 or ext.page ==2:

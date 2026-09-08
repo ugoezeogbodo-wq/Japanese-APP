@@ -2,6 +2,8 @@ from PIL import Image
 import customtkinter as ctk
 
 page = ""
+name = ""
+gender = "girl"
 
 right = "#3A5F2D"
 wrong = "#CC3F32"
@@ -33,6 +35,9 @@ chest_10_image = ctk.CTkImage(size=(608,240),light_image=chest_10,dark_image=che
 
 chest_5 = Image.open("chest_5.png")
 chest_5_image = ctk.CTkImage(size=(608,240),light_image=chest_5,dark_image=chest_5 )
+
+chest_text = Image.open("chest_text.png")
+chest_text_image = ctk.CTkImage(size=(462,240),light_image=chest_text,dark_image=chest_text )
 
 ghost_mid = Image.open("ghost_mid.png")
 ghost_mid_image = ctk.CTkImage(size = (202.5,540), light_image=ghost_mid, dark_image=ghost_mid )
