@@ -22,7 +22,6 @@ queue = []
 now = dt.datetime.now()
 target = []
 advanced = False
-streak = 0
 tries = 0
 
 def status_check():
@@ -88,8 +87,8 @@ def load_new_deck(k_target_l, k_one, k_two, k_three, k_four, k_target_lt, k_roma
          k_target_lt.configure(text = target['character'])
     print(target["romaji"])
 
-def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, k_romaji,k_feedback_label, k_feedback, k_feedback_t, k_feedback_label_t, resize):
-    global target, now, streak, tries
+def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, k_romaji,k_feedback_label, k_feedback, k_feedback_t, k_feedback_label_t, resize, cstreak):
+    global target, now, tries
     now = dt.datetime.now()
 
     
@@ -100,14 +99,17 @@ def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, 
          user_ans = k_romaji.get().strip().lower()
     if user_ans == target["romaji"] or user_ans == target["character"]:
             if tries == 0:
-                streak += 1
+                ext.streak += 1
+                if ext.t_streak < ext.streak:
+                    ext.t_streak = ext.streak
+                cstreak.configure(text = "Current streak: " + str(ext.streak) + " \nHighest streak: " + str(ext.t_streak)+ " ")
             if ext.page == 3 or ext.page == 4:
-                if streak == 5:
+                if ext.streak == 5:
                     k_feedback.configure(image = ext.ghost_5_image)
                     k_feedback.active_pil_image = ext.ghost_5_image._light_image
                     resize()
                     k_feedback_label.configure(text = "Wow, you actually managed to make it to a 5 streak. Maybe this could actually be a bit fun!")
-                elif streak == 10:
+                elif ext.streak == 10:
                     k_feedback.configure(image = ext.ghost_10_image)
                     k_feedback.active_pil_image = ext.ghost_10_image._light_image
                     resize()
@@ -119,12 +121,12 @@ def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, 
                      resize()
                      
             if ext.page == 6:
-                if streak == 5:
+                if ext.streak == 5:
                     k_feedback_t.configure(image = ext.ghost_5_image)
                     k_feedback_t.active_pil_image = ext.ghost_5_image._light_image
                     resize()
                     k_feedback_label_t.configure(text = "Wow, you actually managed to make it to a 5 streak. Maybe this could actually be a bit fun!")
-                elif streak == 10:
+                elif ext.streak == 10:
                     k_feedback_t.configure(image = ext.ghost_10_image)
                     k_feedback_t.active_pil_image = ext.ghost_10_image._light_image
                     resize()
@@ -150,7 +152,8 @@ def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, 
                 k_romaji.configure(state = "disabled")
                 k_romaji.after(250, lambda: [load_new_deck(k_target_l, k_one, k_two, k_three, k_four, k_target_lt, k_romaji), k_romaji.delete(0, "end")])
     else:
-            streak = 0
+            ext.streak = 0
+            cstreak.configure(text = "Current streak: " + str(ext.streak) + " \nHighest streak: " + str(ext.t_streak)+ " ")
             if ext.page == 3 or ext.page ==4:
                 button.configure(fg_color = ext.wrong, border_color = ext.dwrong, state ="disabled" )
             elif ext.page == 6:
@@ -169,8 +172,11 @@ def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, 
                     resize()
             if tries != 1:
                 if target["status"] != 0:
-                    target["status"] -= 1
-                tries = 1
+                    if target["status"] >= 5:
+                        target["status"] = max(1, target["status"] - 2)
+                    else:
+                        target["status"] = max(1, target["status"] - 1)
+            tries = 1
 
 def invert_kana(k_target_l, k_one, k_two, k_three, k_four,invert):
     if ext.page == 3:

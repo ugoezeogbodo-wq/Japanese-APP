@@ -24,7 +24,6 @@ now = dt.datetime.now()
 target = []
 final = []
 advanced = False
-streak = 0
 tries = 0
 
 def status_check():
@@ -93,8 +92,8 @@ def load_new_deck(target_l, one, two, three, four, target_lt, romaji, indicator,
             
 
 
-def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedback_label, feedback, feedback_t, feedback_label_t,resize,indicator, finished):
-    global target, now, streak, tries
+def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedback_label, feedback, feedback_t, feedback_label_t,resize,indicator, finished,cstreak):
+    global target, now, tries
     now = dt.datetime.now()
     
    
@@ -104,14 +103,17 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedb
          user_ans = romaji.get().strip().lower()
     if user_ans == target["romaji"] or user_ans == target["character"]:
             if tries == 0:
-                streak += 1
+                ext.streak += 1
+                if ext.t_streak < ext.streak:
+                    ext.t_streak = ext.streak
+                cstreak.configure(text = "Current streak: " + str(ext.streak) + " \nHighest streak: " + str(ext.t_streak)+ " ")
             if ext.page == 1 or ext.page ==2:
-                if streak ==5:
+                if ext.streak ==5:
                     feedback.configure(image=ext.chest_5_image)
                     feedback.active_pil_image = ext.chest_5_image._light_image
                     resize()
                     feedback_label.configure(text="Wow, you've gotten to a streak of 5! Can we make it to 10 next?")
-                elif streak == 10:
+                elif ext.streak == 10:
                     feedback.configure(image=ext.chest_10_image)
                     feedback.active_pil_image = ext.chest_10_image._light_image
                     resize()
@@ -122,12 +124,12 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedb
                     feedback.active_pil_image = ext.chest_right_image._light_image
                     resize()
             if ext.page == 5:
-                if streak ==5:
+                if ext.streak ==5:
                     feedback_t.configure(image=ext.chest_5_image)
                     feedback_t.active_pil_image = ext.chest_5_image._light_image
                     resize()
                     feedback_label_t.configure(text="Wow, you've gotten to a streak of 5!")
-                elif streak == 10:
+                elif ext.streak == 10:
                     feedback_t.configure(image=ext.chest_10_image)
                     feedback_t.active_pil_image = ext.chest_5_image._light_image
                     resize()
@@ -153,7 +155,8 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedb
                  romaji.configure(state = "disabled")
                  romaji.after(250, lambda: [load_new_deck(target_l, one, two, three, four, target_lt, romaji,indicator,finished), romaji.delete(0, "end")])
     else:
-            streak = 0
+            ext.streak = 0
+            cstreak.configure(text = "Current streak: " + str(ext.streak) + " \nHighest streak: " + str(ext.t_streak)+ " ")
             if ext.page == 1 or ext.page ==2:
                 button.configure(fg_color = ext.wrong, border_color = ext.dwrong, state ="disabled" )
             elif ext.page == 5:
@@ -172,8 +175,11 @@ def check_answer(button, target_l, one, two, three, four, target_lt,romaji,feedb
                     resize()
             if tries != 1:
                 if target["status"] != 0:
-                    target["status"] -= 1
-                tries = 1
+                    if target["status"] >= 5:
+                        target["status"] = max(1, target["status"] - 2)
+                    else:
+                        target["status"] = max(1, target["status"] - 1)
+            tries = 1
     
 def invert_hira(target_l, one, two, three, four,invert):
     if ext.page == 1:
