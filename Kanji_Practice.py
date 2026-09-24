@@ -29,7 +29,7 @@ def status_check_hira():
     now = dt.datetime.now()
     queue = []
     
-    for nihon in CD.kanji_dataset_hira:
+    for nihon in CD.Kanji:
         if nihon["due_time_reading"] == None or nihon["due_time_reading"] <= now :
             queue.append(nihon)
 
@@ -412,5 +412,4 @@ def invert_mr(text_just, mr_one, mr_two, mr_three, mr_four,invert, m_target_l, m
                 m_two.configure(text = final[1]["hiragana"]+"\n("+final[1]["romaji"]+")")
                 m_three.configure(text = final[2]["hiragana"]+"\n("+final[2]["romaji"]+")")
                 m_four.configure(text = final[3]["hiragana"]+"\n("+final[3]["romaji"]+")")
-
 

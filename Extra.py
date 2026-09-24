@@ -1,11 +1,55 @@
 from PIL import Image
 import customtkinter as ctk
+import Character_Dictionary as cd
 
 page = ""
 name = ""
 gender = "girl"
 streak = 0
 t_streak = 0
+
+review_5 = 0
+review_4 = 0
+review_3 = 0
+review_2 = 0
+review_1 = 0
+review_ext_1 = 0
+review_ext_2 = 0
+review_ext_3 = 0
+
+unlearnt_5 = 0
+unlearnt_4 = 0
+unlearnt_3 = 0
+unlearnt_2 = 0
+unlearnt_1 = 0
+unlearnt_ext_1 = 0
+unlearnt_ext_2 = 0
+unlearnt_ext_3 = 0
+
+limit = 10
+
+today = 0
+
+learn = {
+    "n_5": 10,
+    "n_4": 10,
+    "n_3": 10,
+    "n_2": 10,
+    "n_1": 10,
+    "ext_1":0,
+    "ext_2": 0,
+    "ext_3": 0
+}
+deck_n = {
+    "n_5": cd.Kanji_n5,
+    "n_4": None,
+    "n_3": None,
+    "n_2": None,
+    "n_1": None,
+    "ext_1":None,
+    "ext_2": None,
+    "ext_3": None
+}
 
 right = "#3A5F2D"
 wrong = "#CC3F32"
