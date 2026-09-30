@@ -103,6 +103,17 @@ c2 = None
 c3 = None
 c4 = None
 c5 = None
+target = None
+assemble = None
+choices = None
+b1 = None
+b2 = None
+b3 = None
+b4 = None
+b5 = None
+b6 = None
+b7 = None
+b8 = None
 
 
 
@@ -595,8 +606,9 @@ def edit():
     n_5.place(relx=.25,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
     n_5_go = ctk.CTkButton(n_5, fg_color=pink, font=(coolfont,18), text = "Default N5 Deck", hover_color=dpink, command = lambda: (indicator(learn_flash), k.learn("n_5", character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5)))
     n_5_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    n_5_info = ctk.CTkLabel(n_5, fg_color = cream, font=(coolfont,18), text_color=dpink)
+    n_5_info = ctk.CTkLabel(n_5, fg_color = grey, font=(coolfont,18), text_color=dpink, anchor="n")
     n_5_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
+    
 
     divider = ctk.CTkLabel(N_45,fg_color=dpink, text="")
     divider.place(relx = .5, rely=.5, relwidth = .005, relheight = .95, anchor = ctk.CENTER)
@@ -676,8 +688,11 @@ def learn_flash():
     global character, info, radic,radica, mnemonic, c1,c2,c3,c4,c5
     side_bar()
 
+    header = ctk.CTkLabel(main_frame, fg_color = cream, font=(coolfont,15), text = "Stage 1: Learn new KANJI!", text_color=dpink, corner_radius=5,border_width=3,border_color=dpink)
+    header.place(relx=.565, rely=.07,relwidth = .4,relheight =.07, anchor = ctk.CENTER)
+
     back = ctk.CTkFrame(main_frame, fg_color = bpink, corner_radius=5, border_width=5,border_color=dpink)
-    back.place(relx = .565, rely=.46, relwidth = .81, relheight = .84, anchor = ctk.CENTER)
+    back.place(relx = .565, rely=.5, relwidth = .81, relheight = .78, anchor = ctk.CENTER)
 
     character = ctk.CTkLabel(back, fg_color = cream, border_width=2,border_color=pink, font=(coolfont,130), text_color=dpink)
     character.place(relx=.25,rely=.25,relwidth=.45,relheight=.45, anchor = ctk.CENTER)
@@ -694,25 +709,80 @@ def learn_flash():
     mnemonic = ctk.CTkLabel(back, fg_color = pink, border_width=2,border_color=pink,font=(coolfont,20), text_color=cream,wraplength =600)
     mnemonic.place(relx=.5,rely=.74,relwidth=.96,relheight=.45, anchor = ctk.CENTER)
 
-    c1 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, state="disabled" ,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2,command=lambda: k.update_learn(c1,0,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
-    c1.place(relx=.33,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
+    c1 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, state="disabled" ,text_color_disabled=bpink, font = (coolfont,27), text = "", border_color=cream, border_width=2,command=lambda: k.update_learn(c1,0,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
+    c1.place(relx=.41,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
 
-    c2 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2,command=lambda: k.update_learn(c2,1,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
-    c2.place(relx=.41,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
+    c2 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, text_color_disabled=bpink, font = (coolfont,27), border_color=cream,  text = "",border_width=2,command=lambda: k.update_learn(c2,1,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
+    c2.place(relx=.49,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
 
-    c3 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.update_learn(c3,2,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
-    c3.place(relx=.49,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
+    c3 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2,  text = "",command=lambda: k.update_learn(c3,2,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
+    c3.place(relx=.57,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
 
-    c4 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.update_learn(c4,3,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
-    c4.place(relx=.57,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
+    c4 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, text = "", command=lambda: k.update_learn(c4,3,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
+    c4.place(relx=.65,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
 
-    c5 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.update_learn(c5,4,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
-    c5.place(relx=.65,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
+    c5 = ctk.CTkButton(main_frame,hover_color=dpink, fg_color=pink, text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, text = "", command=lambda: k.update_learn(c5,4,c1,c2,c3,c4,c5,character,info,radica,mnemonic))
+    c5.place(relx=.73,rely=.93, relwidth = .07, relheight = .07, anchor = ctk.CENTER)
 
-    done = ctk.CTkButton(main_frame, fg_color=dpink, text = "Finish", font = (coolfont, 19))
-    done.place(relx=.76,rely=.93, relwidth = .12, relheight = .07, anchor = ctk.CENTER)
+    
 
-kanji_mid()
+    done = ctk.CTkButton(main_frame, fg_color=dpink, text = "Finish", font = (coolfont, 19), command=lambda: (indicator(page = radical_build), k.radical_show(target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8)))
+    done.place(relx=.9,rely=.93, relwidth = .12, relheight = .07, anchor = ctk.CENTER)
+
+def radical_build():
+    global target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8
+    side_bar()
+
+    header = ctk.CTkLabel(main_frame, fg_color = cream, font=(coolfont,15), text = "Stage 2: Construct the KANJI!", text_color=dpink, corner_radius=5,border_width=3,border_color=dpink)
+    header.place(relx=.565, rely=.07,relwidth = .4,relheight =.07, anchor = ctk.CENTER)
+    
+    back = ctk.CTkFrame(main_frame, fg_color = bpink, corner_radius=5, border_width=5,border_color=dpink)
+    back.place(relx = .565, rely=.54, relwidth = .81, relheight = .84, anchor = ctk.CENTER)
+
+    target = ctk.CTkLabel(back, fg_color=pink, border_color=dpink,border_width=4, font = (coolfont,20), corner_radius=5)
+    target.place(relx=.5, rely = .12,relwidth = .8, relheight = .17, anchor = ctk.CENTER)
+
+    assemble = ctk.CTkLabel(back, fg_color=dpink, border_width=0,border_color=cream,  font=(coolfont,30), text_color=cream, corner_radius=5, text = "Current Selection: ")
+    assemble.place(relx=.5, rely = .34,relwidth = .9, relheight = .23, anchor = ctk.CENTER)
+
+    choices = ctk.CTkFrame(back, fg_color=dpink, border_color=cream, border_width=2)
+    choices.place(relx = .22,rely = .725, relwidth = .35, relheight = .5, anchor = ctk.CENTER)
+
+    b1 = ctk.CTkButton(choices,hover_color=dpink, fg_color=pink,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.radical_press(b1, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    b1.place(relx=.3,rely=.13, relwidth = .3, relheight = .2, anchor = ctk.CENTER)
+
+    b2 = ctk.CTkButton(choices,hover_color=dpink, fg_color=pink,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.radical_press(b2, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    b2.place(relx=.3,rely=.38, relwidth = .3, relheight = .2, anchor = ctk.CENTER)
+
+    b3 = ctk.CTkButton(choices,hover_color=dpink, fg_color=pink,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.radical_press(b3, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    b3.place(relx=.3,rely=.63, relwidth = .3, relheight = .2, anchor = ctk.CENTER)
+
+    b4 = ctk.CTkButton(choices,hover_color=dpink, fg_color=pink,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.radical_press(b4, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    b4.place(relx=.3,rely=.88, relwidth = .3, relheight = .2, anchor = ctk.CENTER)
+
+    b5 = ctk.CTkButton(choices,hover_color=dpink, fg_color=pink,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.radical_press(b5, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    b5.place(relx=.7,rely=.13, relwidth = .3, relheight = .2, anchor = ctk.CENTER)
+    
+    b6 = ctk.CTkButton(choices,hover_color=dpink, fg_color=pink,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.radical_press(b6, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    b6.place(relx=.7,rely=.38, relwidth = .3, relheight = .2, anchor = ctk.CENTER)
+    
+    b7 = ctk.CTkButton(choices,hover_color=dpink, fg_color=pink,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.radical_press(b7, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    b7.place(relx=.7,rely=.63, relwidth = .3, relheight = .2, anchor = ctk.CENTER)
+    
+    b8 = ctk.CTkButton(choices,hover_color=dpink, fg_color=pink,text_color_disabled=bpink, font = (coolfont,27), border_color=cream, border_width=2, command=lambda: k.radical_press(b8, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    b8.place(relx=.7,rely=.88, relwidth = .3, relheight = .2, anchor = ctk.CENTER)
+
+    learn_kai = ctk.CTkLabel(back,fg_color=bpink)
+    learn_kai.place(relx=.68,rely=.73, relwidth = .55,relheight =.49, anchor = ctk.CENTER)
+
+    undo = ctk.CTkButton(back, text = "Undo", font = (coolfont, 20), fg_color=cream, text_color=dpink, border_color=dpink,border_width=2, hover_color=linen, command=lambda: k.undo(assemble,b1,b2,b3,b4,b5,b6,b7,b8))
+    undo.place(relx=.48,rely=.92,relwidth = .15,relheight = .1, anchor = ctk.CENTER)
+
+    Check = ctk.CTkButton(back, text = "Check", font = (coolfont, 20), fg_color=cream, text_color=dpink, border_color=dpink,border_width=2, hover_color=linen, command=lambda: k.check(target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    Check.place(relx=.64,rely=.92,relwidth = .15,relheight = .1, anchor = ctk.CENTER)
+
+
+radical_build()
 
 def side_label(page):
     global hira_l, kana_l, kanji_l, start_l

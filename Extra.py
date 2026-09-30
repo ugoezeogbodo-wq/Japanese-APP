@@ -1,6 +1,7 @@
 from PIL import Image
 import customtkinter as ctk
 import Character_Dictionary as cd
+import Shared as sh
 
 page = ""
 name = ""
@@ -17,29 +18,8 @@ review_ext_1 = 0
 review_ext_2 = 0
 review_ext_3 = 0
 
-unlearnt_5 = 0
-unlearnt_4 = 0
-unlearnt_3 = 0
-unlearnt_2 = 0
-unlearnt_1 = 0
-unlearnt_ext_1 = 0
-unlearnt_ext_2 = 0
-unlearnt_ext_3 = 0
 
-limit = 10
 
-today = 0
-
-learn = {
-    "n_5": 10,
-    "n_4": 10,
-    "n_3": 10,
-    "n_2": 10,
-    "n_1": 10,
-    "ext_1":0,
-    "ext_2": 0,
-    "ext_3": 0
-}
 deck_n = {
     "n_5": cd.Kanji_n5,
     "n_4": None,
@@ -63,6 +43,7 @@ brown = "#8b4c41"
 dgrey = "#507065"
 dbrown = "#69362d"
 dpink = "#D05A73"
+bpink = "#EFAAB9"
 
 chest_mid = Image.open("chest_mid.png")
 chest_mid_image = ctk.CTkImage(size = (202.5,540), light_image=chest_mid, dark_image=chest_mid )
