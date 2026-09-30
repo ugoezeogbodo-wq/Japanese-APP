@@ -1573,7 +1573,7 @@ Kanji_n5 = [
         "mnemonic_meaning": "Person (人) assigning messenger task with hand."
     },
 
-    # --- BATCH 122: Time Concepts & Metrics ---
+    # --- BATCH 10: Time Concepts & Metrics ---
     {
         "character": "半",
         "meaning": "half",

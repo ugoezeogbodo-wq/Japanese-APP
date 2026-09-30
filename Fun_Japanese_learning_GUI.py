@@ -22,6 +22,7 @@ dgrey = "#507065"
 dbrown = "#69362d"
 dpink = "#D05A73"
 bpink = "#EFAAB9"
+ddpink = "#A14055"
 
 hira_l = None
 kana_l = None
@@ -114,6 +115,12 @@ b5 = None
 b6 = None
 b7 = None
 b8 = None
+view_frame = None
+cover_ = None
+serial = 1
+amount = 0
+chosen_decks = ""
+loading = False
 
 
 
@@ -604,81 +611,90 @@ def edit():
 
     n_5 = ctk.CTkFrame(N_45, fg_color=bpink, border_color=dpink, border_width=2)
     n_5.place(relx=.25,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    n_5_go = ctk.CTkButton(n_5, fg_color=pink, font=(coolfont,18), text = "Default N5 Deck", hover_color=dpink, command = lambda: (indicator(learn_flash), k.learn("n_5", character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5)))
+    n_5_go = ctk.CTkButton(n_5, fg_color=pink, font=(coolfont,18), text = "Default N5 Deck", hover_color=dpink,border_width=3,border_color=dpink, command = lambda: (indicator(learn_flash), k.learn("n_5", character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5)))
     n_5_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    n_5_info = ctk.CTkLabel(n_5, fg_color = grey, font=(coolfont,18), text_color=dpink, anchor="n")
-    n_5_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
-    
+    n_5_info = ctk.CTkLabel(n_5, fg_color = cream, font=(coolfont,18), text_color=dpink, corner_radius=5,border_width=2,border_color=pink)
+    n_5_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
+    n_5_view = ctk.CTkButton(n_5, fg_color=dpink, font=(coolfont,15), text="View Data",hover_color=ddpink, command=lambda: (indicator(view), view_load("n_5")))
+    n_5_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
 
     divider = ctk.CTkLabel(N_45,fg_color=dpink, text="")
     divider.place(relx = .5, rely=.5, relwidth = .005, relheight = .95, anchor = ctk.CENTER)
 
     n_4 = ctk.CTkFrame(N_45, fg_color=bpink, border_color=dpink, border_width=2)
     n_4.place(relx=.75,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    n_4_go = ctk.CTkButton(n_4, fg_color=pink, font=(coolfont,18), text = "Default N4 Deck", hover_color=dpink)
+    n_4_go = ctk.CTkButton(n_4, fg_color=pink, font=(coolfont,18), text = "Default N4 Deck", hover_color=dpink,border_width=3,border_color=dpink)
     n_4_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    n_4_info = ctk.CTkLabel(n_4, fg_color = cream, font=(coolfont,18), text_color=dpink)
-    n_4_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
+    n_4_info = ctk.CTkLabel(n_4, fg_color = cream, font=(coolfont,18), text_color=dpink, corner_radius=5,border_width=2,border_color=pink)
+    n_4_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
+    n_4_view = ctk.CTkButton(n_4, fg_color=dpink, font=(coolfont,15), text="View Data",hover_color=ddpink, command=lambda: (indicator(view), view_load("n_4")))
+    n_4_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
 
     N_32 = ctk.CTkFrame(test, fg_color = pink, border_color=dpink, border_width=2)
     N_32.pack(padx = 40, pady = 10, fill = "x")
 
     n_3 = ctk.CTkFrame(N_32, fg_color=bpink, border_color=dpink, border_width=2)
     n_3.place(relx=.25,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    n_3_go = ctk.CTkButton(n_3, fg_color=pink, font=(coolfont,18), text = "Default N3 Deck", hover_color=dpink)
+    n_3_go = ctk.CTkButton(n_3, fg_color=pink, font=(coolfont,18), text = "Default N3 Deck", hover_color=dpink,border_width=3,border_color=dpink)
     n_3_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    n_3_info = ctk.CTkLabel(n_3, fg_color = cream, font=(coolfont,18), text_color=dpink)
-    n_3_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
+    n_3_info = ctk.CTkLabel(n_3, fg_color = cream, font=(coolfont,18), text_color=dpink, corner_radius=5,border_width=2,border_color=pink)
+    n_3_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
+    n_3_view = ctk.CTkButton(n_3, fg_color=dpink, font=(coolfont,15), text="View Data",hover_color=ddpink, command=lambda: (indicator(view), view_load("n_3")))
+    n_3_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
 
     divider = ctk.CTkLabel(N_32,fg_color=dpink, text="")
     divider.place(relx = .5, rely=.5, relwidth = .005, relheight = .95, anchor = ctk.CENTER)
 
     n_2 = ctk.CTkFrame(N_32, fg_color=bpink, border_color=dpink, border_width=2)
     n_2.place(relx=.75,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    n_2_go = ctk.CTkButton(n_2, fg_color=pink, font=(coolfont,18), text = "Default N2 Deck", hover_color=dpink)
+    n_2_go = ctk.CTkButton(n_2, fg_color=pink, font=(coolfont,18), text = "Default N2 Deck", hover_color=dpink,border_width=3,border_color=dpink)
     n_2_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    n_2_info = ctk.CTkLabel(n_2, fg_color = cream, font=(coolfont,18), text_color=dpink)
-    n_2_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
+    n_2_info = ctk.CTkLabel(n_2, fg_color = cream, font=(coolfont,18), text_color=dpink, corner_radius=5,border_width=2,border_color=pink)
+    n_2_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
+    n_2_view = ctk.CTkButton(n_2, fg_color=dpink, font=(coolfont,15), text="View Data",hover_color=ddpink, command=lambda: (indicator(view), view_load("n_2")))
+    n_2_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
 
     N_10 = ctk.CTkFrame(test, fg_color = pink, border_color=dpink, border_width=2)
     N_10.pack(padx = 40, pady = 10, fill = "x")
     
     n_1 = ctk.CTkFrame(N_10, fg_color=bpink, border_color=dpink, border_width=2)
     n_1.place(relx=.25,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    n_1_go = ctk.CTkButton(n_1, fg_color=pink, font=(coolfont,18), text = "Default N1 Deck", hover_color=dpink)
+    n_1_go = ctk.CTkButton(n_1, fg_color=pink, font=(coolfont,18), text = "Default N1 Deck", hover_color=dpink,border_width=3,border_color=dpink)
     n_1_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    n_1_info = ctk.CTkLabel(n_1, fg_color = cream, font=(coolfont,18), text_color=dpink)
-    n_1_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
+    n_1_info = ctk.CTkLabel(n_1, fg_color = cream, font=(coolfont,18), text_color=dpink, corner_radius=5,border_width=2,border_color=pink)
+    n_1_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
+    n_1_view = ctk.CTkButton(n_1, fg_color=dpink, font=(coolfont,15), text="View Data",hover_color=ddpink, command=lambda: (indicator(view), view_load("n_1")))
+    n_1_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
 
     divider = ctk.CTkLabel(N_10,fg_color=dpink, text="")
     divider.place(relx = .5, rely=.5, relwidth = .005, relheight = .95, anchor = ctk.CENTER)
     
     ext_1 = ctk.CTkFrame(N_10, fg_color=bpink, border_color=dpink, border_width=2)
     ext_1.place(relx=.75,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    ext_1_go = ctk.CTkButton(ext_1, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink)
+    ext_1_go = ctk.CTkButton(ext_1, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink,border_width=3,border_color=dpink)
     ext_1_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    ext_1_info = ctk.CTkLabel(ext_1, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!")
-    ext_1_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
+    ext_1_info = ctk.CTkLabel(ext_1, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!", corner_radius=5,border_width=2,border_color=pink)
+    ext_1_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
 
     N = ctk.CTkFrame(test, fg_color = pink, border_color=dpink, border_width=2)
     N.pack(padx = 40, pady = 10, fill = "x")
         
     ext_2 = ctk.CTkFrame(N, fg_color=bpink, border_color=dpink, border_width=2)
     ext_2.place(relx=.25,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    ext_2_go = ctk.CTkButton(ext_2, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink)
+    ext_2_go = ctk.CTkButton(ext_2, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink,border_width=3,border_color=dpink)
     ext_2_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    ext_2_info = ctk.CTkLabel(ext_2, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!")
-    ext_2_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
+    ext_2_info = ctk.CTkLabel(ext_2, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!", corner_radius=5,border_width=2,border_color=pink)
+    ext_2_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
     
     divider = ctk.CTkLabel(N,fg_color=dpink, text="")
     divider.place(relx = .5, rely=.5, relwidth = .005, relheight = .95, anchor = ctk.CENTER)
         
     ext_3 = ctk.CTkFrame(N, fg_color=bpink, border_color=dpink, border_width=2)
     ext_3.place(relx=.75,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    ext_3_go = ctk.CTkButton(ext_3, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink)
+    ext_3_go = ctk.CTkButton(ext_3, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink,border_width=3,border_color=dpink)
     ext_3_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
-    ext_3_info = ctk.CTkLabel(ext_3, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!")
-    ext_3_info.place(relx = .5, rely = .67, relwidth = .95, relheight = .6, anchor = ctk.CENTER)
+    ext_3_info = ctk.CTkLabel(ext_3, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!", corner_radius=5,border_width=2,border_color=pink)
+    ext_3_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
     
 
     create = ctk.CTkButton(main_frame, fg_color=pink,hover_color=dpink, font = (coolfont, 15), text = "Create New Deck")
@@ -726,7 +742,7 @@ def learn_flash():
 
     
 
-    done = ctk.CTkButton(main_frame, fg_color=dpink, text = "Finish", font = (coolfont, 19), command=lambda: (indicator(page = radical_build), k.radical_show(target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8)))
+    done = ctk.CTkButton(main_frame, fg_color=dpink, text = "Finish", hover_color=ddpink,font = (coolfont, 19), command=lambda: (indicator(page = radical_build), k.radical_show(target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8)))
     done.place(relx=.9,rely=.93, relwidth = .12, relheight = .07, anchor = ctk.CENTER)
 
 def radical_build():
@@ -781,8 +797,131 @@ def radical_build():
     Check = ctk.CTkButton(back, text = "Check", font = (coolfont, 20), fg_color=cream, text_color=dpink, border_color=dpink,border_width=2, hover_color=linen, command=lambda: k.check(target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
     Check.place(relx=.64,rely=.92,relwidth = .15,relheight = .1, anchor = ctk.CENTER)
 
+def view():
+    global view_frame
 
-radical_build()
+    side_bar()
+
+    view_frame = ctk.CTkScrollableFrame(main_frame,fg_color=bpink,border_color=pink, border_width=2,scrollbar_button_color=pink, scrollbar_button_hover_color=dpink)
+    view_frame.place(relx = .565, rely= .6, relwidth = .81, relheight = .72, anchor = ctk.CENTER)
+
+    organize = ctk.CTkFrame(main_frame, fg_color=linen)
+    organize.place(relx = .56, rely=.18, relwidth = .77, relheight = .1, anchor = ctk.CENTER)
+
+    organized = ctk.CTkLabel(organize,fg_color=dpink, corner_radius=5, border_width=2,border_color=ddpink)
+    organized.place(relx=.5,rely=.5,relwidth=1,relheight=1,anchor = ctk.CENTER)
+
+    SN = ctk.CTkLabel(organized,fg_color=dpink, text = " SN:", anchor = "w", font=(coolfont,15))
+    SN.place(relx = .04,rely=.5, relwidth = .07,relheight = .9, anchor = ctk.CENTER)
+
+    divider = ctk.CTkLabel(organized, fg_color=cream, text="")
+    divider.place(relx = .08, rely = .5, relwidth = .003, relheight = .9, anchor = ctk.CENTER)
+
+    CHARACTER = ctk.CTkLabel(organized, fg_color=dpink, text = "Kanji:", anchor = "w", font=(coolfont,15))
+    CHARACTER.place(relx = .13,rely=.5,relwidth = .09,relheight = .9, anchor = ctk.CENTER)
+
+    divider = ctk.CTkLabel(organized, fg_color=cream, text="")
+    divider.place(relx = .18, rely = .5, relwidth = .003, relheight = .9, anchor = ctk.CENTER)
+
+    MEANING = ctk.CTkLabel(organized, fg_color=dpink, text = " Main Meaning: ", anchor = "w", font=(coolfont,15))
+    MEANING.place(relx=.31,rely=.5,relwidth=.25,relheight=.9,anchor = ctk.CENTER)
+
+    divider = ctk.CTkLabel(organized, fg_color=cream, text="")
+    divider.place(relx = .44, rely = .5, relwidth = .004, relheight = .9, anchor = ctk.CENTER)
+
+    READING = ctk.CTkLabel(organized,fg_color=dpink, text = " Reading:", anchor = "w", font=(coolfont,15))
+    READING.place(relx = .645,rely=.5,relwidth = .4,relheight = .9, anchor = ctk.CENTER)
+
+    divider = ctk.CTkLabel(organized, fg_color=cream, text="")
+    divider.place(relx = .8475, rely = .5, relwidth = .004, relheight = .9, anchor = ctk.CENTER)
+
+    STATUS = ctk.CTkLabel(organized,fg_color=dpink, text = " Status:", anchor = "w", font=(coolfont,15))
+    STATUS.place(relx=.92,rely=.5,relwidth = .14, relheight = .9,anchor = ctk.CENTER)
+
+def view_packing(card, serial):
+    first = ctk.CTkLabel(view_frame, fg_color=pink, border_color=cream,border_width=0)
+    first.pack(padx = 5, pady = 5, fill = "x", ipady=20)
+
+    SN= ctk.CTkLabel(first,fg_color=pink, text = serial, font=(coolfont,15))
+    SN.place(relx = .04,rely=.5, relwidth = .07,relheight = .9, anchor = ctk.CENTER)
+    
+    divider = ctk.CTkLabel(first, fg_color=cream, text="")
+    divider.place(relx = .08, rely = .5, relwidth = .003, relheight = .9, anchor = ctk.CENTER)
+    
+    CHARACTER = ctk.CTkLabel(first, fg_color=pink, text = card["character"] ,font=(coolfont,15))
+    CHARACTER.place(relx = .13,rely=.5,relwidth = .09,relheight = .9, anchor = ctk.CENTER)
+    
+    divider = ctk.CTkLabel(first, fg_color=cream, text="")
+    divider.place(relx = .18, rely = .5, relwidth = .003, relheight = .9, anchor = ctk.CENTER)
+    
+    MEANING = ctk.CTkLabel(first, fg_color=pink, text = card["meaning"], font=(coolfont,15))
+    MEANING.place(relx=.31,rely=.5,relwidth=.25,relheight=.9,anchor = ctk.CENTER)
+    
+    divider = ctk.CTkLabel(first, fg_color=cream, text="")
+    divider.place(relx = .44, rely = .5, relwidth = .004, relheight = .9, anchor = ctk.CENTER)
+    
+    READING = ctk.CTkLabel(first,fg_color=pink, text = card["hiragana"] + "(" + card["romaji"] + ")",font=(coolfont,15))
+    READING.place(relx = .645,rely=.5,relwidth = .4,relheight = .9, anchor = ctk.CENTER)
+    
+    divider = ctk.CTkLabel(first, fg_color=cream, text="")
+    divider.place(relx = .8475, rely = .5, relwidth = .004, relheight = .9, anchor = ctk.CENTER)
+    
+    STATUS = ctk.CTkLabel(first,fg_color=pink, text = card["status_reading"], font=(coolfont,15))
+    STATUS.place(relx=.92,rely=.5,relwidth = .14, relheight = .9,anchor = ctk.CENTER)
+    
+
+
+view()
+
+def continue_view(chosen_deck):
+    global loading
+    bottom_pos = view_frame._scrollbar.get()[1]
+    
+    if bottom_pos > 0.85 and not loading:
+        nextbatch(chosen_deck)
+        loading = True
+
+    window.after(300, idk_why_i_had_to_make_this_a_function)
+
+def idk_why_i_had_to_make_this_a_function():
+    global loading
+    loading = False
+
+def nextbatch(chosen_deck):
+    global serial,amount
+    deck = ext.deck_n[chosen_deck]
+
+    amount = serial + 8 
+
+    for card in deck[serial-1:]:
+        if serial >= amount:
+            break
+        else:
+            view_packing(card, serial)
+            serial += 1
+
+view_frame._parent_canvas.bind_all("<MouseWheel>", lambda event: continue_view(chosen_decks))
+
+def view_load(chosen_deck):
+    global cover_,serial,chosen_decks
+
+
+    cover_ = ctk.CTkFrame(window, fg_color=linen, border_color=brown, border_width=15)
+    cover_.place(relx = 0.5, rely =0.5, relwidth =1.005, relheight = 1.005, anchor = ctk.CENTER)
+
+    deck = ext.deck_n[chosen_deck]
+    chosen_decks = chosen_deck
+    
+    for card in deck:
+        if serial > 8:
+            break
+        else:
+            view_packing(card, serial)
+            serial += 1
+
+
+    view_frame.update_idletasks()
+    window.after(200,cover_.place_forget())
 
 def side_label(page):
     global hira_l, kana_l, kanji_l, start_l
