@@ -26,9 +26,9 @@ deck_n = {
     "n_3": None,
     "n_2": None,
     "n_1": None,
-    "ext_1":None,
-    "ext_2": None,
-    "ext_3": None
+    "ext_1":cd.Extra_1,
+    "ext_2":cd.Extra_2,
+    "ext_3":cd.Extra_3
 }
 
 right = "#3A5F2D"
@@ -44,6 +44,10 @@ dgrey = "#507065"
 dbrown = "#69362d"
 dpink = "#D05A73"
 bpink = "#EFAAB9"
+
+ext1 = "Y"
+ext2 = "Y"
+ext3 = "Y"
 
 chest_mid = Image.open("chest_mid.png")
 chest_mid_image = ctk.CTkImage(size = (202.5,540), light_image=chest_mid, dark_image=chest_mid )

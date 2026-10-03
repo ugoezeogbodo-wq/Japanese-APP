@@ -12,7 +12,16 @@ disposable = []
 new_rad = []
 length = 0
 current = []
-available = []
+available_n5 = []
+available_n4 = []
+available_n3 = []
+available_n2 = []
+available_n1 = []
+available_ext1 = []
+available_ext2 = []
+available_ext3 = []
+current_deck = ""
+
 
 limit = 10
 
@@ -68,7 +77,7 @@ def get_learn_data():
 
 
 def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ext_3_info):
-    global unlearnt_5,unlearnt_4,unlearnt_3,unlearnt_2,unlearnt_1,unlearnt_ext_1,unlearnt_ext_2,unlearnt_ext_3, available
+    global unlearnt_5,unlearnt_4,unlearnt_3,unlearnt_2,unlearnt_1,unlearnt_ext_1,unlearnt_ext_2,unlearnt_ext_3, available_n5,available_n4,available_n3,available_n2,available_n1,available_ext1,available_ext2,available_ext3
     decks = ["n_5","n_4","n_3","n_2","n_1", "ext_1","ext_2","ext_3"]
     now = dt.datetime.now()
     unlearnt_5 = 0
@@ -79,7 +88,14 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
     unlearnt_ext_1 = 0
     unlearnt_ext_2 = 0
     unlearnt_ext_3 = 0
-    available = []
+    available_n5 = []
+    available_n4 = []
+    available_n3 = []
+    available_n2 = []
+    available_n1 = []
+    available_ext1 = []
+    available_ext2 = []
+    available_ext3 = []
 
     for deck in decks:
         if ext.deck_n[deck]:
@@ -89,7 +105,7 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
                         unlearnt_5 += 1
-                        available.append(kanji)
+                        available_n5.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_5 += 1
                 print(unlearnt_5)
@@ -99,6 +115,7 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
                         unlearnt_4 += 1
+                        available_n4.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_4 += 1
                 n_4_info.configure(text = "Ready to Learn: "+ str(get_learn_data()[deck]) + "\n Ready to Review: " + str(ext.review_4 + "Unlearnt: " + str(unlearnt_4)))
@@ -107,6 +124,7 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
                         unlearnt_3 += 1
+                        available_n3.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_3 += 1
                 n_3_info.configure(text = "Ready to Learn: "+ str(get_learn_data()[deck]) + "\n Ready to Review: " + str(ext.review_3 + "Unlearnt: " + str(unlearnt_3)))
@@ -115,6 +133,7 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
                         unlearnt_2 += 1
+                        available_n2.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_2 += 1
                 n_2_info.configure(text = "Ready to Learn: "+ str(get_learn_data()[deck]) + "\n Ready to Review: " + str(ext.review_2 + "Unlearnt: " + str(unlearnt_2)))
@@ -123,6 +142,7 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
                         unlearnt_1 += 1
+                        available_n1.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_1 += 1
                 n_1_info.configure(text = "Ready to Learn: "+ str(get_learn_data()[deck]) + "\n Ready to Review: " + str(ext.review_1 + "Unlearnt: " + str(unlearnt_1)))
@@ -131,6 +151,7 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
                         unlearnt_ext_1 += 1
+                        available_ext1.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_ext_1 += 1
                 ext_1_info.configure(text = "Ready to Learn: "+ str(get_learn_data()[deck]) + "\n Ready to Review: " + str(ext.review_ext_1) + "\nUnlearnt: " + str(unlearnt_ext_1))
@@ -139,6 +160,7 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
                         sh.unlearnt_ext_2 += 1
+                        available_ext2.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_ext_2 += 1
                 ext_2_info.configure(text = "Ready to Learn: "+ str(sh.learn_data[deck]) + "\n Ready to Review: " + str(ext.review_ext_2) + "\nUnlearnt: " + str(unlearnt_ext_2))
@@ -147,19 +169,21 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
                         unlearnt_ext_3 += 1
+                        available_ext3.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_ext_3 += 1
                 ext_3_info.configure(text = "Ready to Learn: "+ str(get_learn_data()[deck]) + "\n Ready to Review: " + str(ext.review_ext_3) + "\nUnlearnt: " + str(unlearnt_ext_3))
 
+
 def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5):
-    global new
+    global new,current_deck
 
     if button == "n_5":
        if today < limit:
-
+            current_deck = "show"
             take = min(5,limit - today,unlearnt_5)
             print(take)
-            new = random.sample(available, k= take)
+            new = random.sample(available_n5, k= take)
             character.configure(text = new[0]["character"])
             if new[0]["meaning2"]:
                 info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
@@ -169,6 +193,111 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5):
             radic.configure(text = "Radical(s) Present:")
             radica.configure(text = str(radicals))
             mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[0]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[0]["mnemonic_reading"])
+    if button == "n_4":
+           if today < limit:
+                current_deck = "show"
+                take = min(5,limit - today,unlearnt_4)
+                print(take)
+                new = random.sample(available_n4, k= take)
+                character.configure(text = new[0]["character"])
+                if new[0]["meaning2"]:
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                else:
+                    info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                radicals = ", ".join(new[0]["radicals"])
+                radic.configure(text = "Radical(s) Present:")
+                radica.configure(text = str(radicals))
+                mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[0]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[0]["mnemonic_reading"])
+    if button == "n_3":
+            if today < limit:
+                current_deck = "show"
+                take = min(5,limit - today,unlearnt_3)
+                print(take)
+                new = random.sample(available_n3, k= take)
+                character.configure(text = new[0]["character"])
+                if new[0]["meaning2"]:
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                else:
+                    info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                radicals = ", ".join(new[0]["radicals"])
+                radic.configure(text = "Radical(s) Present:")
+                radica.configure(text = str(radicals))
+                mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[0]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[0]["mnemonic_reading"])
+    if button == "n_2":
+            if today < limit:
+                current_deck = "show"
+                take = min(5,limit - today,unlearnt_2)
+                print(take)
+                new = random.sample(available_n2, k= take)
+                character.configure(text = new[0]["character"])
+                if new[0]["meaning2"]:
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                else:
+                    info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                radicals = ", ".join(new[0]["radicals"])
+                radic.configure(text = "Radical(s) Present:")
+                radica.configure(text = str(radicals))
+                mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[0]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[0]["mnemonic_reading"])
+    if button == "n_1":
+            if today < limit:
+                current_deck = "show"
+                take = min(5,limit - today,unlearnt_1)
+                print(take)
+                new = random.sample(available_n1, k= take)
+                character.configure(text = new[0]["character"])
+                if new[0]["meaning2"]:
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                else:
+                    info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                radicals = ", ".join(new[0]["radicals"])
+                radic.configure(text = "Radical(s) Present:")
+                radica.configure(text = str(radicals))
+                mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[0]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[0]["mnemonic_reading"])
+    if button == "ext_1":
+           if today < limit:
+                current_deck = "nshow"
+                take = min(5,limit - today,unlearnt_ext_1)
+                print(take)
+                new = random.sample(available_ext1, k= take)
+                character.configure(text = new[0]["character"])
+                if new[0]["meaning2"]:
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                else:
+                    info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                radicals = ", ".join(new[0]["radicals"])
+                radic.configure(text = "Radical(s) Present:")
+                radica.configure(text = str(radicals))
+                mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[0]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[0]["mnemonic_reading"])
+    if button == "ext_2":
+            if today < limit:
+                current_deck = "nshow"
+                take = min(5,limit - today,unlearnt_ext_2)
+                print(take)
+                new = random.sample(available_ext2, k= take)
+                character.configure(text = new[0]["character"])
+                if new[0]["meaning2"]:
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                else:
+                    info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                radicals = ", ".join(new[0]["radicals"])
+                radic.configure(text = "Radical(s) Present:")
+                radica.configure(text = str(radicals))
+                mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[0]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[0]["mnemonic_reading"])
+    if button == "ext_3":
+            if today < limit:
+                current_deck = "nshow"
+                take = min(5,limit - today,unlearnt_ext_3)
+                print(take)
+                new = random.sample(available_ext3, k= take)
+                character.configure(text = new[0]["character"])
+                if new[0]["meaning2"]:
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                else:
+                    info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                radicals = ", ".join(new[0]["radicals"])
+                radic.configure(text = "Radical(s) Present:")
+                radica.configure(text = str(radicals))
+                mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[0]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[0]["mnemonic_reading"])
     button_change(c1,c2,c3,c4,c5)
 
     
@@ -182,14 +311,23 @@ def update_learn(number,button,c1,c2,c3,c4,c5,character,info,radica,mnemonic):
     button_change(c1,c2,c3,c4,c5)
     number.configure(state = "disabled")
     character.configure(text = new[button]['character'])
-    if new[button]["meaning2"]:
-        info.configure(text = "Meanings: " + new[button]["meaning"] + "/" + new[button]["meaning2"] + "\nReading: " + new[button]["hiragana"] + " (" + new[button]["romaji"] + ")" + "\nType: " + new[button]["type"])
+    if current_deck == "show":
+        if new[button]["meaning2"]:
+            info.configure(text = "Meanings: " + new[button]["meaning"] + "/" + new[button]["meaning2"] + "\nReading: " + new[button]["hiragana"] + " (" + new[button]["romaji"] + ")" + "\nType: " + new[button]["type"])
+        else:
+            info.configure(text = "Meaning: " + new[button]["meaning"] + "\nReading: " + new[button]["hiragana"] + " (" + new[button]["romaji"] + ")" + "\nType: " + new[button]["type"])
+        radicals = ", ".join(new[button]["radicals"])
+        radica.configure(text = str(radicals))
+        mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[button]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[button]["mnemonic_reading"])
     else:
-        info.configure(text = "Meaning: " + new[button]["meaning"] + "\nReading: " + new[button]["hiragana"] + " (" + new[button]["romaji"] + ")" + "\nType: " + new[button]["type"])
-    radicals = ", ".join(new[button]["radicals"])
-    radica.configure(text = str(radicals))
-    mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[button]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[button]["mnemonic_reading"])
-
+        if new[button]["meaning2"]:
+                info.configure(text = "Meanings: " + new[button]["meaning"] + "/" + new[button]["meaning2"] + "\nReading: " + new[button]["hiragana"] + " (" + new[button]["romaji"] + ")")
+        else:
+                info.configure(text = "Meaning: " + new[button]["meaning"] + "\nReading: " + new[button]["hiragana"] + " (" + new[button]["romaji"] + ")")
+        radicals = ", ".join(new[button]["radicals"])
+        radica.configure(text = str(radicals))
+        mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[button]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[button]["mnemonic_reading"])
+        
 def get_radicals():
     for rad in CD.Radicals:
         ALL_RADSS.append(rad["radical"])

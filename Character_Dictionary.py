@@ -1,6 +1,10 @@
 import datetime as dt
 
+Extra_1 = []
 
+Extra_2 = []
+
+Extra_3 = []
 
 hiragana_dataset = [
 

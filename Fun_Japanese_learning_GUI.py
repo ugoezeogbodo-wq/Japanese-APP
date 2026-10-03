@@ -5,6 +5,24 @@ import customtkinter as ctk
 import Extra as ext
 from PIL import Image
 import Kanji as k
+import pykakasi
+import json
+import jaconv
+
+
+kks = pykakasi.kakasi()
+
+with open("kradfile-3.6.2.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+RADICAL_DB = data["kanji"]
+
+sample = RADICAL_DB.get("語")
+
+letter_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+
 
 window = ctk.CTk()
 window.title("Japanese Character Learning")
@@ -94,6 +112,9 @@ n_1_info = None
 ext_1_info = None
 ext_2_info = None
 ext_3_info = None
+ext_1_go = None
+ext_2_go = None
+ext_3_go = None
 character = None
 info = None
 radic = None
@@ -121,6 +142,20 @@ serial = 1
 amount = 0
 chosen_decks = ""
 loading = False
+title1 = "Empty Deck"
+title2 = "Empty Deck"
+title3 = "Empty Deck"
+title = None
+deck = None
+character_entry = None
+meaning_entry = None
+meaning2_entry = None
+romaji_entry = None
+mne_read_entry = None
+mne_mean_entry = None
+ext_1_view = None
+ext_2_view = None
+ext_3_view = None
 
 
 
@@ -600,7 +635,7 @@ def finished():
     finished.place(rely=0.5, relx=0.565,relwidth = 0.8, relheight= 0.85, anchor = ctk.CENTER)
 
 def edit():
-    global n_5_info, n_4_info, n_3_info, n_2_info, n_1_info, ext_1_info, ext_2_info,ext_3_info
+    global n_5_info, n_4_info, n_3_info, n_2_info, n_1_info, ext_1_info, ext_2_info,ext_3_info, ext_1_go, ext_2_go,ext_3_go, title1,title2,title3,ext_1_view,ext_2_view,ext_3_view
     side_bar()
 
     test = ctk.CTkScrollableFrame(main_frame,fg_color=bpink,border_color=pink, border_width=2,scrollbar_button_color=pink, scrollbar_button_hover_color=dpink)
@@ -671,33 +706,45 @@ def edit():
     
     ext_1 = ctk.CTkFrame(N_10, fg_color=bpink, border_color=dpink, border_width=2)
     ext_1.place(relx=.75,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    ext_1_go = ctk.CTkButton(ext_1, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink,border_width=3,border_color=dpink)
+    ext_1_go = ctk.CTkButton(ext_1, fg_color=pink, font=(coolfont,18), text = title1, hover_color=dpink,border_width=3,border_color=dpink, command = lambda: (indicator(learn_flash), k.learn("ext_1", character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5)))
     ext_1_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
     ext_1_info = ctk.CTkLabel(ext_1, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!", corner_radius=5,border_width=2,border_color=pink)
     ext_1_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
+    ext_1_view = ctk.CTkButton(ext_1, fg_color=dpink, font=(coolfont,15), text="View/Edit Data",hover_color=ddpink, command=lambda: (indicator(view), view_load("ext_1")))
+    ext_1_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
+    ext_1_view.place_forget()
+    
 
     N = ctk.CTkFrame(test, fg_color = pink, border_color=dpink, border_width=2)
     N.pack(padx = 40, pady = 10, fill = "x")
         
     ext_2 = ctk.CTkFrame(N, fg_color=bpink, border_color=dpink, border_width=2)
     ext_2.place(relx=.25,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    ext_2_go = ctk.CTkButton(ext_2, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink,border_width=3,border_color=dpink)
+    ext_2_go = ctk.CTkButton(ext_2, fg_color=pink, font=(coolfont,18), text = title2, hover_color=dpink,border_width=3,border_color=dpink)
     ext_2_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
     ext_2_info = ctk.CTkLabel(ext_2, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!", corner_radius=5,border_width=2,border_color=pink)
     ext_2_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
+    ext_2_view = ctk.CTkButton(ext_2, fg_color=dpink, font=(coolfont,15), text="View/Edit Data",hover_color=ddpink, command=lambda: (indicator(view), view_load("ext_2")))
+    ext_2_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
+    ext_2_view.place_forget()
+
     
     divider = ctk.CTkLabel(N,fg_color=dpink, text="")
     divider.place(relx = .5, rely=.5, relwidth = .005, relheight = .95, anchor = ctk.CENTER)
         
     ext_3 = ctk.CTkFrame(N, fg_color=bpink, border_color=dpink, border_width=2)
     ext_3.place(relx=.75,rely=.5,relheight = .9, relwidth = .47, anchor = ctk.CENTER)
-    ext_3_go = ctk.CTkButton(ext_3, fg_color=pink, font=(coolfont,18), text = "Empty Deck", hover_color=dpink,border_width=3,border_color=dpink)
+    ext_3_go = ctk.CTkButton(ext_3, fg_color=pink, font=(coolfont,18), text = title3, hover_color=dpink,border_width=3,border_color=dpink)
     ext_3_go.place(relx = .5, rely = .18,relwidth = .95, relheight = .3, anchor = ctk.CENTER)
     ext_3_info = ctk.CTkLabel(ext_3, fg_color = cream, font=(coolfont,18), text_color=dpink, text = "Nothing to see here!", corner_radius=5,border_width=2,border_color=pink)
     ext_3_info.place(relx = .5, rely = .55, relwidth = .95, relheight = .4, anchor = ctk.CENTER)
+    ext_3_view = ctk.CTkButton(ext_3, fg_color=dpink, font=(coolfont,15), text="View/Edit Data",hover_color=ddpink, command=lambda: (indicator(view), view_load("ext_3")))
+    ext_3_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
+    ext_3_view.place_forget()
     
-
-    create = ctk.CTkButton(main_frame, fg_color=pink,hover_color=dpink, font = (coolfont, 15), text = "Create New Deck")
+    show_hide()
+    
+    create = ctk.CTkButton(main_frame, fg_color=pink,hover_color=dpink, font = (coolfont, 15), text = "Create New Deck", command=lambda: indicator(add_new_deck))
     create.place(relx=.56, rely=.068, relheight = .072, relwidth=.2, anchor = ctk.CENTER)
 
 def learn_flash():
@@ -868,13 +915,83 @@ def view_packing(card, serial):
     
     STATUS = ctk.CTkLabel(first,fg_color=pink, text = card["status_reading"], font=(coolfont,15))
     STATUS.place(relx=.92,rely=.5,relwidth = .14, relheight = .9,anchor = ctk.CENTER)
+
+def add_new_deck():
+    global title_deck,done
+    side_bar()
+    back = ctk.CTkFrame(main_frame, fg_color = bpink, corner_radius=5, border_width=5,border_color=dpink)
+    back.place(relx = .565, rely=.54, relwidth = .81, relheight = .84, anchor = ctk.CENTER)
+
+    pic = ctk.CTkLabel(back, fg_color=brown)
+    pic.place(relx = .5,rely=.4, relwidth = .9, relheight = .68,anchor = ctk.CENTER)
+
+
+    title_deck = ctk.CTkEntry(back, fg_color=dpink,border_color=ddpink,placeholder_text="Enter the title of your new deck!", placeholder_text_color=bpink, font=(coolfont,20))
+    title_deck.place(relx = .4, rely = .87, relwidth = .7, relheight = .1, anchor = ctk.CENTER)
+
+    done = ctk.CTkButton(back, fg_color=dpink, hover_color=ddpink, font=(coolfont,20), text = "Finished", command=lambda: intiate_title())
+    done.place(relx=.87,rely =.87,relwidth = .2, relheight =.1 , anchor = ctk.CENTER )
+
+def add_new_cards():
+    global character_entry, meaning_entry, meaning2_entry, romaji_entry, mne_read_entry, mne_mean_entry
+    side_bar()
+   
+    back = ctk.CTkFrame(main_frame, fg_color = bpink, corner_radius=5, border_width=5,border_color=dpink)
+    back.place(relx = .565, rely=.5, relwidth = .81, relheight = .78, anchor = ctk.CENTER)
+
+    pic = ctk.CTkLabel(back, fg_color=grey)
+    pic.place(relx = .8, rely = .5, relwidth = .3, relheight = .9, anchor = ctk.CENTER)
+
+
+    character_label = ctk.CTkLabel(back, fg_color=dpink, corner_radius=5, font=(coolfont,15), anchor="w", text = "Kanji:", border_color=cream, border_width=0)
+    character_label.place(relx = .08, rely = .08, relwidth = .1, relheight = .05 , anchor = ctk.CENTER)
+    character_entry = ctk.CTkEntry(back, fg_color=pink,border_color=dpink, placeholder_text="Examples: 食、方、女", placeholder_text_color=bpink, font = (coolfont,20))
+    character_entry.place(relx= .23, rely = .14,relwidth = .4, relheight =.07, anchor = ctk.CENTER)
+
+    meaning_label = ctk.CTkLabel(back, fg_color=dpink, corner_radius=5, font=(coolfont,15), anchor="w", text = "Meaning:", border_color=cream, border_width=0)
+    meaning_label.place(relx = .11, rely = .23, relwidth = .15, relheight = .05 , anchor = ctk.CENTER)
+    meaning_entry = ctk.CTkEntry(back, fg_color=pink,border_color=dpink, placeholder_text="Examples: car, toy, walk", placeholder_text_color=bpink, font = (coolfont,20))
+    meaning_entry.place(relx= .28, rely = .29,relwidth = .5, relheight =.07, anchor = ctk.CENTER)
+
+    meaning2_label = ctk.CTkLabel(back, fg_color=dpink, corner_radius=5, font=(coolfont,15), anchor="w", text = "Second Meaning:", border_color=cream, border_width=0)
+    meaning2_label.place(relx = .16, rely = .38, relwidth = .25, relheight = .05 , anchor = ctk.CENTER)
+    meaning2_entry = ctk.CTkEntry(back, fg_color=pink,border_color=dpink, placeholder_text="OPTIONAL", placeholder_text_color=bpink, font = (coolfont,20))
+    meaning2_entry.place(relx= .28, rely = .44,relwidth = .5, relheight =.07, anchor = ctk.CENTER)
+
+    romaji_label = ctk.CTkLabel(back, fg_color=dpink, corner_radius=5, font=(coolfont,15), anchor="w", text = "Romaji:", border_color=cream, border_width=0)
+    romaji_label.place(relx = .09, rely = .53, relwidth = .12, relheight = .05 , anchor = ctk.CENTER)
+    romaji_entry = ctk.CTkEntry(back, fg_color=pink,border_color=dpink, placeholder_text="Examples: tsukau, nihon, ki", placeholder_text_color=bpink, font = (coolfont,17))
+    romaji_entry.place(relx= .28, rely = .59,relwidth = .5, relheight =.07, anchor = ctk.CENTER)
+
+    mne_read_label = ctk.CTkLabel(back, fg_color=dpink, corner_radius=5, font=(coolfont,15), anchor="w", text = "Reading mnemonic:", border_color=cream, border_width=0)
+    mne_read_label.place(relx = .18, rely = .68, relwidth = .29, relheight = .05 , anchor = ctk.CENTER)
+    mne_read_entry = ctk.CTkEntry(back, fg_color=pink,border_color=dpink, placeholder_text="Put a sentence that will help u remember the reading!", placeholder_text_color=bpink, font = (coolfont,17))
+    mne_read_entry.place(relx= .48, rely = .74,relwidth = .9, relheight =.07, anchor = ctk.CENTER)
+
+    mne_mean_label = ctk.CTkLabel(back, fg_color=dpink, corner_radius=5, font=(coolfont,15), anchor="w", text = "Meaning mnemonic:", border_color=cream, border_width=0)
+    mne_mean_label.place(relx = .18, rely = .83, relwidth = .29, relheight = .05 , anchor = ctk.CENTER)
+    mne_mean_entry = ctk.CTkEntry(back, fg_color=pink,border_color=dpink, placeholder_text="Put a sentence that will help u remember the meaning!", placeholder_text_color=bpink, font = (coolfont,17))
+    mne_mean_entry.place(relx= .48, rely = .89,relwidth = .9, relheight =.07, anchor = ctk.CENTER)
+
+    add_card = ctk.CTkButton(main_frame, fg_color=dpink, border_color=ddpink, border_width=2, font=(coolfont, 20), text = "Add card to " + title, hover_color= ddpink, command=lambda: add_cards())
+    add_card.place(relx = .565, rely = .93, relwidth = .4, relheight = .07, anchor = ctk.CENTER)
+
+    back = ctk.CTkButton(main_frame, fg_color=pink, font=(coolfont, 15), text = "Back to Data Page", hover_color=dpink, command = lambda: indicator(edit))
+    back.place(relx = .565, rely = .07, relwidth = .25, relheight = .07, anchor = ctk.CENTER)
+
     
 
+    
 
-view()
+    
+
+kanji_mid()
 
 def continue_view(chosen_deck):
     global loading
+    if not chosen_deck:
+        return
+
     bottom_pos = view_frame._scrollbar.get()[1]
     
     if bottom_pos > 0.85 and not loading:
@@ -900,7 +1017,7 @@ def nextbatch(chosen_deck):
             view_packing(card, serial)
             serial += 1
 
-view_frame._parent_canvas.bind_all("<MouseWheel>", lambda event: continue_view(chosen_decks))
+
 
 def view_load(chosen_deck):
     global cover_,serial,chosen_decks
@@ -908,6 +1025,8 @@ def view_load(chosen_deck):
 
     cover_ = ctk.CTkFrame(window, fg_color=linen, border_color=brown, border_width=15)
     cover_.place(relx = 0.5, rely =0.5, relwidth =1.005, relheight = 1.005, anchor = ctk.CENTER)
+
+    view_frame._parent_canvas.bind_all("<MouseWheel>", lambda event: continue_view(chosen_decks))
 
     deck = ext.deck_n[chosen_deck]
     chosen_decks = chosen_deck
@@ -934,6 +1053,122 @@ def side_label(page):
     if page == kanji_mid or page == kanji_m:
         kanji_nr_l.configure(fg_color = brown)
 
+def intiate_title():
+    global title, ext_1_go,ext_2_go,ext_3_go, title1, deck, ext_1_view,ext_2_view,ext_3_info
+    if ext.ext1 == "Y":
+        ext.ext1 = "N"
+        ext_1_go.configure
+        title = ""
+        title = title_deck.get()
+        title1 = title
+        deck =  ext.deck_n["ext_1"]
+
+
+        if title == "":
+            title_deck.configure(placeholder_text = "Please put a title!", placeholder_text_color = ext.dwrong)
+        else:
+            indicator(add_new_cards)
+    elif ext.ext2 == "Y":
+        ext.ext2 = "N"
+        ext_2_go.configure
+        title = ""
+        title = title_deck.get()
+        title1 = title
+        deck =  ext.deck_n["ext_2"]
+
+
+        if title == "":
+            title_deck.configure(placeholder_text = "Please put a title!", placeholder_text_color = ext.dwrong)
+        else:
+            indicator(add_new_cards)
+    elif ext.ext3 == "Y":
+            ext.ext3 = "N"
+            ext_3_go.configure
+            title = ""
+            title = title_deck.get()
+            title1 = title
+            deck =  ext.deck_n["ext_3"]
+    
+    
+            if title == "":
+                title_deck.configure(placeholder_text = "Please put a title!", placeholder_text_color = ext.dwrong)
+            else:
+                indicator(add_new_cards)
+        
+def show_hide():
+    global ext_1_view, ext_2_view, ext_3_view
+    if ext.ext1 == "N":
+        ext_1_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
+    if ext.ext2 == "N":
+        ext_2_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
+    if ext.ext3 == "N":
+        ext_3_view.place(relx=.5,rely=.87, relwidth = .8, relheight = .2, anchor = ctk.CENTER)
+
+
+def add_cards():
+    global deck, character_entry, meaning_entry, meaning2_entry, romaji_entry, mne_read_entry, mne_mean_entry
+    
+    character = character_entry.get().strip()
+    if character == "":
+        character_entry.configure(placeholder_text = "Please input a character!", placeholder_text_color = ext.dwrong)
+        return
+    else:
+        radical = RADICAL_DB.get(character, [])
+
+    meaning = meaning_entry.get().strip()
+    if meaning == "":
+        meaning_entry.configure(placeholder_text = "Please put a meaning!", placeholder_text_color = ext.dwrong)
+        return
+    meaning2 = meaning2_entry.get()
+    if meaning2 == "":
+        meaning2 = None
+
+    romaji_en = romaji_entry.get().lower().strip()
+    if romaji_en == "":
+        romaji_entry.configure(placeholder_text = "Please put a romaji spelling!", placeholder_text_color = ext.dwrong)
+        return
+
+    hiragana = jaconv.alphabet2kana(romaji_en)
+    print(hiragana)
+    for letter in letter_list:
+        if letter in hiragana:
+            romaji_entry.delete(0,"end")
+            romaji_entry.configure(placeholder_text = "Please make sure you typed the romaji correctly", placeholder_text_color = ext.dwrong)
+            return
+
+
+    mne_read = mne_read_entry.get()
+    if mne_read == "":
+        mne_read_entry.configure(placeholder_text = "Please put a reading mnemonic. It will help!", placeholder_text_color = ext.dwrong)
+        return
+
+    mne_mean = mne_mean_entry.get()
+    if mne_mean == "":
+            mne_mean_entry.configure(placeholder_text = "Please put a meaning mnemonic. It will help!", placeholder_text_color = ext.dwrong)
+            return
+
+    new_dict = {"character" : character,
+                "meaning" : meaning,
+                "meaning2": meaning2,
+                "hiragana" : hiragana,
+                "romaji" : romaji_en,
+                "type" : None,
+                "radicals": radical,
+                "status_reading": 0,
+                "due_time_reading": None,
+                "status_meaning": 0,
+                "due_time_meaning": None,
+                "mnemonic_reading": mne_read,
+                "mnemonic_meaning": mne_mean}
+
+    deck.append(new_dict)
+
+    character_entry.delete(0,"end")
+    meaning_entry.delete(0,"end")
+    meaning2_entry.delete(0,"end")
+    romaji_entry.delete(0,"end")
+    mne_read_entry.delete(0,"end")
+    mne_mean_entry.delete(0,"end")
 
 
 def indicator(page):
@@ -955,6 +1190,8 @@ def indicator(page):
     resize()
     cover.update_idletasks()
     cover.place_forget()
+
+
 
 def resize_static(label, image, per, min_h, mode, min_w, text_label):
     
