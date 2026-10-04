@@ -1,6 +1,20 @@
 import datetime as dt
 
-Extra_1 = []
+Extra_1 = [{
+        "character": "一",
+        "meaning": "ngh",
+        "meaning2": None,
+        "hiragana": "いち",
+        "romaji": "ichi",
+        "type": "Numeral",
+        "radicals": ["一"],
+        "status_reading": 0,
+        "due_time_reading": None,
+        "status_meaning": 0,
+        "due_time_meaning": None,
+        "mnemonic_reading": "An itchy (ichi) finger pointing at number one.",
+        "mnemonic_meaning": "A single horizontal line representing the number one. ✨"
+    }]
 
 Extra_2 = []
 

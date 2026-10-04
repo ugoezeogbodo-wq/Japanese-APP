@@ -159,11 +159,11 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
             if deck == "ext_2":
                 for kanji in list:
                     if kanji["status_meaning"] <= 1:
-                        sh.unlearnt_ext_2 += 1
+                        unlearnt_ext_2 += 1
                         available_ext2.append(kanji)
                     if kanji["due_time_meaning"] is not None and kanji["due_time_reading"] is not None and kanji["due_time_meaning"] <= now and kanji["due_time_reading"] <= now:
                         ext.review_ext_2 += 1
-                ext_2_info.configure(text = "Ready to Learn: "+ str(sh.learn_data[deck]) + "\n Ready to Review: " + str(ext.review_ext_2) + "\nUnlearnt: " + str(unlearnt_ext_2))
+                ext_2_info.configure(text = "Ready to Learn: "+ str(get_learn_data[deck]) + "\n Ready to Review: " + str(ext.review_ext_2) + "\nUnlearnt: " + str(unlearnt_ext_2))
 
             if deck == "ext_3":
                 for kanji in list:
@@ -327,7 +327,7 @@ def update_learn(number,button,c1,c2,c3,c4,c5,character,info,radica,mnemonic):
         radicals = ", ".join(new[button]["radicals"])
         radica.configure(text = str(radicals))
         mnemonic.configure(text = "Mnemonic to help you with meaning: " + new[button]["mnemonic_meaning"] + "\nMnemonic to help you with the reading: " + new[button]["mnemonic_reading"])
-        
+
 def get_radicals():
     for rad in CD.Radicals:
         ALL_RADSS.append(rad["radical"])

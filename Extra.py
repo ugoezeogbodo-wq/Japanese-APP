@@ -45,7 +45,7 @@ dbrown = "#69362d"
 dpink = "#D05A73"
 bpink = "#EFAAB9"
 
-ext1 = "Y"
+ext1 = "N"
 ext2 = "Y"
 ext3 = "Y"
 

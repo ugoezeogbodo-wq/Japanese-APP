@@ -156,6 +156,8 @@ mne_mean_entry = None
 ext_1_view = None
 ext_2_view = None
 ext_3_view = None
+fake_sn = 0
+index = None
 
 
 
@@ -638,6 +640,7 @@ def edit():
     global n_5_info, n_4_info, n_3_info, n_2_info, n_1_info, ext_1_info, ext_2_info,ext_3_info, ext_1_go, ext_2_go,ext_3_go, title1,title2,title3,ext_1_view,ext_2_view,ext_3_view
     side_bar()
 
+
     test = ctk.CTkScrollableFrame(main_frame,fg_color=bpink,border_color=pink, border_width=2,scrollbar_button_color=pink, scrollbar_button_hover_color=dpink)
     test.place(relx = .565, rely= .69, relwidth = .81, relheight = .55, anchor = ctk.CENTER)
 
@@ -744,8 +747,12 @@ def edit():
     
     show_hide()
     
-    create = ctk.CTkButton(main_frame, fg_color=pink,hover_color=dpink, font = (coolfont, 15), text = "Create New Deck", command=lambda: indicator(add_new_deck))
-    create.place(relx=.56, rely=.068, relheight = .072, relwidth=.2, anchor = ctk.CENTER)
+    create = ctk.CTkButton(main_frame, fg_color=pink,hover_color=dpink, font = (coolfont, 15),border_color=dpink, border_width= 3, text = "Create New Deck", command=lambda: indicator(add_new_deck))
+    create.place(relx=.26, rely=.37, relheight = .072, relwidth=.2, anchor = ctk.CENTER)
+
+    delete_button = ctk.CTkButton(main_frame, fg_color=dpink,hover_color=ddpink,border_color=ddpink, border_width= 3, font = (coolfont, 15), text = "Delete a Deck", command=lambda: indicator(add_new_deck))
+    delete_button.place(relx=.47, rely=.37, relheight = .072, relwidth=.2, anchor = ctk.CENTER)
+
 
 def learn_flash():
     global character, info, radic,radica, mnemonic, c1,c2,c3,c4,c5
@@ -858,8 +865,12 @@ def view():
     organized = ctk.CTkLabel(organize,fg_color=dpink, corner_radius=5, border_width=2,border_color=ddpink)
     organized.place(relx=.5,rely=.5,relwidth=1,relheight=1,anchor = ctk.CENTER)
 
-    SN = ctk.CTkLabel(organized,fg_color=dpink, text = " SN:", anchor = "w", font=(coolfont,15))
-    SN.place(relx = .04,rely=.5, relwidth = .07,relheight = .9, anchor = ctk.CENTER)
+    if k.current_deck == "n_5" or k.current_deck == "n_4" or k.current_deck == "n_3" or k.current_deck == "n_2" or k.current_deck == "n_1":
+        SN = ctk.CTkLabel(organized,fg_color=dpink, text = " SN:", anchor = "w", font=(coolfont,15))
+        SN.place(relx = .04,rely=.5, relwidth = .07,relheight = .9, anchor = ctk.CENTER)
+    else:
+        SN = ctk.CTkLabel(organized,fg_color=dpink, text = "Edit", anchor = "w", font=(coolfont,15))
+        SN.place(relx = .04,rely=.5, relwidth = .07,relheight = .9, anchor = ctk.CENTER)
 
     divider = ctk.CTkLabel(organized, fg_color=cream, text="")
     divider.place(relx = .08, rely = .5, relwidth = .003, relheight = .9, anchor = ctk.CENTER)
@@ -885,12 +896,21 @@ def view():
     STATUS = ctk.CTkLabel(organized,fg_color=dpink, text = " Status:", anchor = "w", font=(coolfont,15))
     STATUS.place(relx=.92,rely=.5,relwidth = .14, relheight = .9,anchor = ctk.CENTER)
 
-def view_packing(card, serial):
+    back = ctk.CTkButton(main_frame, fg_color=pink, font=(coolfont, 15), text = "Back to Data Page", hover_color=dpink, command = lambda: indicator(edit))
+    back.place(relx = .565, rely = .08, relwidth = .25, relheight = .07, anchor = ctk.CENTER)
+
+def view_packing(card, serial,index):
     first = ctk.CTkLabel(view_frame, fg_color=pink, border_color=cream,border_width=0)
     first.pack(padx = 5, pady = 5, fill = "x", ipady=20)
 
-    SN= ctk.CTkLabel(first,fg_color=pink, text = serial, font=(coolfont,15))
-    SN.place(relx = .04,rely=.5, relwidth = .07,relheight = .9, anchor = ctk.CENTER)
+    if k.current_deck == "n_5" or k.current_deck == "n_4" or k.current_deck == "n_3" or k.current_deck == "n_2" or k.current_deck == "n_1":
+
+        SN= ctk.CTkLabel(first,fg_color=pink, text = serial, font=(coolfont,15))
+        SN.place(relx = .04,rely=.5, relwidth = .07,relheight = .9, anchor = ctk.CENTER)
+    else:
+        SN= ctk.CTkButton(first,fg_color=dpink, text = "Edit", font=(coolfont,15), border_width=1, border_color = ddpink, hover_color=ddpink, command = lambda i=index: edit_card(i))
+        SN.place(relx = .04,rely=.5, relwidth = .07,relheight = .9, anchor = ctk.CENTER)
+
     
     divider = ctk.CTkLabel(first, fg_color=cream, text="")
     divider.place(relx = .08, rely = .5, relwidth = .003, relheight = .9, anchor = ctk.CENTER)
@@ -932,6 +952,9 @@ def add_new_deck():
     done = ctk.CTkButton(back, fg_color=dpink, hover_color=ddpink, font=(coolfont,20), text = "Finished", command=lambda: intiate_title())
     done.place(relx=.87,rely =.87,relwidth = .2, relheight =.1 , anchor = ctk.CENTER )
 
+    back = ctk.CTkButton(main_frame, fg_color=pink, font=(coolfont, 15), text = "Back to Data Page", hover_color=dpink, command = lambda: indicator(edit))
+    back.place(relx = .565, rely = .07, relwidth = .25, relheight = .07, anchor = ctk.CENTER)
+
 def add_new_cards():
     global character_entry, meaning_entry, meaning2_entry, romaji_entry, mne_read_entry, mne_mean_entry
     side_bar()
@@ -946,7 +969,7 @@ def add_new_cards():
     character_label = ctk.CTkLabel(back, fg_color=dpink, corner_radius=5, font=(coolfont,15), anchor="w", text = "Kanji:", border_color=cream, border_width=0)
     character_label.place(relx = .08, rely = .08, relwidth = .1, relheight = .05 , anchor = ctk.CENTER)
     character_entry = ctk.CTkEntry(back, fg_color=pink,border_color=dpink, placeholder_text="Examples: 食、方、女", placeholder_text_color=bpink, font = (coolfont,20))
-    character_entry.place(relx= .23, rely = .14,relwidth = .4, relheight =.07, anchor = ctk.CENTER)
+    character_entry.place(relx= .33, rely = .14,relwidth = .6, relheight =.07, anchor = ctk.CENTER)
 
     meaning_label = ctk.CTkLabel(back, fg_color=dpink, corner_radius=5, font=(coolfont,15), anchor="w", text = "Meaning:", border_color=cream, border_width=0)
     meaning_label.place(relx = .11, rely = .23, relwidth = .15, relheight = .05 , anchor = ctk.CENTER)
@@ -973,19 +996,25 @@ def add_new_cards():
     mne_mean_entry = ctk.CTkEntry(back, fg_color=pink,border_color=dpink, placeholder_text="Put a sentence that will help u remember the meaning!", placeholder_text_color=bpink, font = (coolfont,17))
     mne_mean_entry.place(relx= .48, rely = .89,relwidth = .9, relheight =.07, anchor = ctk.CENTER)
 
-    add_card = ctk.CTkButton(main_frame, fg_color=dpink, border_color=ddpink, border_width=2, font=(coolfont, 20), text = "Add card to " + title, hover_color= ddpink, command=lambda: add_cards())
-    add_card.place(relx = .565, rely = .93, relwidth = .4, relheight = .07, anchor = ctk.CENTER)
+    if title is not None:
+        add_card = ctk.CTkButton(main_frame, fg_color=dpink, border_color=ddpink, border_width=2, font=(coolfont, 20), text = "Add card to " + title, hover_color= ddpink, command=lambda: add_cards())
+        add_card.place(relx = .565, rely = .93, relwidth = .4, relheight = .07, anchor = ctk.CENTER)
+
+    else:
+        update = ctk.CTkButton(main_frame, fg_color = pink, font = (coolfont, 20), text = "Update Card", command=lambda: update_but())
+        update.place(relx = .415, rely = .93, relwidth = .3, relheight = .07, anchor = ctk.CENTER)
+        delete = ctk.CTkButton(main_frame,fg_color=dpink, font = (coolfont, 20),text = "Delete Card", command=lambda: delete_button())
+        delete.place(relx = .715, rely = .93, relwidth = .2, relheight = .07, anchor = ctk.CENTER)
+
 
     back = ctk.CTkButton(main_frame, fg_color=pink, font=(coolfont, 15), text = "Back to Data Page", hover_color=dpink, command = lambda: indicator(edit))
     back.place(relx = .565, rely = .07, relwidth = .25, relheight = .07, anchor = ctk.CENTER)
 
-    
+      
 
     
 
-    
-
-kanji_mid()
+add_new_cards()
 
 def continue_view(chosen_deck):
     global loading
@@ -1017,25 +1046,110 @@ def nextbatch(chosen_deck):
             view_packing(card, serial)
             serial += 1
 
+def update_but():
+    global deck, character_entry, meaning_entry, meaning2_entry, romaji_entry, mne_read_entry, mne_mean_entry,index
+    
+    character = character_entry.get().strip()
+    if character == "":
+        character_entry.configure(placeholder_text = "Please input a character!", placeholder_text_color = ext.dwrong)
+        return
+    else:
+        radical = RADICAL_DB.get(character, [])
+
+    meaning = meaning_entry.get().strip()
+    if meaning == "":
+        meaning_entry.configure(placeholder_text = "Please put a meaning!", placeholder_text_color = ext.dwrong)
+        return
+    meaning2 = meaning2_entry.get()
+    if meaning2 == "":
+        meaning2 = None
+
+    romaji_en = romaji_entry.get().lower().strip()
+    if romaji_en == "":
+        romaji_entry.configure(placeholder_text = "Please put a romaji spelling!", placeholder_text_color = ext.dwrong)
+        return
+
+    hiragana = jaconv.alphabet2kana(romaji_en)
+    print(hiragana)
+    for letter in letter_list:
+        if letter in hiragana:
+            romaji_entry.delete(0,"end")
+            romaji_entry.configure(placeholder_text = "Please make sure you typed the romaji correctly", placeholder_text_color = ext.dwrong)
+            return
+
+
+    mne_read = mne_read_entry.get()
+    if mne_read == "":
+        mne_read_entry.configure(placeholder_text = "Please put a reading mnemonic. It will help!", placeholder_text_color = ext.dwrong)
+        return
+
+    mne_mean = mne_mean_entry.get()
+    if mne_mean == "":
+            mne_mean_entry.configure(placeholder_text = "Please put a meaning mnemonic. It will help!", placeholder_text_color = ext.dwrong)
+            return
+
+    new_dict = {"character" : character,
+                "meaning" : meaning,
+                "meaning2": meaning2,
+                "hiragana" : hiragana,
+                "romaji" : romaji_en,
+                "type" : None,
+                "radicals": radical,
+                "status_reading": 0,
+                "due_time_reading": None,
+                "status_meaning": 0,
+                "due_time_meaning": None,
+                "mnemonic_reading": mne_read,
+                "mnemonic_meaning": mne_mean}
+
+    deck[index] = new_dict
+    indicator(view)
+    view_load(deck)
+
+def delete_button():
+    global index
+    del deck[index]
+    if len(deck) == 0:
+        if deck == ext.deck_n["ext_1"]:
+            ext.ext1 = "Y"
+        if deck == ext.deck_n["ext_2"]:
+            ext.ext2 = "Y"    
+        if deck == ext.deck_n["ext_3"]:
+            ext.ext3 = "Y"
+            
+    indicator(view)
+    view_load(deck)
 
 
 def view_load(chosen_deck):
-    global cover_,serial,chosen_decks
+    global cover_,serial,chosen_decks, deck
 
 
     cover_ = ctk.CTkFrame(window, fg_color=linen, border_color=brown, border_width=15)
     cover_.place(relx = 0.5, rely =0.5, relwidth =1.005, relheight = 1.005, anchor = ctk.CENTER)
 
+    try:
+        deck = ext.deck_n[chosen_deck]
+    except:
+            for name, deck_test in ext.deck_n.items():
+                    if chosen_deck == deck_test:
+                        chosen_deck = name
+    
+    
+    chosen_decks = chosen_deck
+    k.current_deck = chosen_deck
+    serial = 1
+    print(chosen_decks)
+
+
     view_frame._parent_canvas.bind_all("<MouseWheel>", lambda event: continue_view(chosen_decks))
 
-    deck = ext.deck_n[chosen_deck]
-    chosen_decks = chosen_deck
     
-    for card in deck:
+    for index, card in enumerate(deck):
         if serial > 8:
             break
         else:
-            view_packing(card, serial)
+            view_packing(card, serial,index)
             serial += 1
 
 
@@ -1169,6 +1283,7 @@ def add_cards():
     romaji_entry.delete(0,"end")
     mne_read_entry.delete(0,"end")
     mne_mean_entry.delete(0,"end")
+    print(deck)
 
 
 def indicator(page):
@@ -1242,9 +1357,21 @@ def resize_static(label, image, per, min_h, mode, min_w, text_label):
     label.configure(image=scaled_img)
     label.image_ref = scaled_img
 
+def edit_card(i):
+    global deck,index
+    indicator(add_new_cards)
+    card = deck[i]
+    index = i
+    character_entry, meaning_entry, meaning2_entry, romaji_entry, mne_read_entry, mne_mean_entry
+    character_entry.insert(0, card["character"])
+    meaning_entry.insert(0, card["meaning"])
+    if card["meaning2"]:
+        meaning2_entry.insert(0, card["meaning2"])
+    romaji_entry.insert(0, card["romaji"])
+    mne_read_entry.insert(0, card["mnemonic_reading"])
+    mne_mean_entry.insert(0, card["mnemonic_meaning"])
 
-
-
+    
 
 def resize(e=None):
     if e is not None and e.widget != window:
