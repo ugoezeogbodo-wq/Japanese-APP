@@ -97,6 +97,9 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
     available_ext2 = []
     available_ext3 = []
 
+    #once decks are mde update updte to alow empty dek
+
+
     for deck in decks:
         if ext.deck_n[deck]:
             list = ext.deck_n[deck]

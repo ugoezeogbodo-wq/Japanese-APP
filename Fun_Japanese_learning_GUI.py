@@ -5,12 +5,11 @@ import customtkinter as ctk
 import Extra as ext
 from PIL import Image
 import Kanji as k
-import pykakasi
 import json
 import jaconv
 
 
-kks = pykakasi.kakasi()
+
 
 with open("kradfile-3.6.2.json", "r", encoding="utf-8") as f:
     data = json.load(f)
@@ -142,7 +141,7 @@ serial = 1
 amount = 0
 chosen_decks = ""
 loading = False
-title1 = "Empty Deck"
+title1 = "COOL KANJI"
 title2 = "Empty Deck"
 title3 = "Empty Deck"
 title = None
@@ -158,6 +157,9 @@ ext_2_view = None
 ext_3_view = None
 fake_sn = 0
 index = None
+del_button_1 = None
+del_button_2 = None
+del_button_3 = None
 
 
 
@@ -637,7 +639,7 @@ def finished():
     finished.place(rely=0.5, relx=0.565,relwidth = 0.8, relheight= 0.85, anchor = ctk.CENTER)
 
 def edit():
-    global n_5_info, n_4_info, n_3_info, n_2_info, n_1_info, ext_1_info, ext_2_info,ext_3_info, ext_1_go, ext_2_go,ext_3_go, title1,title2,title3,ext_1_view,ext_2_view,ext_3_view
+    global n_5_info, n_4_info, n_3_info, n_2_info, n_1_info, ext_1_info, ext_2_info,ext_3_info, ext_1_go, ext_2_go,ext_3_go, title1,title2,title3,ext_1_view,ext_2_view,ext_3_view,title
     side_bar()
 
 
@@ -750,8 +752,10 @@ def edit():
     create = ctk.CTkButton(main_frame, fg_color=pink,hover_color=dpink, font = (coolfont, 15),border_color=dpink, border_width= 3, text = "Create New Deck", command=lambda: indicator(add_new_deck))
     create.place(relx=.26, rely=.37, relheight = .072, relwidth=.2, anchor = ctk.CENTER)
 
-    delete_button = ctk.CTkButton(main_frame, fg_color=dpink,hover_color=ddpink,border_color=ddpink, border_width= 3, font = (coolfont, 15), text = "Delete a Deck", command=lambda: indicator(add_new_deck))
+    delete_button = ctk.CTkButton(main_frame, fg_color=dpink,hover_color=ddpink,border_color=ddpink, border_width= 3, font = (coolfont, 15), text = "Delete a Deck", command=lambda: indicator(delete_deck))
     delete_button.place(relx=.47, rely=.37, relheight = .072, relwidth=.2, anchor = ctk.CENTER)
+
+    title = None
 
 
 def learn_flash():
@@ -1010,11 +1014,85 @@ def add_new_cards():
     back = ctk.CTkButton(main_frame, fg_color=pink, font=(coolfont, 15), text = "Back to Data Page", hover_color=dpink, command = lambda: indicator(edit))
     back.place(relx = .565, rely = .07, relwidth = .25, relheight = .07, anchor = ctk.CENTER)
 
-      
+def delete_deck():
+    global title1, title2,title3, del_button_1, del_button_2, del_button_3
+    side_bar()
+
+    delete_label = ctk.CTkLabel(main_frame, fg_color = pink, border_width=3, border_color=ddpink)
+    delete_label.place(relx=0.565,rely=.4,relwidth=.7,relheight=.55, anchor = ctk.CENTER)  
+
+    kai_bubble = ctk.CTkLabel(delete_label, fg_color=ddpink)
+    kai_bubble.place(relx = .5,rely=.22,relheight=.5,relwidth = .95, anchor = ctk.CENTER)   
+
+    kai_picture = ctk.CTkLabel(delete_label, fg_color=pink) 
+    kai_picture.place(relx=.83,rely=.5,relwidth = .3,relheight=0.95, anchor = ctk.CENTER)
+
+    delete_c = ctk.CTkFrame(delete_label, fg_color=pink, corner_radius=3, border_color = dpink, border_width=2)
+    delete_c.place(relx=.35,rely=.74, relwidth = .67, relheight = .45, anchor = ctk.CENTER)
+
+    del_button_1 = ctk.CTkButton(delete_c,fg_color=dpink, border_color = ddpink, border_width=2, font = (coolfont, 20), hover_color=ddpink, command=lambda: DELETE_BUTTUN_FUNC_p1(title1, 1))
+    del_button_2 = ctk.CTkButton(delete_c,fg_color=dpink, border_color = ddpink, border_width=2,font = (coolfont, 20), hover_color=ddpink, command=lambda: DELETE_BUTTUN_FUNC_p1(title2, 2))
+    del_button_3 = ctk.CTkButton(delete_c,fg_color=dpink, border_color = ddpink, border_width=2,font = (coolfont, 20), hover_color=ddpink, command=lambda: DELETE_BUTTUN_FUNC_p1(title3,3))
+
+    back = ctk.CTkButton(main_frame, fg_color=pink, font=(coolfont, 15), text = "Back to Data Page", hover_color=dpink, command = lambda: indicator(edit))
+    back.place(relx = .565, rely = .07, relwidth = .25, relheight = .07, anchor = ctk.CENTER)
 
     
 
-add_new_cards()
+    if ext.ext1 == "N":
+        del_button_1.configure(text = title1)
+        del_button_1.pack(fill = "x", padx = 10,pady = 9, ipady = 10)
+    if ext.ext2 == "N":
+            del_button_2.configure(text = title2)
+            del_button_2.pack(fill = "x", padx = 10,pady = 5, ipady = 10)
+    if ext.ext3 == "N":
+            del_button_3.configure(text = title3)
+            del_button_3.pack(fill = "x", padx = 10,pady = 5, ipady = 10)
+
+    
+
+    
+
+delete_deck()
+
+def DELETE_BUTTUN_FUNC_p1(num,extt):
+    global title1,title2,title3
+
+    are_u = ctk.CTkFrame(main_frame, fg_color=grey)
+    are_u.place(relx = .565,rely=.82, relwidth = .65, relheight = .25, anchor = ctk.CENTER)
+    
+    SURE = ctk.CTkLabel(are_u, fg_color = dgrey, text = "Are you sure you want \nto delete " + num + "?", font = (coolfont,20))
+    SURE.pack(fill = "x", padx = 10, pady = 5, ipady = 40)
+    
+    yes = ctk.CTkButton(are_u, fg_color=ext.right, text = "YES", hover_color=ext.dright, font = (coolfont,20), command = lambda: yes(extt))
+    yes.pack(fill = "x", expand = "True", side = "left", padx = 20, ipady = 15, pady=10)
+    
+    no = ctk.CTkButton(are_u, fg_color=ext.wrong, text = "NO", hover_color=ext.dwrong, font = (coolfont,20), command=lambda: no())
+    no.pack(fill = "x", expand = "True", side = "right", padx = 20, ipady = 15, pady = 10)
+
+    def yes(extt):   
+        global title1
+        if extt == 1:
+            ext.deck_n["ext_1"] = []
+            title1 ="Empty deck"
+            ext.ext1 = "Y"
+        if extt == 2:
+            ext.deck_n["ext_2"] = []
+            title1 ="Empty deck"
+            ext.ext2 = "Y"
+        if extt == 3:
+            ext.deck_n["ext_2"] = []
+            title1 ="Empty deck"
+            ext.ext3 = "Y"
+
+        indicator(delete_deck)
+
+    def no():
+        are_u.place_forget()
+
+
+
+
 
 def continue_view(chosen_deck):
     global loading
@@ -1043,7 +1121,7 @@ def nextbatch(chosen_deck):
         if serial >= amount:
             break
         else:
-            view_packing(card, serial)
+            view_packing(card, serial,index)
             serial += 1
 
 def update_but():
@@ -1371,7 +1449,6 @@ def edit_card(i):
     mne_read_entry.insert(0, card["mnemonic_reading"])
     mne_mean_entry.insert(0, card["mnemonic_meaning"])
 
-    
 
 def resize(e=None):
     if e is not None and e.widget != window:
