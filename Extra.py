@@ -44,6 +44,7 @@ dgrey = "#507065"
 dbrown = "#69362d"
 dpink = "#D05A73"
 bpink = "#EFAAB9"
+ddpink = "#A14055"
 
 ext1 = "N"
 ext2 = "Y"

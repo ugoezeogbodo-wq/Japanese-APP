@@ -21,6 +21,13 @@ available_ext1 = []
 available_ext2 = []
 available_ext3 = []
 current_deck = ""
+pressed = "No"
+c_charcater = None
+c_card = None
+ans = None
+c_meaning = None
+c_button = None
+count = 0
 
 
 limit = 10
@@ -179,7 +186,9 @@ def update(n_5_info,n_4_info,n_3_info,n_2_info,n_1_info,ext_1_info,ext_2_info,ex
 
 
 def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5):
-    global new,current_deck
+    global new,current_deck, sub_stage
+
+    sub_stage = 0
 
     if button == "n_5":
        if today < limit:
@@ -455,5 +464,89 @@ def check(target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8):
             print("Try again!")
     else:
         print("You still need to add "+ str(-1 * (len(current)-length)) + " more radical(s)!")
+
+def meaning_connect_function(meaning_connect,indicator,page, meaning2_connect):
+    global new
+    if sub_stage == len(new):
+        indicator(page)
+        for i in range(len(new)):
+            meaning_connect(new[i]["character"])
+        random.shuffle(new)
+        for i in range(len(new)):
+            meaning2_connect(new[i]["meaning"])
+
+
+def meaning_connect_but(button):
+    global pressed,c_charcater, c_card, ans, c_meaning, c_button, count
+    ans = button.cget("text")
+
+
+    if pressed == "No":
+        ans = button.cget("text")
+        for card in new:
+            if ans == card["character"]:
+                c_charcater = "Y"
+                c_meaning = "N"
+                c_card = card
+                button.configure(fg_color = ext.ddpink)
+                c_button = button
+                pressed = "Yes"
+            elif ans == card["meaning"]:
+                c_charcater = "N"
+                c_meaning = "Y"
+                c_card = card
+                c_button = button
+                button.configure(fg_color = ext.ddpink)
+                pressed = "Yes"
+    else:
+        for card in new:
+            if c_charcater == "Y":
+                for card in new:
+                    if ans == card["character"]:
+                        print("Please press a meaning card")
+                    if ans == c_card["meaning"]:
+                        pressed = "No"
+                        c_charcater = None
+                        c_meaning = None
+                        print("Goodjob!!")
+                        c_button.destroy()
+                        button.destroy()
+                        count += 1
+                        break
+                    else:
+                        c_charcater = None
+                        c_meaning = None
+                        pressed = "No"
+                        print("Ooops, try again")
+                        c_button.configure(fg_color = ext.dpink)
+                        count += 1
+                        break
+                    
+            if c_charcater == "N":
+                for card in new:
+                    if ans == card["meaning"]:
+                        print("Please press a character card")
+                    if ans == c_card["character"]:
+                        pressed = "No"
+                        c_charcater = None
+                        c_meaning = None
+                        print("Goodjob!!")
+                        c_button.destroy()
+                        button.destroy()
+                        count += 1
+                        break
+                    else:
+                        c_charcater = None
+                        c_meaning = None
+                        pressed = "No"
+                        print("Ooops, try again")
+                        c_button.configure(fg_color = ext.dpink)
+                        count += 1
+                        break
+if count == len(new):
+    print("Done")
+
+    
+            
 
 get_radicals()

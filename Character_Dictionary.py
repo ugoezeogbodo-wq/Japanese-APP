@@ -233,9 +233,9 @@ Kanji_n5 = [
         "romaji": "ichi",
         "type": "Numeral",
         "radicals": ["一"],
-        "status_reading": 22,
+        "status_reading": 0,
         "due_time_reading": None,
-        "status_meaning": 22,
+        "status_meaning": 0,
         "due_time_meaning": None,
         "mnemonic_reading": "An itchy (ichi) finger pointing at number one.",
         "mnemonic_meaning": "A single horizontal line representing the number one. ✨"
@@ -248,9 +248,9 @@ Kanji_n5 = [
         "romaji": "ni",
         "type": "Numeral",
         "radicals": ["二"],
-        "status_reading": 22,
+        "status_reading": 0,
         "due_time_reading": None,
-        "status_meaning": 22,
+        "status_meaning": 0,
         "due_time_meaning": None,
         "mnemonic_reading": "Look at my knee (ni), I have two of them!",
         "mnemonic_meaning": "Two horizontal lines representing the number two."

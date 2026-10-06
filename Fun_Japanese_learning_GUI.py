@@ -804,6 +804,7 @@ def learn_flash():
     done.place(relx=.9,rely=.93, relwidth = .12, relheight = .07, anchor = ctk.CENTER)
 
 def radical_build():
+
     global target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8
     side_bar()
 
@@ -852,8 +853,44 @@ def radical_build():
     undo = ctk.CTkButton(back, text = "Undo", font = (coolfont, 20), fg_color=cream, text_color=dpink, border_color=dpink,border_width=2, hover_color=linen, command=lambda: k.undo(assemble,b1,b2,b3,b4,b5,b6,b7,b8))
     undo.place(relx=.48,rely=.92,relwidth = .15,relheight = .1, anchor = ctk.CENTER)
 
-    Check = ctk.CTkButton(back, text = "Check", font = (coolfont, 20), fg_color=cream, text_color=dpink, border_color=dpink,border_width=2, hover_color=linen, command=lambda: k.check(target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8))
+    Check = ctk.CTkButton(back, text = "Check", font = (coolfont, 20), fg_color=cream, text_color=dpink, border_color=dpink,border_width=2, hover_color=linen, command=lambda: (k.check(target, assemble, choices,b1,b2,b3,b4,b5,b6,b7,b8), k.meaning_connect_function(kanji_button, indicator, meaning_connect, meaning_button)))
     Check.place(relx=.64,rely=.92,relwidth = .15,relheight = .1, anchor = ctk.CENTER)
+
+def meaning_connect():
+    global kanji_back,meaning_back
+    side_bar()
+
+    header = ctk.CTkLabel(main_frame, fg_color = cream, font=(coolfont,15), text = "Stage 3: Connect the Meaning!", text_color=dpink, corner_radius=5,border_width=3,border_color=dpink)
+    header.place(relx=.565, rely=.07,relwidth = .4,relheight =.07, anchor = ctk.CENTER)
+        
+    back = ctk.CTkFrame(main_frame, fg_color = bpink, corner_radius=5, border_width=5,border_color=dpink)
+    back.place(relx = .565, rely=.54, relwidth = .81, relheight = .84, anchor = ctk.CENTER)
+
+    kanji_back = ctk.CTkFrame(back, fg_color=bpink)
+    kanji_back.place(relx = .15, rely=.5, relwidth = .25,relheight = .9, anchor = ctk.CENTER)
+
+    meaning_back = ctk.CTkFrame(back, fg_color=bpink)
+    meaning_back.place(relx = .43, rely=.5, relwidth = .25,relheight = .9, anchor = ctk.CENTER)
+
+    kai_back = ctk.CTkFrame(back, fg_color=dpink)
+    kai_back.place(relx = .565, rely=.5, relwidth = .0035,relheight = 1, anchor = ctk.CENTER)
+
+    kai_back = ctk.CTkFrame(back, fg_color=ddpink)
+    kai_back.place(relx = .78, rely=.5, relwidth = .4,relheight = .9, anchor = ctk.CENTER)
+
+    
+    
+def kanji_button(kanji):
+    kanji_spawn = ctk.CTkButton(kanji_back, fg_color=dpink, border_color=ddpink, border_width=3, font=(coolfont,20), hover_color=ddpink, text = kanji)
+    kanji_spawn.pack(fill = "x", padx = 30, pady = 10, anchor = 'center', expand = True, ipady = 20)
+    kanji_spawn.configure(command=lambda btn = kanji_spawn: k.meaning_connect_but(btn))
+
+def meaning_button(meaning):
+
+    meaning_spawn = ctk.CTkButton(meaning_back, fg_color=dpink, border_color=ddpink, border_width=3, font=(coolfont,15), hover_color=ddpink, text = meaning)
+    meaning_spawn.pack(fill = "x", padx = 10, pady = 10, anchor = 'center', expand = True, ipady = 20)
+    meaning_spawn.configure(command=lambda btn = meaning_spawn: k.meaning_connect_but(btn))
+
 
 def view():
     global view_frame
@@ -1051,9 +1088,6 @@ def delete_deck():
 
     
 
-    
-
-delete_deck()
 
 def DELETE_BUTTUN_FUNC_p1(num,extt):
     global title1,title2,title3
