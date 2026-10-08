@@ -160,8 +160,22 @@ index = None
 del_button_1 = None
 del_button_2 = None
 del_button_3 = None
+start = None
+count_down = None
+count_downa = None
+kanji_label = None
+nine_grid = None
+one_button = None
+two_button = None
+three_button = None
+five_button = None
+four_button = None
+six_button = None
+seven_button = None
+eight_button = None
+nine_button = None
 
-
+button_list = [one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button]
 
 ctk.FontManager.load_font("Matcha Mint.ttf")
 coolfont = "Matcha Mint"
@@ -338,20 +352,19 @@ def kanji_mid():
     side_bar()
     kai_pic = ctk.CTkLabel(main_frame, fg_color=linen, image=ext.kai_mid_image, text = "")
     kai_pic.place(relx = 0.295, rely = .45,relwidth = 0.25, relheight = 0.8, anchor= ctk.CENTER)
-    kai_text = ctk.CTkLabel(main_frame, fg_color=linen, image=ext.kai_text_image, text="hiii", font=(coolfont, 30), anchor="w")
+    kai_text = ctk.CTkLabel(main_frame, fg_color=grey, image=ext.kai_text_image, text="hiii", font=(coolfont, 30), anchor="w")
     kai_text.place(relx = .685, rely = .255 , relwidth = .56, relheight = .4, anchor = ctk.CENTER)
     
     kanji_mcq = ctk.CTkButton(main_frame, fg_color=pink, border_color=cream, border_width=5, corner_radius=10, 
                                     text="Multiple\n Choice", text_color=cream, hover_color=dpink, font=(coolfont, 30), command= lambda: (indicator(kanji_m),kp.load_new_deck_hira(m_target_l=m_target_l, m_one=m_one, m_two=m_two, m_three=m_three, m_four=m_four, m_target_lt=m_target_lt, m_romaji=m_romaji, indicator=indicator, finished=finished),side_label(page = kanji_m)))
     kanji_mcq.place(relx = 0.58, rely = .6, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
-    kanji_mcq_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Super easy!\nreccomend for \nbegginers!", text_color=dpink, font=(coolfont,17, "italic"))
-    kanji_mcq_label.place(relx = 0.76, rely = .52, relwidth = .2, relheight = .17)
+
+    options = ctk.CTkOptionMenu(main_frame,fg_color=grey)
+    options.place(relx = .8, rely = .6,relwidth = .3,relheight = .4, anchor = ctk.CENTER)
             
     kanji_text = ctk.CTkButton(main_frame, fg_color=pink, border_color=cream, border_width=5, corner_radius=10, 
                                            text="Text\n Answers", text_color=cream, hover_color=dpink, font=(coolfont, 30), command= lambda: (indicator(kanji_mt), kp.load_new_deck_hira(m_target_l=m_target_l, m_one=m_one, m_two=m_two, m_three=m_three, m_four=m_four, m_target_lt=m_target_lt, m_romaji=m_romaji, indicator=indicator, finished=finished),side_label(page = kanji_m)))
     kanji_text.place(relx = 0.58, rely = .84, relwidth = .3, relheight = .2, anchor = ctk.CENTER )
-    kanji_text_label = ctk.CTkLabel(main_frame,fg_color=linen, text= "Little hard!\n So it requires \nsome \nmastery", text_color=dpink, font=(coolfont,18, "italic"))
-    kanji_text_label.place(relx = 0.76, rely = .75, relwidth = .22, relheight = .17)
     
     kanji_edit = ctk.CTkButton(main_frame, fg_color=pink, border_color=cream, text="Edit data", font = (coolfont, 15), hover_color=dpink,
                                    text_color=cream, corner_radius=5, border_width=5, command= lambda: indicator(page = edit))
@@ -872,11 +885,14 @@ def meaning_connect():
     meaning_back = ctk.CTkFrame(back, fg_color=bpink)
     meaning_back.place(relx = .43, rely=.5, relwidth = .25,relheight = .9, anchor = ctk.CENTER)
 
-    kai_back = ctk.CTkFrame(back, fg_color=dpink)
-    kai_back.place(relx = .565, rely=.5, relwidth = .0035,relheight = 1, anchor = ctk.CENTER)
+    divida = ctk.CTkFrame(back, fg_color=dpink)
+    divida.place(relx = .565, rely=.5, relwidth = .0035,relheight = 1, anchor = ctk.CENTER)
 
     kai_back = ctk.CTkFrame(back, fg_color=ddpink)
     kai_back.place(relx = .78, rely=.5, relwidth = .4,relheight = .9, anchor = ctk.CENTER)
+
+    tezt_go = ctk.CTkButton(main_frame,fg_color = "blue", command=lambda: indicator(whackaa))
+    tezt_go.place(relx = .565,rely=.9,relwidth = .1,relheight = .1, anchor = ctk.CENTER)
 
     
     
@@ -1087,7 +1103,80 @@ def delete_deck():
             del_button_3.pack(fill = "x", padx = 10,pady = 5, ipady = 10)
 
     
+def whackaa():
+    global start, count_downa,count_down, kanji_label,nine_grid, timer
+    side_bar()
+    
+    header = ctk.CTkLabel(main_frame, fg_color = cream, font=(coolfont,15), text = "Stage 4: Whack the Reading!", text_color=dpink, corner_radius=5,border_width=3,border_color=dpink)
+    header.place(relx=.565, rely=.07,relwidth = .4,relheight =.07, anchor = ctk.CENTER)
+            
+    back = ctk.CTkFrame(main_frame, fg_color = bpink, corner_radius=5, border_width=5,border_color=dpink)
+    back.place(relx = .565, rely=.54, relwidth = .81, relheight = .84, anchor = ctk.CENTER)
 
+    divida = ctk.CTkFrame(back, fg_color=dpink)
+    divida.place(relx = .565, rely=.5, relwidth = .0035,relheight = .99, anchor = ctk.CENTER)
+    
+    kai_back = ctk.CTkFrame(back, fg_color=ddpink)
+    kai_back.place(relx = .78, rely=.5, relwidth = .4,relheight = .9, anchor = ctk.CENTER)
+
+    nine_grid = ctk.CTkFrame(back,fg_color=bpink)
+    nine_grid.place(relx=.2825, rely= .63, relwidth = .5, relheight = .5, anchor = ctk.CENTER)
+
+    timer = ctk.CTkLabel(back, fg_color=dpink,corner_radius=10, border_color=ddpink,border_width=2,font=(coolfont,20), text = "")
+    timer.place(relx = .2825, rely=.31, relwidth = .5, relheight = .1, anchor = ctk.CENTER)
+
+    kanji_label = ctk.CTkLabel(back, fg_color=ddpink, font = (coolfont,50),corner_radius=5, border_color =cream, border_width=3)
+    kanji_label.place(relx = .2825, rely = .15, relwidth = .5,relheight = .2, anchor = ctk.CENTER )
+    
+
+    start = ctk.CTkButton(back, fg_color=cream,font=(coolfont,20), text = "Start", command=lambda: start_goo(3), text_color=dpink, hover_color=linen)
+    start.place(relx = .2825, rely = .93, relwidth = .4, relheight = .08, anchor = ctk.CENTER)
+
+    count_down = ctk.CTkFrame(main_frame, fg_color=brown, corner_radius=5, border_color=dbrown,border_width=4)
+
+    
+    count_downa = ctk.CTkLabel(count_down, fg_color=brown, corner_radius=5, border_color=dbrown,border_width=4, font=(coolfont,100))
+    count_downa.place(relx = .5, rely = .5, relwidth = 1, relheight = 1.01, anchor = ctk.CENTER)
+
+    def ninebynine():
+        global kanji_label,nine_grid, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button
+
+        for i in range(3):
+            nine_grid.grid_columnconfigure(i, weight=1)
+            nine_grid.grid_rowconfigure(i, weight=1)
+
+        one_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink, state = "disabled", text = "Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(one_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        one_button.grid(row=0, column=0, padx=5, pady=5,sticky = "nsew")
+
+        two_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink,state = "disabled", text ="Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(two_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        two_button.grid(row=0, column=1, padx=5, pady=5,sticky = "nsew")
+
+        three_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink,state = "disabled", text = "Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(three_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        three_button.grid(row=0, column=2, padx=5, pady=5,sticky = "nsew")
+
+        four_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink,state = "disabled", text = "Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(four_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        four_button.grid(row=1, column=0, padx=5, pady=5,sticky = "nsew")
+
+        five_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink, state = "disabled",text = "Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(five_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        five_button.grid(row=1, column=1, padx=5, pady=5,sticky = "nsew")
+
+        six_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink,state = "disabled", text = "Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(six_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        six_button.grid(row=1, column=2, padx=5, pady=5,sticky = "nsew")
+
+        seven_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink,state = "disabled", text = "Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(seven_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        seven_button.grid(row=2, column=0, padx=5, pady=5,sticky = "nsew")
+
+        eight_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink, state = "disabled",text = "Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(eight_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        eight_button.grid(row=2, column=1, padx=5, pady=5,sticky = "nsew")
+
+        nine_button = ctk.CTkButton(nine_grid, fg_color=dpink, corner_radius=100, border_color=ddpink,state = "disabled", text = "Waiting...", border_width=5, hover_color=ddpink, font = (coolfont,15), command=lambda: k.reading_press(nine_button,threebythree,timer,kanji_label,window,start,button_list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+        nine_button.grid(row=2, column=2, padx=5, pady=5,sticky = "nsew")
+
+    ninebynine()
+
+    
+
+kanji_mid()
 
 def DELETE_BUTTUN_FUNC_p1(num,extt):
     global title1,title2,title3
@@ -1124,9 +1213,51 @@ def DELETE_BUTTUN_FUNC_p1(num,extt):
     def no():
         are_u.place_forget()
 
+def start_goo(num):
+    global start, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button
+    start.configure(state = "disabled", text = "")
+    count_down.place(relx = .565, rely = .5, relwidth = .5, relheight = .3, anchor = ctk.CENTER)
 
 
+    
+    count_downa.configure(text = num)
 
+    num  = num - 1
+    
+    k.time_left = 10
+
+    if num >= 0 :
+        start.after(1000, lambda: start_goo(num))
+    else:
+        start.after(1000,lambda: (count_down.place_forget(), k.whacka_start(threebythree, timer, kanji_label,window,start, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button), unlock()))
+
+def unlock():
+    one_button.configure(state = "normal")
+    two_button.configure(state = "normal")
+    three_button.configure(state = "normal")
+    four_button.configure(state = "normal")
+    five_button.configure(state = "normal")
+    six_button.configure(state = "normal")
+    seven_button.configure(state = "normal")
+    eight_button.configure(state = "normal")
+    nine_button.configure(state = "normal")
+
+
+      
+
+
+def threebythree(text1,text2,text3,text4,text5,text6,text7,text8,text9,text1_5,text2_5,text3_5,text4_5,text5_5,text6_5,text7_5,text8_5,text9_5):
+    global one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button
+    
+    one_button.configure(text = text1 + "\n(" + text1_5 + ")")
+    two_button.configure(text = text2 + "\n(" + text2_5 + ")")
+    three_button.configure(text = text3 + "\n(" + text3_5 + ")")
+    five_button.configure(text = text4 + "\n(" + text4_5 + ")")
+    four_button.configure(text = text5 + "\n(" + text5_5 + ")")
+    six_button.configure(text = text6 + "\n(" + text6_5 + ")")
+    seven_button.configure(text = text7 + "\n(" + text7_5 + ")")
+    eight_button.configure(text = text8 + "\n(" + text8_5 + ")")
+    nine_button.configure(text = text9 + "\n(" + text9_5 + ")")
 
 def continue_view(chosen_deck):
     global loading

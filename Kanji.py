@@ -28,6 +28,10 @@ ans = None
 c_meaning = None
 c_button = None
 count = 0
+readings = []
+rn = 0
+time_left = 10.00
+timer_a = None
 
 
 limit = 10
@@ -198,7 +202,7 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5):
             new = random.sample(available_n5, k= take)
             character.configure(text = new[0]["character"])
             if new[0]["meaning2"]:
-                info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["hiragana"] + ")" + "\nType: " + new[0]["type"])
             else:
                 info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
             radicals = ", ".join(new[0]["radicals"])
@@ -488,7 +492,7 @@ def meaning_connect_but(button):
                 c_charcater = "Y"
                 c_meaning = "N"
                 c_card = card
-                button.configure(fg_color = ext.ddpink)
+                button.configure(fg_color = ext.ddpink, state = "disabled")
                 c_button = button
                 pressed = "Yes"
             elif ans == card["meaning"]:
@@ -496,57 +500,152 @@ def meaning_connect_but(button):
                 c_meaning = "Y"
                 c_card = card
                 c_button = button
-                button.configure(fg_color = ext.ddpink)
+                button.configure(fg_color = ext.ddpink, state = "disabled")
                 pressed = "Yes"
     else:
-        for card in new:
+        
             if c_charcater == "Y":
                 for card in new:
                     if ans == card["character"]:
                         print("Please press a meaning card")
-                    if ans == c_card["meaning"]:
                         pressed = "No"
                         c_charcater = None
                         c_meaning = None
-                        print("Goodjob!!")
-                        c_button.destroy()
-                        button.destroy()
-                        count += 1
+                        c_button.configure(fg_color = ext.dpink, state = "normal")
                         break
-                    else:
-                        c_charcater = None
-                        c_meaning = None
-                        pressed = "No"
-                        print("Ooops, try again")
-                        c_button.configure(fg_color = ext.dpink)
-                        count += 1
-                        break
+                    elif ans == card["meaning"]:
+                        if ans == c_card["meaning"]:
+                            pressed = "No"
+                            c_charcater = None
+                            c_meaning = None
+                            print("Goodjob!!")
+                            c_button.destroy()
+                            button.destroy()
+                            count += 1
+                            break
+                        else:
+                            c_charcater = None
+                            c_meaning = None
+                            pressed = "No"
+                            print("Ooops, try again")
+                            c_button.configure(fg_color = ext.dpink, state = "normal")
+                            break
+
+                    
                     
             if c_charcater == "N":
                 for card in new:
                     if ans == card["meaning"]:
                         print("Please press a character card")
-                    if ans == c_card["character"]:
                         pressed = "No"
                         c_charcater = None
                         c_meaning = None
-                        print("Goodjob!!")
-                        c_button.destroy()
-                        button.destroy()
-                        count += 1
-                        break
-                    else:
-                        c_charcater = None
-                        c_meaning = None
-                        pressed = "No"
-                        print("Ooops, try again")
                         c_button.configure(fg_color = ext.dpink)
-                        count += 1
                         break
-if count == len(new):
-    print("Done")
+                    elif ans == card["character"]:
+                        if ans == c_card["character"]:
+                            pressed = "No"
+                            c_charcater = None
+                            c_meaning = None
+                            print("Goodjob!!")
+                            c_button.destroy()
+                            button.destroy()
+                            count += 1
+                            break
+                        else:
+                            c_charcater = None
+                            c_meaning = None
+                            pressed = "No"
+                            print("Ooops, try again")
+                            c_button.configure(fg_color = ext.dpink)
+                            break
+    if count == len(new):
+        print("Done")
 
+def get_reading():
+    global readings
+    readings = []
+    for kanji in CD.Kanji_n5:
+        readings.append(kanji)
+    readings = random.sample(readings, k= 8)
     
-            
+
+
+def whacka_start(nine,timer,kanji_label,window, start, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button):
+    global rn,new
+    get_reading()
+
+    if rn < len(new):
+        print(rn)
+        kanji_label.configure(text = new[rn]["character"])
+        readings.append(new[rn])
+        random.shuffle(readings)
+        nine(readings[0]["romaji"],readings[1]["romaji"],readings[2]["romaji"],readings[3]["romaji"],readings[4]["romaji"],readings[5]["romaji"],readings[6]["romaji"],readings[7]["romaji"],readings[8]["romaji"],readings[0]["hiragana"],readings[1]["hiragana"],readings[2]["hiragana"],readings[3]["hiragana"],readings[4]["hiragana"],readings[5]["hiragana"],readings[6]["hiragana"],readings[7]["hiragana"],readings[8]["hiragana"])
+        time_update(timer,window,start, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button) 
+    else:
+        one_button.configure(state = "disabled")
+        two_button.configure(state = "disabled")
+        three_button.configure(state = "disabled")
+        four_button.configure(state = "disabled")
+        five_button.configure(state = "disabled")
+        six_button.configure(state = "disabled")
+        seven_button.configure(state = "disabled")
+        eight_button.configure(state = "disabled")
+        nine_button.configure(state = "disabled")
+        print("banzai")
+       
+def time_update(timer,window,start, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button):
+    global rn, time_left,timer_a
+    timer.configure(text = "Time left: " + str(time_left))
+    if time_left > 0:
+        time_left = time_left - 1
+        timer_a = window.after(1000, lambda: time_update(timer,window,start, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button))
+    elif time_left == 0:
+        timer.configure(text = "Time left: " + str(round(time_left,2)))
+        one_button.configure(state = "disabled")
+        two_button.configure(state = "disabled")
+        three_button.configure(state = "disabled")
+        four_button.configure(state = "disabled")
+        five_button.configure(state = "disabled")
+        six_button.configure(state = "disabled")
+        seven_button.configure(state = "disabled")
+        eight_button.configure(state = "disabled")
+        nine_button.configure(state = "disabled")
+        print("Oops, outa time!")
+        rn = 0
+        start.configure(state ="normal", text = "Try Again")
+
+def reading_press(button,nine,timer,kanji_label,window,start,list, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button): 
+    global rn,time_left,timer_a
+    
+    ans = button.cget("text")
+    print(ans)
+    print(ans.startswith(new[rn]["romaji"]))
+    print(new[rn]["romaji"])
+    if ans.startswith(new[rn]["romaji"]):
+        time_left = 10.00
+        rn = rn + 1 
+        if timer_a is not None:
+            window.after_cancel(timer_a)
+        whacka_start(nine,timer,kanji_label,window,start, one_button,two_button,three_button,five_button,four_button,six_button,seven_button,eight_button,nine_button)
+        
+    else:
+        rn = 0 
+        time_left = 10.00
+        if timer_a is not None:
+            window.after_cancel(timer_a)
+
+        one_button.configure(state = "disabled")
+        two_button.configure(state = "disabled")
+        three_button.configure(state = "disabled")
+        four_button.configure(state = "disabled")
+        five_button.configure(state = "disabled")
+        six_button.configure(state = "disabled")
+        seven_button.configure(state = "disabled")
+        eight_button.configure(state = "disabled")
+        nine_button.configure(state = "disabled")
+
+        start.configure(state ="normal", text = "Try Again")
+
 
 get_radicals()
