@@ -23,6 +23,8 @@ now = dt.datetime.now()
 target = []
 advanced = False
 tries = 0
+affirm = ["Surprised you were able to get one right.. Keep it up", "You're worth paying actual attention too!", "Get another right and maybe I'll put the phone down"]
+track = 0
 
 def status_check():
     global queue, now, advanced
@@ -47,10 +49,10 @@ def status_check():
 def load_new_deck(k_target_l, k_one, k_two, k_three, k_four, k_target_lt, k_romaji):
     global target ,final, advanced
     if ext.page == 3 or ext.page == 4:
-        k_one.configure(state="normal", fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
-        k_two.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
-        k_three.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
-        k_four.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.linen)
+        k_one.configure(state="normal", fg_color = ext.cream, border_color = ext.brown, hover_color =ext.dcream)
+        k_two.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.dcream)
+        k_three.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.dcream)
+        k_four.configure(state="normal",fg_color = ext.cream, border_color = ext.brown, hover_color =ext.dcream)
     elif ext.page == 6:
         k_romaji.configure(fg_color = ext.cream, border_color = ext.dbrown, text_color = ext.dgrey)
         k_romaji.configure(state = "normal")
@@ -88,7 +90,7 @@ def load_new_deck(k_target_l, k_one, k_two, k_three, k_four, k_target_lt, k_roma
     print(target["romaji"])
 
 def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, k_romaji,k_feedback_label, k_feedback, k_feedback_t, k_feedback_label_t, resize, cstreak):
-    global target, now, tries
+    global target, now, tries,affirm,track
     now = dt.datetime.now()
 
     
@@ -102,43 +104,84 @@ def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, 
                 ext.streak += 1
                 if ext.t_streak < ext.streak:
                     ext.t_streak = ext.streak
+                if ext.t_streak > ext.h_streak:
+                    ext.h_streak = ext.t_streak
                 cstreak.configure(text = "Current streak: " + str(ext.streak) + " \nHighest streak: " + str(ext.t_streak)+ " ")
             if ext.page == 3 or ext.page == 4:
                 if ext.streak == 5:
                     k_feedback.configure(image = ext.ghost_5_image)
-                    k_feedback.active_pil_image = ext.ghost_5_image._light_image
+                    if ext.mode == "D":
+                        k_feedback.active_pil_image = ext.ghost_5_image._dark_image
+                    else:
+                        k_feedback.active_pil_image = ext.ghost_5_image._light_image
                     resize()
                     k_feedback_label.configure(text = "Wow, you actually managed to make it to a 5 streak. Maybe this could actually be a bit fun!")
                 elif ext.streak == 10:
                     k_feedback.configure(image = ext.ghost_10_image)
-                    k_feedback.active_pil_image = ext.ghost_10_image._light_image
+                    if ext.mode == "D":
+                        k_feedback.active_pil_image = ext.ghost_10_image._dark_image
+                    else:
+                        k_feedback.active_pil_image = ext.ghost_10_image._light_image
                     resize()
                     k_feedback_label.configure(text = "Streak of 10! Looks like I can rest now.")
                 else:
-                     k_feedback_label.configure(text = "Suprised you were able to get one right.. Keep it up.")
-                     k_feedback.configure(image = ext.ghost_right_image)
-                     k_feedback.active_pil_image = ext.ghost_right_image._light_image
+                     chose = random.randint(0,2)
+                     k_feedback_label.configure(text= affirm[chose])
+                     if track == 0:
+                        k_feedback.configure(image = ext.ghost_right_image)
+                        track = 1
+                        if ext.mode == "D":
+                            k_feedback.active_pil_image = ext.ghost_right_image._dark_image
+                        else:
+                            k_feedback.active_pil_image = ext.ghost_right_image._light_image
+                     else:
+                        k_feedback.configure(image = ext.ghost_right2_image) 
+                        track = 0
+                        if ext.mode == "D":
+                            k_feedback.active_pil_image = ext.ghost_right2_image._dark_image
+                        else:
+                            k_feedback.active_pil_image = ext.ghost_right2_image._light_image
                      resize()
                      
             if ext.page == 6:
                 if ext.streak == 5:
                     k_feedback_t.configure(image = ext.ghost_5_image)
-                    k_feedback_t.active_pil_image = ext.ghost_5_image._light_image
+                    if ext.mode == "D":
+                        k_feedback_t.active_pil_image = ext.ghost_5_image._dark_image
+                    else:
+                        k_feedback_t.active_pil_image = ext.ghost_5_image._light_image
                     resize()
                     k_feedback_label_t.configure(text = "Wow, you actually managed to make it to a 5 streak. Maybe this could actually be a bit fun!")
                 elif ext.streak == 10:
                     k_feedback_t.configure(image = ext.ghost_10_image)
-                    k_feedback_t.active_pil_image = ext.ghost_10_image._light_image
+                    if ext.mode == "D":
+                        k_feedback_t.active_pil_image = ext.ghost_5_image._dark_image
+                    else:
+                        k_feedback_t.active_pil_image = ext.ghost_5_image._light_image
                     resize()
                     k_feedback_label_t.configure(text = "Streak of 10! Looks like I can rest now.")
                 else:
-                    k_feedback_label_t.configure(text = "Suprised you were able to get one right.. Keep it up.")
-                    k_feedback_t.configure(image = ext.ghost_right_image)
-                    k_feedback_t.active_pil_image = ext.ghost_right_image._light_image
+                    chose = random.randint(0,2)
+                    k_feedback_label_t.configure(text= affirm[chose])
+                    if track == 0:
+                        k_feedback_t.configure(image = ext.ghost_right_image)
+                        track = 1
+                        if ext.mode == "D":
+                            k_feedback_t.active_pil_image = ext.ghost_right_image._dark_image
+                        else:
+                            k_feedback_t.active_pil_image = ext.ghost_right_image._light_image
+                    else:
+                        k_feedback_t.configure(image = ext.ghost_right2_image) 
+                        track = 0
+                        if ext.mode == "D":
+                            k_feedback_t.active_pil_image = ext.ghost_right2_image._dark_image
+                        else:
+                            k_feedback_t.active_pil_image = ext.ghost_right2_image._light_image
                     resize()
             if target["status"] != 10 and tries != 1:
                 target["status"] += 1
-            target["due_time"] = now + stages[target["status"]]
+            if tries == 0 :
+                target["due_time"] = now + stages[target["status"]]
             tries = 0
             if ext.page == 3 or ext.page == 4:
                 button.configure(fg_color = ext.right, border_color = ext.dright, hover_color = ext.right )
@@ -163,12 +206,18 @@ def check_answer(button, k_target_l, k_one, k_two, k_three, k_four,k_target_lt, 
                 if ext.page == 3 or ext.page == 4:
                     k_feedback_label.configure(text="Not surprising. Just remember "+ target["mnemonic"] )
                     k_feedback.configure(image = ext.ghost_wrong_image)
-                    k_feedback.active_pil_image = ext.ghost_wrong_image._light_image
+                    if ext.mode == "D":
+                        k_feedback.active_pil_image = ext.ghost_wrong_image._dark_image
+                    else:
+                        k_feedback.active_pil_image = ext.ghost_wrong_image._light_image
                     resize()
                 elif ext.page ==6:
                     k_feedback_label_t.configure(text="Not surprising. Just remember "+ target["mnemonic"] )
                     k_feedback_t.configure(image = ext.ghost_wrong_image)
-                    k_feedback_t.active_pil_image = ext.ghost_wrong_image._light_image
+                    if ext.mode == "D":
+                        k_feedback_t.active_pil_image = ext.ghost_wrong_image._dark_image
+                    else:
+                        k_feedback_t.active_pil_image = ext.ghost_wrong_image._light_image
                     resize()
             if tries != 1:
                 if target["status"] != 0:
