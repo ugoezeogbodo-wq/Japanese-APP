@@ -1,4 +1,8 @@
 import datetime as dt
+import json
+import os
+
+DATA_FILE = "character_data.json"
 
 Extra_1 = [{
         "character": "一",
@@ -8954,4 +8958,75 @@ Radicals_b = [
         "mnemonic": "A sharp animal horn attached to skull base.",
     },
 ]
+
+
+def convert_to_dt(d):
+    for card in d:
+            if isinstance(card.get("due_time"), str):
+                try:
+                    card["due_time"] = dt.datetime.fromisoformat(card["due_time"])
+                except ValueError:
+                    pass
+            if isinstance(card.get("due_time_reading"), str):
+                try:
+                    card["due_time_reading"] = dt.datetime.fromisoformat(card["due_time_reading"])
+                except ValueError:
+                    pass
+            if isinstance(card.get("due_time_meaning"), str):
+                try:
+                    card["due_time_meaning"] = dt.datetime.fromisoformat(card["due_time_meaning"])
+                except ValueError:
+                    pass
+    
+    return d
+
+def save_character_data():
+
+    data = {
+        "Extra_1": Extra_1,
+        "Extra_2": Extra_2,
+        "Extra_3": Extra_3,
+        "hiragana_dataset": hiragana_dataset,
+        "hira_2_dataset": hira_2_dataset,
+        "katakana_dataset": katakana_dataset,
+        "kana_2_dataset": kana_2_dataset,
+        "Kanji_n5": Kanji_n5,
+        "Kanji_n4": Kanji_n4,
+        "Kanji_n3": Kanji_n3,
+        "Kanji_n2": Kanji_n2,
+        "Kanji_n1": Kanji_n1,
+        "Radicals": Radicals,
+        "Radicals_b": Radicals_b
+    }
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False, default = str)
+    print("Character datasets saved!")
+
+if os.path.exists(DATA_FILE):
+    try:
+        if os.path.getsize(DATA_FILE) == 0:
+            print("character_data.json is empty. Populating it now...")
+            save_character_data()
+
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            saved_data = json.load(f)
+            
+            Extra_1 = convert_to_dt(saved_data.get("Extra_1", Extra_1))
+            Extra_2 = convert_to_dt(saved_data.get("Extra_2", Extra_2))
+            Extra_3 = convert_to_dt(saved_data.get("Extra_3", Extra_3))
+            hiragana_dataset = convert_to_dt(saved_data.get("hiragana_dataset", hiragana_dataset))
+            hira_2_dataset = convert_to_dt(saved_data.get("hira_2_dataset", hira_2_dataset))
+            katakana_dataset = convert_to_dt(saved_data.get("katakana_dataset", katakana_dataset))
+            kana_2_dataset = convert_to_dt(saved_data.get("kana_2_dataset", kana_2_dataset))
+            Kanji_n5 = convert_to_dt(saved_data.get("Kanji_n5", Kanji_n5))
+            Kanji_n4 = convert_to_dt(saved_data.get("Kanji_n4", Kanji_n4))
+            Kanji_n3 = convert_to_dt(saved_data.get("Kanji_n3", Kanji_n3))
+            Kanji_n2 = convert_to_dt(saved_data.get("Kanji_n2", Kanji_n2))
+            Kanji_n1 = convert_to_dt(saved_data.get("Kanji_n1", Kanji_n1))
+            Radicals = convert_to_dt(saved_data.get("Radicals", Radicals))
+            Radicals_b = convert_to_dt(saved_data.get("Radicals_b", Radicals_b))
+            
+        print("Character progress loaded successfully!")
+    except Exception as e:
+        print(f"Error loading character data: {e}")
 

@@ -2,6 +2,11 @@ from PIL import Image
 import customtkinter as ctk
 import Character_Dictionary as cd
 import Shared as sh
+import json
+import os
+
+PROFILE_FILE = "user_profile.json"
+
 
 page = ""
 name = ""
@@ -257,4 +262,53 @@ meaning_right_d = Image.open("meaning_right_d.png")
 meaning_right_image = ctk.CTkImage(size = (276,494), light_image=meaning_right, dark_image=meaning_right_d )
 
 
+def save_user_profile():
 
+    initial_profile = {
+                "name": name,
+                "gender": gender,
+                "h_streak": h_streak,
+                "today": today,
+                "last_today": last_today,
+                "total_l": total_l,
+                "title1": title1,
+                "title2": title2,
+                "title3": title3,
+                "ext1": ext1,
+                "ext2": ext2,
+                "ext3": ext3,
+                "mode": mode
+                }
+    with open(PROFILE_FILE, "w", encoding="utf-8") as f:
+            json.dump(initial_profile, f, indent=4, ensure_ascii=False, default = str)
+    print("Users profille saved!")
+
+if os.path.exists(PROFILE_FILE):
+    try:
+        if os.path.getsize(PROFILE_FILE) == 0:
+            print("character_PROFILE.json is empty. Populating it now...")
+            save_user_profile()
+
+        with open(PROFILE_FILE, "r", encoding="utf-8") as f:
+            saved_profile = json.load(f)
+
+            name = saved_profile.get("name", name)
+            gender = saved_profile.get("gender", gender)
+        
+            h_streak = saved_profile.get("h_streak", h_streak)
+           
+            today = saved_profile.get("today", today)
+            last_today = saved_profile.get("last_today", last_today)
+            total_l = saved_profile.get("total_l", total_l)
+            title1 = saved_profile.get("title1", title1)
+            title2 = saved_profile.get("title2", title2)
+            title3 = saved_profile.get("title3", title3)
+            ext1 = saved_profile.get("ext1", ext1)
+            ext2 = saved_profile.get("ext2", ext2)
+            ext3 = saved_profile.get("ext3", ext3)
+            mode = saved_profile.get("mode", mode)
+
+        print("Character progress loaded successfully!")
+    except Exception as e:
+        print(f"Error loading character data: {e}")    
+            

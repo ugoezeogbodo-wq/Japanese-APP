@@ -8,6 +8,7 @@ import Kanji as k
 import json
 import jaconv
 import datetime as dt
+import Character_Dictionary as CD
 
 
 
@@ -469,7 +470,7 @@ def prefrences():
             limit_e.configure(placeholder_text = "You have to put in a numeric value", placeholder_text_color = ext.dwrong)
             return
 
-        k.limit = n_limit
+        k.limit = int(n_limit)
         limit_e.delete(0, "end")
         limit_e.configure(placeholder_text = "Yay! Your new limit has been saved!", placeholder_text_color = dbrown)
         explain.configure(text = "You current daily limit is " + str(k.limit) + ". Feel free to change it!")
@@ -920,12 +921,12 @@ def kanji_mt():
 
 def finished():
     global finished_pic
-    side_bar()
     ext.page = 67
+    side_bar()
 
     if ext.rn == "kai":
-        finished_pic =  ctk.CTkLabel(main_frame, fg_color = grey, image = ext.kai_finished_image, text = "")
-        finished_pic.place(rely=0.5, relx=0.575,relwidth = 0.8, relheight= 0.85, anchor = ctk.CENTER)
+        finished_pic =  ctk.CTkLabel(main_frame, fg_color = linen, image = ext.kai_finished_image, text = "")
+        finished_pic.place(rely=0.5, relx=0.565,relwidth = 0.8, relheight= 0.85, anchor = ctk.CENTER)
         if ext.mode == "D":
             finished_pic.active_pil_image = ext.kai_finished_image._dark_image
         else:
@@ -934,8 +935,8 @@ def finished():
 
 
     if ext.rn == "edit":
-        finished_pic =  ctk.CTkLabel(main_frame, fg_color = grey, image = ext.limit_image, text = "")
-        finished_pic.place(rely=0.5, relx=0.575,relwidth = 0.8, relheight= 0.85, anchor = ctk.CENTER)
+        finished_pic =  ctk.CTkLabel(main_frame, fg_color = linen, image = ext.limit_image, text = "")
+        finished_pic.place(rely=0.5, relx=0.565,relwidth = 0.8, relheight= 0.85, anchor = ctk.CENTER)
         if ext.mode == "D":
             finished_pic.active_pil_image = ext.limit_image._dark_image
         else:
@@ -2053,9 +2054,22 @@ def resize(e=None):
     resize_static(pic,image = ext.new_deck_image,per = .425, min_h=None, min_w=591, mode  = "w", text_label=pic_label, full = False)
     resize_static(pic_add, image = ext.add_card_image, per = .45, min_h=421, mode = "h", min_w = None, text_label=None, full = False)
 
+def on_closing():
+    CD.save_character_data()
+    
+ 
+    ext.save_user_profile()
 
+    k.save_user_profile()
+    
+    print("Everything saved! Closing app.")
+    window.destroy()
+
+
+window.protocol("WM_DELETE_WINDOW", on_closing)
 
 window.bind("<Configure>", resize)
+
 
 
 window.mainloop()

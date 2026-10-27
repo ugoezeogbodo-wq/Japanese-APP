@@ -5,6 +5,11 @@ import Character_Dictionary as CD
 import Shared as sh
 import customtkinter as ctk
 import Extra as ext
+import json
+import os
+
+
+PROFILE_FILE = "limit_today.json"
 
 new = []
 ALL_RADSS = []
@@ -252,14 +257,14 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5,indicato
     sub_stage = 0
 
     if button == "n_5":
-       if today < limit:
+       if int(today) < int(limit):
             current_deck = "show"
-            take = min(5,limit - today,unlearnt_5)
+            take = min(5,int(limit) - today,unlearnt_5)
             print(take)
             new = random.sample(available_n5, k= take)
             character.configure(text = new[0]["character"])
-            if new[0]["meaning2"]:
-                info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+            if str(new[0]["meaning2"]):
+                info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + str(new[0]["meaning2"]) + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
             else:
                 info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
             radicals = ", ".join(new[0]["radicals"])
@@ -271,14 +276,14 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5,indicato
             resize()
            
     if button == "n_4":
-           if today < limit:
+           if int(today) < int(limit):
                 current_deck = "show"
-                take = min(5,limit - today,unlearnt_4)
+                take = min(5,int(limit) - today,unlearnt_4)
                 print(take)
                 new = random.sample(available_n4, k= take)
                 character.configure(text = new[0]["character"])
-                if new[0]["meaning2"]:
-                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                if str(new[0]["meaning2"]):
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + str(new[0]["meaning2"]) + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
                 else:
                     info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
                 radicals = ", ".join(new[0]["radicals"])
@@ -289,14 +294,14 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5,indicato
                 indicator(finished)
                 
     if button == "n_3":
-            if today < limit:
+            if int(today) < int(limit):
                 current_deck = "show"
-                take = min(5,limit - today,unlearnt_3)
+                take = min(5,int(limit) - today,unlearnt_3)
                 print(take)
                 new = random.sample(available_n3, k= take)
                 character.configure(text = new[0]["character"])
-                if new[0]["meaning2"]:
-                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                if str(new[0]["meaning2"]):
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + str(new[0]["meaning2"]) + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
                 else:
                     info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
                 radicals = ", ".join(new[0]["radicals"])
@@ -307,14 +312,14 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5,indicato
                 indicator(finished)
                 
     if button == "n_2":
-            if today < limit:
+            if int(today) < int(limit):
                 current_deck = "show"
-                take = min(5,limit - today,unlearnt_2)
+                take = min(5,int(limit) - today,unlearnt_2)
                 print(take)
                 new = random.sample(available_n2, k= take)
                 character.configure(text = new[0]["character"])
-                if new[0]["meaning2"]:
-                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                if str(new[0]["meaning2"]):
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + str(new[0]["meaning2"]) + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
                 else:
                     info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
                 radicals = ", ".join(new[0]["radicals"])
@@ -324,14 +329,14 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5,indicato
                 indicator(finished)
                 
     if button == "n_1":
-            if today < limit:
+            if int(today) < int(limit):
                 current_deck = "show"
-                take = min(5,limit - today,unlearnt_1)
+                take = min(5,int(limit) - today,unlearnt_1)
                 print(take)
                 new = random.sample(available_n1, k= take)
                 character.configure(text = new[0]["character"])
-                if new[0]["meaning2"]:
-                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
+                if str(new[0]["meaning2"]):
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + str(new[0]["meaning2"]) + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
                 else:
                     info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")" + "\nType: " + new[0]["type"])
                 radicals = ", ".join(new[0]["radicals"])
@@ -342,14 +347,14 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5,indicato
                 indicator(finished)
                 
     if button == "ext_1":
-           if today < limit:
+           if int(today) < int(limit):
                 current_deck = "nshow"
-                take = min(5,limit - today,unlearnt_ext_1)
+                take = min(5,int(limit) - today,unlearnt_ext_1)
                 print(take)
                 new = random.sample(available_ext1, k= take)
                 character.configure(text = new[0]["character"])
-                if new[0]["meaning2"]:
-                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                if str(new[0]["meaning2"]):
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + str(new[0]["meaning2"]) + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
                 else:
                     info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
                 radicals = ", ".join(new[0]["radicals"])
@@ -359,14 +364,14 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5,indicato
                 indicator(finished)
                 
     if button == "ext_2":
-            if today < limit:
+            if int(today) < int(limit):
                 current_deck = "nshow"
-                take = min(5,limit - today,unlearnt_ext_2)
+                take = min(5,int(limit)- today,unlearnt_ext_2)
                 print(take)
                 new = random.sample(available_ext2, k= take)
                 character.configure(text = new[0]["character"])
-                if new[0]["meaning2"]:
-                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                if str(new[0]["meaning2"]):
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + str(new[0]["meaning2"]) + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
                 else:
                     info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
                 radicals = ", ".join(new[0]["radicals"])
@@ -377,14 +382,14 @@ def learn(button, character, info,radic,radica, mnemonic,c1,c2,c3,c4,c5,indicato
                 indicator(finished)
                 
     if button == "ext_3":
-            if today < limit:
+            if int(today) < int(limit):
                 current_deck = "nshow"
-                take = min(5,limit - today,unlearnt_ext_3)
+                take = min(5,int(limit)- today,unlearnt_ext_3)
                 print(take)
                 new = random.sample(available_ext3, k= take)
                 character.configure(text = new[0]["character"])
-                if new[0]["meaning2"]:
-                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + new[0]["meaning2"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
+                if str(new[0]["meaning2"]):
+                    info.configure(text = "Meanings: " + new[0]["meaning"] + "/" + str(new[0]["meaning2"]) + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
                 else:
                     info.configure(text = "Meaning: " + new[0]["meaning"] + "\nReading: " + new[0]["hiragana"] + " (" + new[0]["romaji"] + ")")
                 radicals = ", ".join(new[0]["radicals"])
@@ -878,3 +883,29 @@ def change(kai,talk,resize):
 
 
 get_radicals()
+
+def save_user_profile():
+
+    initial_profile = {
+                "limit": limit,
+                "today": today,
+    }
+    with open(PROFILE_FILE, "w", encoding="utf-8") as f:
+            json.dump(initial_profile, f, indent=4, ensure_ascii=False, default = str)
+    print("Users profille saved!")
+
+if os.path.exists(PROFILE_FILE):
+    try:
+        if os.path.getsize(PROFILE_FILE) == 0:
+            print("character_PROFILE.json is empty. Populating it now...")
+            save_user_profile()
+
+        with open(PROFILE_FILE, "r", encoding="utf-8") as f:
+            saved_profile = json.load(f)
+
+            limit = saved_profile.get("limit", limit)
+            today = saved_profile.get("today", today)
+        
+        print("Character progress loaded successfully!")
+    except Exception as e:
+        print(f"Error loading character data: {e}") 
