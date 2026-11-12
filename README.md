@@ -4,7 +4,7 @@
 [![CustomTkinter](https://img.shields.io/badge/GUI-CustomTkinter-darkpink?style=for-the-badge)](https://github.com/TomSchimansky/CustomTkinter)
 [![GitHub Status](https://img.shields.io/badge/GitHub-ugoezeogbodo--wq-pink?style=for-the-badge&logo=github)](https://github.com/ugoezeogbodo-wq)
 
-I'm a passionate software developer and student focused on building clean, efficient, and interactive desktop applications that don't require the internet and are internet-accessible!
+I'm a passionate software developer and student focused on building clean, efficient, and interactive offline-first desktop applications!
 ---
 
 ## 🛠️ Technical Skills
